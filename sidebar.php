@@ -176,21 +176,21 @@ if (!isset($sidebarMenu)) {
 ?>
 
 <!-- Primary Far-Left Icon Rail -->
-<aside class="sidebar-rail bg-white border-end d-flex flex-column align-items-center justify-content-between py-3" id="sidebarRail">
+<aside class="sidebar-rail d-flex flex-column align-items-center justify-content-between py-3" id="sidebarRail">
     <div class="rail-top d-flex flex-column align-items-center gap-3 w-100">
         <!-- Brand Icon Top -->
-        <a href="<?= $basePath ?>index.php" class="rail-brand-icon d-flex align-items-center justify-content-center text-white rounded-3 shadow-sm mb-1 text-decoration-none" title="Syncboard App">
-            <i class="fa-solid fa-layer-group fs-5"></i>
+        <a href="<?= $basePath ?>index.php" class="rail-brand-icon d-flex align-items-center justify-content-center rounded-3 shadow-sm mb-1 text-decoration-none overflow-hidden" title="Syncboard App">
+            <img src="<?= $basePath ?>assets/img/sdn.png" alt="SDN Logo" class="w-100 h-100 object-fit-contain p-1">
         </a>
 
         <!-- Main Navigation Icon Rail -->
         <nav class="rail-nav d-flex flex-column align-items-center gap-2 w-100 px-2">
             <?php foreach ($railMenu as $item): ?>
                 <a href="<?= htmlspecialchars($item['url']) ?>" 
-                   class="rail-item rounded-3 d-flex align-items-center justify-content-center <?= $item['active'] ? 'active' : '' ?>"
-                   data-bs-toggle="tooltip" 
-                   data-bs-placement="right" 
-                   title="<?= htmlspecialchars($item['title']) ?>">
+                    class="rail-item rounded-3 d-flex align-items-center justify-content-center <?= $item['active'] ? 'active' : '' ?>"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="right" 
+                    title="<?= htmlspecialchars($item['title']) ?>">
                     <i class="<?= $item['icon'] ?>"></i>
                 </a>
             <?php endforeach; ?>
@@ -200,11 +200,11 @@ if (!isset($sidebarMenu)) {
     <!-- Bottom Rail Action Buttons -->
     <div class="rail-bottom d-flex flex-column align-items-center gap-2 w-100 px-2">
         <a href="<?= htmlspecialchars($railBottomMenu['url']) ?>" 
-           class="rail-item rounded-3 d-flex align-items-center justify-content-center text-muted <?= $railBottomMenu['active'] ? 'active' : '' ?>"
-           id="btnRailSettings" 
-           data-bs-toggle="tooltip" 
-           data-bs-placement="right" 
-           title="<?= htmlspecialchars($railBottomMenu['title']) ?>">
+            class="rail-item rounded-3 d-flex align-items-center justify-content-center <?= $railBottomMenu['active'] ? 'active' : '' ?>"
+            id="btnRailSettings" 
+            data-bs-toggle="tooltip" 
+            data-bs-placement="right" 
+            title="<?= htmlspecialchars($railBottomMenu['title']) ?>">
             <i class="<?= $railBottomMenu['icon'] ?>"></i>
         </a>
     </div>
