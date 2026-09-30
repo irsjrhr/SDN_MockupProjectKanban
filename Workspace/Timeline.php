@@ -92,7 +92,7 @@ exit;
             <div class="view-wrapper flex-grow-1 p-4">
                 <div class="card shadow-sm border rounded-4 p-4 bg-white mb-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h2 class="h5 fw-bold mb-0">Q4 Sprint Roadmap (2026)</h2>
+                        <h2 class="h5 fw-bold mb-0">Q4 Project Roadmap (2026)</h2>
                         <div class="btn-group btn-group-sm">
                             <button class="btn btn-outline-secondary active">Weeks</button>
                             <button class="btn btn-outline-secondary">Months</button>

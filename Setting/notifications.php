@@ -111,7 +111,7 @@ $basePath = '../';
                                     <span class="badge bg-secondary-subtle text-muted">Not Connected</span>
                                 </div>
                                 <h2 class="h6 fw-bold mb-1">Discord Webhook</h2>
-                                <p class="text-muted fs-8 mb-3">Broadcast sprint completions and release changelogs to Discord.</p>
+                                <p class="text-muted fs-8 mb-3">Broadcast milestone completions and release changelogs to Discord.</p>
                             </div>
                             <button class="btn btn-primary btn-sm rounded-3 w-100">Connect Discord</button>
                         </div>

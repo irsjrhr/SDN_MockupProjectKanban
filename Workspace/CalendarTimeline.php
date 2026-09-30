@@ -95,7 +95,7 @@ $basePath = '../';
                         <select class="form-select form-select-sm fs-8 fw-semibold" id="selectMasterScope">
                             <option value="all">All (Projects & Tasks)</option>
                             <option value="project">Projects Only (Portfolio)</option>
-                            <option value="task">Tasks Only (Sprint Items)</option>
+                            <option value="task">Tasks Only</option>
                         </select>
                     </div>
 
@@ -128,7 +128,7 @@ $basePath = '../';
                         <i class="fa-solid fa-route me-1"></i> Delivery Roadmap & Milestones
                     </button>
                     <button class="nav-link tab-btn fw-semibold py-2 px-3 rounded-3" data-view="timeline-config">
-                        <i class="fa-solid fa-sliders me-1"></i> Lifecycle & Sprint Config
+                        <i class="fa-solid fa-sliders me-1"></i> Lifecycle & Milestone Config
                     </button>
                 </div>
             </div>
@@ -275,7 +275,7 @@ $basePath = '../';
                         <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
                             <div>
                                 <h2 class="h5 fw-bold mb-0">Cross-Project Delivery Roadmap</h2>
-                                <span class="text-muted fs-7">Master sprint progression and delivery milestones across all active teams</span>
+                                <span class="text-muted fs-7">Master project delivery milestones and timeline progression across all active teams</span>
                             </div>
                             <div class="btn-group btn-group-sm">
                                 <button class="btn btn-outline-secondary active">Weeks</button>
@@ -291,7 +291,7 @@ $basePath = '../';
                     </div>
                 </div>
 
-                <!-- 3. LIFECYCLE & SPRINT CONFIG VIEW -->
+                <!-- 3. LIFECYCLE & MILESTONE CONFIG VIEW -->
                 <div class="view-content" id="viewTimelineConfig">
                     <div class="row g-4">
                         <!-- Left Column: Milestone Phases -->
@@ -299,7 +299,7 @@ $basePath = '../';
                             <div class="card shadow-sm border rounded-4 bg-white overflow-hidden mb-4">
                                 <div class="card-header bg-white p-3 border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2">
                                     <div>
-                                        <h2 class="h6 fw-bold mb-0">Project Milestone Phases & Sprint Roadmap</h2>
+                                        <h2 class="h6 fw-bold mb-0">Project Milestone Phases & Delivery Roadmap</h2>
                                         <span class="text-muted fs-8">Timeline phases configured here populate the Master Gantt Chart & Calendar</span>
                                     </div>
                                     <button class="btn btn-sm btn-primary rounded-3" data-bs-toggle="modal" data-bs-target="#addPhaseModal">
@@ -430,12 +430,12 @@ $basePath = '../';
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label fs-7 fw-bold">Sprint Cycle Duration</label>
+                                    <label class="form-label fs-7 fw-bold">Milestone Cadence / Review</label>
                                     <select class="form-select fs-7 rounded-3">
-                                        <option value="1">1 Week Sprints</option>
-                                        <option value="2" selected>2 Weeks (Standard Scrum)</option>
-                                        <option value="3">3 Weeks Sprints</option>
-                                        <option value="4">1 Month Sprints</option>
+                                        <option value="1">Weekly Reviews</option>
+                                        <option value="2" selected>Bi-Weekly Milestones (Recommended)</option>
+                                        <option value="3">Monthly Milestones</option>
+                                        <option value="4">Quarterly Release Cadence</option>
                                     </select>
                                 </div>
 
@@ -1405,7 +1405,7 @@ $basePath = '../';
                         </div>
                         <div class="d-flex flex-wrap align-items-center justify-content-between fs-8 text-muted">
                             <span><i class="fa-regular fa-calendar me-1"></i> ${formatShortDate(proj.startDate)} - ${formatShortDate(proj.dueDate)}</span>
-                            <span>Lead: ${proj.lead} &bull; ${doneCount}/${totalCount} Sprint Tasks Complete</span>
+                            <span>Lead: ${proj.lead} &bull; ${doneCount}/${totalCount} Tasks Complete</span>
                         </div>
                     </div>
                 `);

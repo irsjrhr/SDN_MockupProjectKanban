@@ -152,7 +152,7 @@ $basePath = '../';
                                 <div class="col-12 col-md-6">
                                     <label class="form-label fs-7 fw-bold">First Day of Week</label>
                                     <select class="form-select fs-7 rounded-3">
-                                        <option value="monday" selected>Monday (Default for Agile / Sprints)</option>
+                                        <option value="monday" selected>Monday (Default Business Week)</option>
                                         <option value="sunday">Sunday</option>
                                         <option value="saturday">Saturday</option>
                                     </select>

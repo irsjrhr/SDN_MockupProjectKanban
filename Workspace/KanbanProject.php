@@ -253,7 +253,7 @@ $basePath = '../';
                                     <div class="d-flex gap-2 align-items-start">
                                         <span class="badge rounded-circle bg-primary p-2 mt-1"><i class="fa-solid fa-plus fs-8 text-white"></i></span>
                                         <div>
-                                            <span class="fw-bold text-dark">Company Website</span> added 3 new sprint tasks.
+                                            <span class="fw-bold text-dark">Company Website</span> added 3 new project tasks.
                                             <span class="d-block fs-8 text-muted">5 hours ago</span>
                                         </div>
                                     </div>

@@ -109,8 +109,8 @@ if (!isset($sidebarMenu)) {
                         'url' => '#',
                         'icon' => 'fa-solid fa-book-bookmark',
                         'has_submenu' => true,
-                        'open' => in_array($currentPage, ['brd', 'fsd', 'erd', 'prd', 'blueprints', 'documentation']),
-                        'active' => in_array($currentPage, ['brd', 'fsd', 'erd', 'prd', 'blueprints', 'documentation']),
+                        'open' => in_array($currentPage, ['brd', 'fsd', 'erd', 'prd', 'blueprints', 'documentation', 'tracking-version', 'version-tracking']),
+                        'active' => in_array($currentPage, ['brd', 'fsd', 'erd', 'prd', 'blueprints', 'documentation', 'tracking-version', 'version-tracking']),
                         'submenu' => [
                             [
                                 'title' => 'BRD',
@@ -141,6 +141,12 @@ if (!isset($sidebarMenu)) {
                                 'url' => $basePath . 'Workspace/Documentation/Blueprints.php',
                                 'icon' => 'fa-solid fa-map-location-dot fs-7 text-danger',
                                 'active' => ($currentPage === 'blueprints')
+                            ],
+                            [
+                                'title' => 'Tracking Version',
+                                'url' => $basePath . 'Workspace/Documentation/TrackingVersion.php',
+                                'icon' => 'fa-solid fa-code-compare fs-7 text-primary',
+                                'active' => ($currentPage === 'tracking-version' || $currentPage === 'version-tracking')
                             ]
                         ]
                     ],

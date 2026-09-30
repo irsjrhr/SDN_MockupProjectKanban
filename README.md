@@ -54,7 +54,7 @@ graph TD
 - **Dual View (Board & Table List)**: Fleksibilitas melihat backlog dalam bentuk kartu kanban visual maupun tabel data lengkap.
 - **Master Calendar & Gantt Timeline (`CalendarTimeline.php`)**:
   - **Master Calendar Tab**: Jadwal deadline task lintas proyek secara bulanan.
-  - **Master Timeline Tab**: Roadmap horizontal Gantt chart dengan pelacakan progres sprint.
+  - **Master Timeline Tab**: Roadmap horizontal Gantt chart dengan pelacakan progres milestone & timeline proyek.
   - **Timeline & Milestone Config Tab**: Konfigurasi fase milestone, tanggal kick-off, batas waktu go-live, dan aturan dependensi jadwal per project.
 - **Engineering Documentation Hub (`/Workspace/Documentation`)**:
   - **BRD (Business Requirements Document)**
@@ -146,7 +146,7 @@ APPS TO DO PROJECT/
 │   ├── KanbanProject.php           # Master Project portfolio & directory (Dashboard, Board & List)
 │   ├── KanbanTask.php              # Interactive Task Kanban Board (Kanban, List, Calendar & Timeline)
 │   ├── CalendarTimeline.php        # Master Calendar, Gantt Timeline & Milestone Config
-│   ├── dashboard.php               # Workspace analytics & sprint completion stats
+│   ├── dashboard.php               # Workspace analytics & project completion stats
 │   ├── Teams.php                   # Direktori anggota tim & alokasi beban kerja
 │   ├── Setting.php                 # Quick Project-level settings
 │   ├── sidebar.php                 # Sidebar data untuk Workspace module
@@ -155,7 +155,8 @@ APPS TO DO PROJECT/
 │       ├── FSD.php                 # Functional Specification Document
 │       ├── PRD.php                 # Product Requirements Document
 │       ├── ERD.php                 # Database Schema & Entity Relationship Diagram
-│       └── Blueprints.php          # Architecture & Infrastructure Blueprints
+│       ├── Blueprints.php          # Architecture & Infrastructure Blueprints
+│       └── TrackingVersion.php     # Documents Tracking Version & Revision History Hub
 ├── sidebar.php                     # Core Universal Sidebar & Icon Rail Component
 ├── app.js                          # Root application script mirror
 ├── styles.css                      # Root styles mirror

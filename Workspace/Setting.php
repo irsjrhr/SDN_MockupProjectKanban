@@ -159,7 +159,7 @@ $basePath = '../';
 
                                         <div class="mb-3">
                                             <label class="form-label fs-7 fw-semibold">Workspace Description</label>
-                                            <textarea class="form-control fs-7" rows="3">Primary workspace for collaborative agile development, sprint management, and technical documentation.</textarea>
+                                            <textarea class="form-control fs-7" rows="3">Primary workspace for collaborative project delivery, task management, and technical documentation.</textarea>
                                         </div>
 
                                         <div class="d-flex justify-content-end gap-2 pt-2 border-top">
@@ -189,7 +189,7 @@ $basePath = '../';
 
                                         <div class="d-flex align-items-center justify-content-between p-3 border rounded-3 bg-light-subtle">
                                             <div>
-                                                <span class="fw-bold fs-7 text-dark d-block">Daily Sprint Digest</span>
+                                                <span class="fw-bold fs-7 text-dark d-block">Daily Project Digest</span>
                                                 <span class="text-muted fs-8">Receive summary report of active, pending, and overdue tasks at 08:00 AM</span>
                                             </div>
                                             <div class="form-check form-switch fs-5">
