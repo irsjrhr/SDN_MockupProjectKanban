@@ -500,205 +500,12 @@ $basePath = '../../';
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Application Script -->
+    <script src="../../assets/js/app.js"></script>
+    <!-- Centralized Document & Tracking Versioning Store -->
+    <script src="../../assets/js/doc-tracker.js"></script>
 
     <script>
-        /* -------------------------------------------------------------------------- */
-        /* SAMPLE MASTER DATA: TRACKED DOCUMENTS & VERSION REVISION HISTORY           */
-        /* -------------------------------------------------------------------------- */
-        let TRACKED_DOCS = [
-            {
-                id: 'DOC-BRD-001',
-                code: 'DOC-BRD-001',
-                type: 'BRD',
-                project: 'Middleware Project',
-                title: 'Core Architecture & API Gateway Specifications',
-                description: 'High-level business requirement for enterprise multi-tenant API routing, load-balancer routing, and gateway security boundaries.',
-                latestVersion: 'v2.4.0',
-                author: 'Sarah Chen',
-                authorAvatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=100&q=80',
-                updatedAt: 'Today, 10:15 AM',
-                revisions: [
-                    {
-                        version: 'v2.4.0',
-                        isLatest: true,
-                        date: '30 Sep 2026',
-                        author: 'Sarah Chen',
-                        authorRole: 'Tech Lead',
-                        title: 'Add OAuth2 Token Refresh & Rate Limiter Redis Integration',
-                        summary: 'Updated Section 2.1 to mandate Bearer JWT PKCE rotation and added Section 4.5 sliding-window rate limiting of 500 req/min.',
-                        hash: 'sha256:e3b0c44298fc1c14',
-                        fileSize: '2.4 MB PDF'
-                    },
-                    {
-                        version: 'v2.3.0',
-                        isLatest: false,
-                        date: '22 Sep 2026',
-                        author: 'Jenno Wilson',
-                        authorRole: 'Principal Architect',
-                        title: 'Telemetry & Latency Metric Capture Standard',
-                        summary: 'Standardized Prometheus scraping metrics and structured JSON logging format across all gateway endpoints.',
-                        hash: 'sha256:7f83b1657ff1fc53',
-                        fileSize: '2.1 MB PDF'
-                    },
-                    {
-                        version: 'v2.0.0',
-                        isLatest: false,
-                        date: '01 Sep 2026',
-                        author: 'Sarah Chen',
-                        authorRole: 'Tech Lead',
-                        title: 'Initial Production Architecture V2 Release',
-                        summary: 'Migrated monolithic routing into containerized microservice proxies with health check probes.',
-                        hash: 'sha256:1a84c98d66ab2144',
-                        fileSize: '1.9 MB PDF'
-                    }
-                ]
-            },
-            {
-                id: 'DOC-FSD-002',
-                code: 'DOC-FSD-002',
-                type: 'FSD',
-                project: 'Middleware Project',
-                title: 'JWT Authentication & Role-Based Access Control (RBAC)',
-                description: 'Detailed functional specifications on token claims, expiration hooks, user permissions hierarchy, and SSO identity provider bridge.',
-                latestVersion: 'v2.1.0',
-                author: 'Alex Rivera',
-                authorAvatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&q=80',
-                updatedAt: '28 Sep 2026',
-                revisions: [
-                    {
-                        version: 'v2.1.0',
-                        isLatest: true,
-                        date: '28 Sep 2026',
-                        author: 'Alex Rivera',
-                        authorRole: 'Backend Lead',
-                        title: 'Add Multi-Tenancy Department Claims into JWT Payload',
-                        summary: 'Extended JWT payload with department_id and org_slug for granular tenant data isolation and auditing.',
-                        hash: 'sha256:9c82b4a155ee2298',
-                        fileSize: '1.8 MB PDF'
-                    },
-                    {
-                        version: 'v2.0.0',
-                        isLatest: false,
-                        date: '10 Sep 2026',
-                        author: 'Alex Rivera',
-                        authorRole: 'Backend Lead',
-                        title: 'Initial Functional RBAC Specification',
-                        summary: 'Base role definitions for Admin, Developer, Viewer, and Auditor permission sets.',
-                        hash: 'sha256:4d76f8e219ba8800',
-                        fileSize: '1.5 MB PDF'
-                    }
-                ]
-            },
-            {
-                id: 'DOC-PRD-003',
-                code: 'DOC-PRD-003',
-                type: 'PRD',
-                project: 'Company Website',
-                title: 'CMS Multi-Language & Technical Documentation Blog Engine',
-                description: 'Product requirements for dynamic internationalization (i18n), SEO open-graph tags, and headless markdown publishing pipeline.',
-                latestVersion: 'v1.5.0',
-                author: 'Jessica Taylor',
-                authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
-                updatedAt: 'Yesterday, 04:30 PM',
-                revisions: [
-                    {
-                        version: 'v1.5.0',
-                        isLatest: true,
-                        date: '29 Sep 2026',
-                        author: 'Jessica Taylor',
-                        authorRole: 'Product Owner',
-                        title: 'Algolia Search Integration & Dark Mode Auto-Switch',
-                        summary: 'Added criteria for fuzzy text search indexing, keyboard shortcuts (Cmd+K), and OS theme detection.',
-                        hash: 'sha256:88fa2b1077ee4411',
-                        fileSize: '3.1 MB DOCX'
-                    },
-                    {
-                        version: 'v1.4.2',
-                        isLatest: false,
-                        date: '15 Sep 2026',
-                        author: 'Jessica Taylor',
-                        authorRole: 'Product Owner',
-                        title: 'Multilingual i18n URL Routing Specification',
-                        summary: 'Configured sub-path localization (/id/, /en/, /ja/) with fallback locales and automatic geo-redirects.',
-                        hash: 'sha256:32bb19ac44ff8899',
-                        fileSize: '2.8 MB PDF'
-                    }
-                ]
-            },
-            {
-                id: 'DOC-ERD-004',
-                code: 'DOC-ERD-004',
-                type: 'ERD',
-                project: 'Middleware Project',
-                title: 'Master PostgreSQL Schema, Partitioning & Foreign Keys',
-                description: 'Complete database entity relationship diagram, composite indexing schemes, TimescaleDB telemetry tables, and migration rules.',
-                latestVersion: 'v3.0.1',
-                author: 'Jenno Wilson',
-                authorAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80',
-                updatedAt: '25 Sep 2026',
-                revisions: [
-                    {
-                        version: 'v3.0.1',
-                        isLatest: true,
-                        date: '25 Sep 2026',
-                        author: 'Jenno Wilson',
-                        authorRole: 'Principal Architect',
-                        title: 'Partition tbl_middleware_logs by Monthly Range',
-                        summary: 'Implemented monthly declarative table partitioning on created_at timestamp for 4x query speedup on telemetry scans.',
-                        hash: 'sha256:65ea41b233bb9900',
-                        fileSize: '4.2 MB SVG / PDF'
-                    },
-                    {
-                        version: 'v3.0.0',
-                        isLatest: false,
-                        date: '05 Sep 2026',
-                        author: 'Jenno Wilson',
-                        authorRole: 'Principal Architect',
-                        title: 'Major PostgreSQL 16 Schema Baseline',
-                        summary: 'Complete rewrite of foreign keys with ON DELETE CASCADE rules and audit trigger functions.',
-                        hash: 'sha256:11bb77ff99aa3322',
-                        fileSize: '4.0 MB SVG'
-                    }
-                ]
-            },
-            {
-                id: 'DOC-BLU-005',
-                code: 'DOC-BLU-005',
-                type: 'Blueprint',
-                project: 'Mobile CRM Application',
-                title: 'AWS Cloud Infrastructure, Multi-AZ Kubernetes & VPC Topology',
-                description: 'Network topology blueprints, AWS EKS cluster deployment diagrams, Cloudflare WAF routing, and Disaster Recovery multi-region failover.',
-                latestVersion: 'v1.1.0',
-                author: 'Marcus Vance',
-                authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80',
-                updatedAt: '24 Sep 2026',
-                revisions: [
-                    {
-                        version: 'v1.1.0',
-                        isLatest: true,
-                        date: '24 Sep 2026',
-                        author: 'Marcus Vance',
-                        authorRole: 'DevOps Architect',
-                        title: 'Add Redis Cluster Sentinel & Read Replicas Topology',
-                        summary: 'High availability design with 3 master nodes and automatic failover sentinel quorum across eu-west-1a/b/c.',
-                        hash: 'sha256:55aa33dd88cc1100',
-                        fileSize: '5.6 MB DrawIO / PDF'
-                    },
-                    {
-                        version: 'v1.0.0',
-                        isLatest: false,
-                        date: '02 Sep 2026',
-                        author: 'Marcus Vance',
-                        authorRole: 'DevOps Architect',
-                        title: 'Initial Multi-AZ Cloud Architecture Blueprint',
-                        summary: 'VPC subnets, NAT gateways, ALB load balancers, and EC2 node groups configuration.',
-                        hash: 'sha256:8811cc4422bb9911',
-                        fileSize: '5.2 MB PDF'
-                    }
-                ]
-            }
-        ];
-
         /* Helper Badge Colors */
         function getTypeBadgeClass(type) {
             switch (type) {
@@ -711,6 +518,19 @@ $basePath = '../../';
             }
         }
 
+        /* Populate Target Doc Select dropdown */
+        function populateTargetDocSelect() {
+            const docs = DocTracker.getAllDocs();
+            const $sel = $('#inputTargetDoc');
+            const currentVal = $sel.val();
+            $sel.empty();
+            $sel.append('<option value="" disabled selected>-- Choose Document --</option>');
+            docs.forEach(d => {
+                $sel.append(`<option value="${d.code}" data-type="${d.type}" data-proj="${d.project}" data-cur="${d.latestVersion}">${d.code}: ${d.title} (Current: ${d.latestVersion})</option>`);
+            });
+            if (currentVal) $sel.val(currentVal);
+        }
+
         /* -------------------------------------------------------------------------- */
         /* 1. RENDER MATRIX VIEW (DOCUMENT LIST + REVISIONS ACCORDION)                */
         /* -------------------------------------------------------------------------- */
@@ -718,12 +538,13 @@ $basePath = '../../';
             const $container = $('#docCardsContainer');
             $container.empty();
 
-            const typeFilter = $('#docTypeFilterGroup .btn.active').data('filter');
-            const projectFilter = $('#selectProjectFilter').val();
-            const searchQuery = $('#searchDocInput').val().toLowerCase().trim();
+            const TRACKED_DOCS = DocTracker.getAllDocs();
+            const typeFilter = $('#docTypeFilterGroup .btn.active').data('filter') || 'all';
+            const projectFilter = $('#selectProjectFilter').val() || 'all';
+            const searchQuery = $('#searchDocInput').val() ? $('#searchDocInput').val().toLowerCase().trim() : '';
 
             let filteredDocs = TRACKED_DOCS.filter(doc => {
-                const matchType = (typeFilter === 'all' || doc.type === typeFilter);
+                const matchType = (typeFilter === 'all' || doc.type.toLowerCase() === typeFilter.toLowerCase());
                 const matchProject = (projectFilter === 'all' || doc.project === projectFilter);
                 const matchSearch = (
                     doc.title.toLowerCase().includes(searchQuery) ||
@@ -750,10 +571,24 @@ $basePath = '../../';
             }
 
             filteredDocs.forEach((doc, idx) => {
-                const collapseId = `collapseRevisions_${doc.id.replace(/-/g, '_')}`;
+                const safeCode = doc.code.replace(/[^a-zA-Z0-9]/g, '_');
+                const collapseId = `collapseRevisions_${safeCode}`;
+                const cardId = `card_doc_${safeCode}`;
                 
                 let revisionsHtml = '';
-                doc.revisions.forEach((rev, rIdx) => {
+                const revisions = (doc.revisions && doc.revisions.length) ? doc.revisions : [{
+                    version: doc.latestVersion,
+                    isLatest: true,
+                    date: doc.updatedAt,
+                    author: doc.author,
+                    authorRole: doc.authorRole || 'Contributor',
+                    title: 'Initial Release Baseline',
+                    summary: doc.description,
+                    hash: 'sha256:e3b0c442',
+                    fileSize: doc.fileSize || '2.4 MB PDF'
+                }];
+
+                revisions.forEach((rev, rIdx) => {
                     const isLatestBadge = rev.isLatest 
                         ? '<span class="badge bg-success-subtle text-success border border-success-subtle ms-2">Active Baseline</span>' 
                         : '<span class="badge bg-light text-muted border ms-2">Archived</span>';
@@ -796,7 +631,7 @@ $basePath = '../../';
                 });
 
                 const cardHtml = `
-                    <div class="card card-doc-track shadow-sm rounded-4 bg-white p-4">
+                    <div class="card card-doc-track shadow-sm rounded-4 bg-white p-4" id="${cardId}">
                         <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
                             <div class="d-flex align-items-start gap-3 flex-grow-1">
                                 <div class="d-flex flex-column align-items-center justify-content-center">
@@ -812,7 +647,7 @@ $basePath = '../../';
                                     <p class="text-muted fs-8 mb-2">${doc.description}</p>
                                     <div class="d-flex align-items-center gap-3 flex-wrap fs-8 text-muted">
                                         <span><i class="fa-solid fa-layer-group text-primary me-1"></i><strong>${doc.project}</strong></span>
-                                        <span><i class="fa-solid fa-code-branch text-indigo me-1"></i>${doc.revisions.length} Revisions Logged</span>
+                                        <span><i class="fa-solid fa-code-branch text-indigo me-1"></i>${revisions.length} Revisions Logged</span>
                                         <span class="d-flex align-items-center gap-1">
                                             <img src="${doc.authorAvatar}" class="avatar-xs rounded-circle" alt="">
                                             <span>${doc.author} &bull; ${doc.updatedAt}</span>
@@ -826,7 +661,7 @@ $basePath = '../../';
                                     <i class="fa-solid fa-plus me-1"></i> Bump Version
                                 </button>
                                 <button class="btn btn-sm btn-light border rounded-3 px-3 py-1.5 fs-8" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="${idx === 0 ? 'true' : 'false'}">
-                                    <i class="fa-solid fa-clock-rotate-left me-1"></i> Revisions (${doc.revisions.length})
+                                    <i class="fa-solid fa-clock-rotate-left me-1"></i> Revisions (${revisions.length})
                                 </button>
                             </div>
                         </div>
@@ -855,10 +690,24 @@ $basePath = '../../';
             const $tree = $('#timelineTreeContainer');
             $tree.empty();
 
+            const TRACKED_DOCS = DocTracker.getAllDocs();
+
             // Flatten all revisions with document context
             let allTimelineEvents = [];
             TRACKED_DOCS.forEach(doc => {
-                doc.revisions.forEach(rev => {
+                const revisions = (doc.revisions && doc.revisions.length) ? doc.revisions : [{
+                    version: doc.latestVersion,
+                    isLatest: true,
+                    date: doc.updatedAt,
+                    author: doc.author,
+                    authorRole: doc.authorRole || 'Contributor',
+                    title: 'Initial Baseline Release',
+                    summary: doc.description,
+                    hash: 'sha256:e3b0c442',
+                    fileSize: doc.fileSize || '2.4 MB PDF'
+                }];
+
+                revisions.forEach(rev => {
                     allTimelineEvents.push({
                         docCode: doc.code,
                         docTitle: doc.title,
@@ -888,7 +737,7 @@ $basePath = '../../';
                             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 fs-9 text-muted pt-2 border-top">
                                 <div>
                                     <span class="me-2"><i class="fa-solid fa-layer-group text-primary me-1"></i>${evt.project}</span>
-                                    <span class="me-2">&bull; Author: <strong>${evt.author}</strong> (${evt.authorRole})</span>
+                                    <span class="me-2">&bull; Author: <strong>${evt.author}</strong> (${evt.authorRole || 'Contributor'})</span>
                                     <code class="text-muted">${evt.hash}</code>
                                 </div>
                                 <div class="d-flex gap-1">
@@ -908,16 +757,21 @@ $basePath = '../../';
         /* 3. INTERACTIVE ACTIONS & HANDLERS                                          */
         /* -------------------------------------------------------------------------- */
         function showTrackToast(message) {
-            $('#toastTrackMessage').text(message);
-            const toastEl = document.getElementById('trackLiveToast');
-            const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
-            toast.show();
+            DocTracker.showToast(message);
         }
 
         function openDetailsModal(docCode, version) {
-            const doc = TRACKED_DOCS.find(d => d.code === docCode);
+            const doc = DocTracker.getDocByCode(docCode);
             if (!doc) return;
-            const rev = doc.revisions.find(r => r.version === version) || doc.revisions[0];
+            const rev = (doc.revisions && doc.revisions.find(r => r.version === version)) || (doc.revisions ? doc.revisions[0] : {
+                version: doc.latestVersion,
+                date: doc.updatedAt,
+                title: doc.title,
+                summary: doc.description,
+                author: doc.author,
+                authorRole: 'Contributor',
+                hash: 'sha256:e3b0c442'
+            });
 
             $('#detailModalSubtitle').text(`Release info for ${doc.code}`);
             $('#detailVersionTag').text(rev.version);
@@ -927,8 +781,8 @@ $basePath = '../../';
             $('#detailDocContext').text(`${doc.code} &bull; ${doc.project} &bull; ${doc.title}`);
             $('#detailChangelogContent').text(rev.summary);
             $('#detailAuthorName').text(rev.author);
-            $('#detailAuthorRole').text(rev.authorRole);
-            $('#detailChecksum').text(rev.hash);
+            $('#detailAuthorRole').text(rev.authorRole || 'Contributor');
+            $('#detailChecksum').text(rev.hash || 'sha256:e3b0c442');
 
             $('#btnDownloadFromModal').off('click').on('click', function () {
                 downloadVersionAsset(doc.code, rev.version);
@@ -950,6 +804,7 @@ $basePath = '../../';
         }
 
         function quickNewVersion(docCode) {
+            populateTargetDocSelect();
             $('#inputTargetDoc').val(docCode).trigger('change');
             const modal = new bootstrap.Modal(document.getElementById('modalNewVersion'));
             modal.show();
@@ -971,8 +826,27 @@ $basePath = '../../';
         /* 4. DOM READY INITIALIZATION                                                */
         /* -------------------------------------------------------------------------- */
         $(document).ready(function () {
+            populateTargetDocSelect();
             renderMatrixView();
             renderTreeTimeline();
+
+            // Check URL query param: ?doc=DOC-BRD-001
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetDocParam = urlParams.get('doc');
+            if (targetDocParam) {
+                const safeCode = targetDocParam.replace(/[^a-zA-Z0-9]/g, '_');
+                $(`#collapseRevisions_${safeCode}`).collapse('show');
+                const targetCard = $(`#card_doc_${safeCode}`);
+                if (targetCard.length) {
+                    $('html, body').animate({
+                        scrollTop: targetCard.offset().top - 100
+                    }, 500);
+                    targetCard.addClass('border-primary shadow-lg').css({
+                        'box-shadow': '0 0 20px rgba(99, 102, 241, 0.35)',
+                        'border-width': '2px'
+                    });
+                }
+            }
 
             // Doc type filter click
             $('#docTypeFilterGroup .btn').on('click', function () {
@@ -1007,50 +881,27 @@ $basePath = '../../';
 
                 const docCode = $('#inputTargetDoc').val();
                 const title = $('#inputVersionTitle').val();
-                const bumpType = $('input[name="versionBump"]:checked').val();
+                const bumpType = $('input[name="versionBump"]:checked').val() || 'patch';
                 const changelog = $('#inputChangelog').val();
                 const authorName = $('#inputAuthorName').val() || 'Jenno Wilson';
 
-                // Find doc in array
-                const doc = TRACKED_DOCS.find(d => d.code === docCode);
-                if (doc) {
-                    // Generate new version tag
-                    const prevParts = doc.latestVersion.replace('v', '').split('.');
-                    let major = parseInt(prevParts[0]) || 1;
-                    let minor = parseInt(prevParts[1]) || 0;
-                    let patch = parseInt(prevParts[2]) || 0;
+                const updated = DocTracker.updateDoc(docCode, {}, {
+                    isBump: true,
+                    bumpType: bumpType,
+                    title: title,
+                    changelog: changelog,
+                    author: authorName,
+                    authorRole: 'Contributor'
+                });
 
-                    if (bumpType === 'major') major += 1, minor = 0, patch = 0;
-                    else if (bumpType === 'minor') minor += 1, patch = 0;
-                    else patch += 1;
-
-                    const newVerTag = `v${major}.${minor}.${patch}`;
-
-                    // Mark old revisions as not latest
-                    doc.revisions.forEach(r => r.isLatest = false);
-
-                    // Add new revision
-                    doc.revisions.unshift({
-                        version: newVerTag,
-                        isLatest: true,
-                        date: 'Today',
-                        author: authorName,
-                        authorRole: 'Contributor',
-                        title: title,
-                        summary: changelog.trim(),
-                        hash: 'sha256:' + Math.random().toString(16).substring(2, 10),
-                        fileSize: '2.5 MB PDF'
-                    });
-
-                    doc.latestVersion = newVerTag;
-                    doc.updatedAt = 'Just now';
-
+                if (updated) {
                     renderMatrixView();
                     renderTreeTimeline();
+                    populateTargetDocSelect();
 
                     $('#modalNewVersion').modal('hide');
                     this.reset();
-                    showTrackToast(`Successfully published ${docCode} version ${newVerTag}!`);
+                    showTrackToast(`Successfully published ${docCode} version ${updated.latestVersion}!`);
                 }
             });
 

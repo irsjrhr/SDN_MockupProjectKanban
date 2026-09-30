@@ -6,7 +6,8 @@
   },
   "routes": [
     {
-      "handle": "filesystem"
+      "src": "/(assets/.*|styles.css|app.js|.*\\.(?:css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|webp))",
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",

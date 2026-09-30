@@ -103,8 +103,8 @@ $basePath = '../';
             </section>
 
             <!-- Toolbar Controls Bar -->
-            <div class="toolbar-container px-4 pb-3 border-bottom d-flex flex-wrap align-items-center justify-content-between gap-3" id="toolbar-container">
-                <div class="nav nav-pills view-tabs gap-2" id="viewTabs">
+            <div class="toolbar-container px-4 pb-3 border-bottom d-flex flex-nowrap align-items-center gap-3 overflow-x-auto" id="toolbar-container">
+                <div class="nav nav-pills view-tabs gap-2 flex-nowrap" id="viewTabs">
                     <button class="nav-link tab-btn fw-semibold py-2 px-3 rounded-3" data-view="dashboard">
                         <i class="fa-solid fa-chart-pie me-1"></i> Dashboard
                     </button>
@@ -125,6 +125,9 @@ $basePath = '../';
                     </button>
                     <button class="nav-link tab-btn fw-semibold py-2 px-3 rounded-3" data-view="settings">
                         <i class="fa-solid fa-gear me-1"></i> Settings
+                    </button>
+                    <button class="nav-link tab-btn fw-semibold py-2 px-3 rounded-3" data-view="github">
+                        <i class="fa-brands fa-github me-1"></i> GitHub History
                     </button>
                 </div>
             </div>
@@ -791,7 +794,254 @@ $basePath = '../';
                                     </div>
                                 </form>
                             </div>
+
+                            <!-- GitHub Integration & Sync Configuration Card -->
+                            <div class="card shadow-sm border rounded-4 p-4 bg-white mb-4">
+                                <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="p-3 bg-dark text-white rounded-3 shadow-sm" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fa-brands fa-github fs-4"></i>
+                                        </div>
+                                        <div>
+                                            <h2 class="h6 fw-bold mb-0 text-dark">GitHub Integration & Sync</h2>
+                                            <span class="text-muted fs-8">Konfigurasi akun, repository, dan Personal Access Token untuk tab GitHub Stream</span>
+                                        </div>
+                                    </div>
+                                    <span class="badge bg-light text-muted border px-2 py-1 fs-8" id="cfgGhStatusBadge"><i class="fa-solid fa-circle-check text-success me-1"></i> Connected</span>
+                                </div>
+
+                                <form id="formGithubConfig">
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-12 col-md-6">
+                                            <label for="cfgGhOwner" class="form-label fs-7 fw-semibold">GitHub Owner / Organization *</label>
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text bg-light"><i class="fa-solid fa-user text-muted"></i></span>
+                                                <input type="text" class="form-control fs-7" id="cfgGhOwner" value="irsjrhr" placeholder="e.g. irsjrhr" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="cfgGhRepo" class="form-label fs-7 fw-semibold">Repository Name *</label>
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text bg-light"><i class="fa-solid fa-book-bookmark text-muted"></i></span>
+                                                <input type="text" class="form-control fs-7" id="cfgGhRepo" value="MOCKUP_KANBAN_PROJECT" placeholder="e.g. MOCKUP_KANBAN_PROJECT" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-12 col-md-6">
+                                            <label for="cfgGhBranch" class="form-label fs-7 fw-semibold">Default Target Branch</label>
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text bg-light"><i class="fa-solid fa-code-branch text-muted"></i></span>
+                                                <input type="text" class="form-control fs-7" id="cfgGhBranch" value="main" placeholder="main">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label for="cfgGhAutoSync" class="form-label fs-7 fw-semibold">Sinkronisasi Otomatis</label>
+                                            <select class="form-select form-select-sm fs-7" id="cfgGhAutoSync">
+                                                <option value="manual">Manual (Saat klik tombol Sync)</option>
+                                                <option value="on-open" selected>Otomatis saat tab GitHub dibuka</option>
+                                                <option value="5m">Otomatis setiap 5 Menit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="cfgGhToken" class="form-label fs-7 fw-semibold d-flex align-items-center justify-content-between">
+                                            <span>Personal Access Token (PAT)</span>
+                                            <span class="fs-8 text-muted fw-normal">Diperlukan untuk repository PRIVATE & limit 5.000 req/h</span>
+                                        </label>
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text bg-light"><i class="fa-solid fa-key text-muted"></i></span>
+                                            <input type="password" class="form-control fs-7" id="cfgGhToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                                            <button class="btn btn-outline-secondary" type="button" id="btnToggleTokenVisibility">
+                                                <i class="fa-regular fa-eye" id="iconTokenVisibility"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-text fs-8 text-muted">
+                                            Token disimpan aman di <code>localStorage</code> browser dan langsung digunakan untuk mengambil data commit & push.
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center justify-content-between border-top pt-3 mt-4">
+                                        <button type="button" class="btn btn-outline-dark btn-sm px-3 fw-semibold" id="btnTestGhConnection">
+                                            <i class="fa-solid fa-plug me-1"></i> Test Koneksi GitHub
+                                        </button>
+                                        <button type="submit" class="btn btn-primary btn-sm px-4 fw-semibold" id="btnSaveGhConfig">
+                                            <i class="fa-solid fa-floppy-disk me-1"></i> Simpan Pengaturan GitHub
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- 8. GITHUB HISTORICAL COMMIT & PUSH VIEW -->
+                <div class="view-content" id="viewGithub">
+                    <!-- Clean Minimalist GitHub Repository Header Bar -->
+                    <div class="card shadow-sm border rounded-4 bg-white p-3 px-4 mb-4">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-3 bg-dark text-white p-2.5 d-flex align-items-center justify-content-center shadow-sm" style="width: 44px; height: 44px;">
+                                    <i class="fa-brands fa-github fs-3"></i>
+                                </div>
+                                <div>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        <h2 class="h6 fw-extrabold text-dark mb-0 font-monospace" id="ghRepoFullName">irsjrhr / MOCKUP_KANBAN_PROJECT</h2>
+                                        <span class="badge bg-light text-dark border px-2 py-0.5 fs-8 fw-bold" id="ghDefaultBranchBadge"><i class="fa-solid fa-code-branch text-primary me-1"></i>main</span>
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0.5 fs-8 fw-semibold" id="ghConnStatusBadge"><i class="fa-solid fa-circle text-success fs-9 me-1"></i>Connected</span>
+                                    </div>
+                                    <span class="text-muted fs-8">Historical commits, branch stream, and push events tracking.</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn btn-sm btn-primary rounded-3 fs-7 fw-semibold d-inline-flex align-items-center gap-1.5 px-3" id="btnRefreshGithub">
+                                    <i class="fa-solid fa-rotate" id="refreshGhIcon"></i> Sync Data
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary rounded-3 fs-7 fw-semibold" id="btnGoToGhSettings" title="Buka Konfigurasi GitHub di Tab Settings">
+                                    <i class="fa-solid fa-gear me-1"></i> Pengaturan
+                                </button>
+                                <a href="https://github.com/irsjrhr/MOCKUP_KANBAN_PROJECT" target="_blank" class="btn btn-sm btn-dark rounded-3 fs-7 fw-semibold" id="btnExternalGhRepo">
+                                    <i class="fa-brands fa-github me-1"></i> GitHub <i class="fa-solid fa-arrow-up-right-from-square fs-9 ms-0.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Content Card with Subtabs -->
+                    <div class="card shadow-sm border rounded-4 bg-white p-4">
+                        <!-- Sub-Navigation and Controls -->
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pb-3 border-bottom mb-4">
+                            <!-- GitHub Subtabs Pills -->
+                            <div class="nav nav-pills gap-2" id="githubSubTabs">
+                                <button class="nav-link active gh-subtab-btn fw-semibold py-2 px-3 rounded-3 fs-7" data-subtab="commits">
+                                    <i class="fa-solid fa-code-commit me-1"></i> Commit History
+                                    <span class="badge bg-primary ms-1" id="ghCommitBadgeCount">0</span>
+                                </button>
+                                <button class="nav-link gh-subtab-btn fw-semibold py-2 px-3 rounded-3 fs-7" data-subtab="pushes">
+                                    <i class="fa-solid fa-cloud-arrow-up me-1"></i> Push Activity & Events
+                                </button>
+                                <button class="nav-link gh-subtab-btn fw-semibold py-2 px-3 rounded-3 fs-7" data-subtab="compare">
+                                    <i class="fa-solid fa-code-compare me-1"></i> Compare Diff
+                                </button>
+                                <button class="nav-link gh-subtab-btn fw-semibold py-2 px-3 rounded-3 fs-7" data-subtab="stats">
+                                    <i class="fa-solid fa-chart-line me-1"></i> Activity & Contributors
+                                </button>
+                            </div>
+
+                            <!-- Branch Filter & Search Controls -->
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                <div class="input-group input-group-sm" style="width: 220px;">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-code-branch text-muted"></i></span>
+                                    <select class="form-select border-start-0 fs-7 fw-semibold" id="ghBranchSelect">
+                                        <option value="main" selected>branch: main</option>
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm" style="width: 200px;" id="ghCommitSearchBox">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-magnifying-glass text-muted fs-8"></i></span>
+                                    <input type="text" class="form-control border-start-0 fs-7" id="ghSearchCommitInput" placeholder="Filter commit message...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 1. SUBTAB CONTENT: COMMIT HISTORY (Endpoints 4, 5, 6, 7) -->
+                        <div class="gh-subtab-content active" id="ghContentCommits">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <h3 class="h6 fw-bold mb-0 text-dark"><i class="fa-solid fa-timeline text-primary me-2"></i>Repository Commit History Stream</h3>
+                                    <span class="text-muted fs-8">Displaying commit logs per branch with SHA hashes, authors, and file changes.</span>
+                                </div>
+                                <div class="fs-8 text-muted">
+                                    Active Branch: <span class="badge bg-light text-dark border fw-bold" id="ghActiveBranchLabel">main</span>
+                                </div>
+                            </div>
+
+                            <!-- Commits Stream List -->
+                            <div class="commits-timeline-container d-flex flex-column gap-3" id="ghCommitsList">
+                                <!-- Dynamic Commit Cards injected via jQuery -->
+                                <div class="text-center py-5 text-muted">
+                                    <div class="spinner-border spinner-border-sm text-primary mb-2" role="status"></div>
+                                    <p class="fs-7 mb-0">Loading commit logs from GitHub...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. SUBTAB CONTENT: PUSH ACTIVITY & REPO EVENTS (Endpoints 9 & 10) -->
+                        <div class="gh-subtab-content d-none" id="ghContentPushes">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <h3 class="h6 fw-bold mb-0 text-dark"><i class="fa-solid fa-cloud-arrow-up text-success me-2"></i>Historical Push Activity & Repository Events</h3>
+                                    <span class="text-muted fs-8">Monitored PushEvents capturing actor pushes, branch refs, and commit batches.</span>
+                                </div>
+                            </div>
+
+                            <!-- Pushes Stream List -->
+                            <div class="pushes-stream-container d-flex flex-column gap-3" id="ghPushesList">
+                                <!-- Dynamic Push Cards injected via jQuery -->
+                            </div>
+                        </div>
+
+                        <!-- 3. SUBTAB CONTENT: COMPARE BRANCHES / COMMITS (Endpoint 8) -->
+                        <div class="gh-subtab-content d-none" id="ghContentCompare">
+                            <div class="p-3 bg-light rounded-4 border mb-4">
+                                <h3 class="h6 fw-bold mb-3"><i class="fa-solid fa-code-compare text-primary me-2"></i>Compare Revisions & Branches</h3>
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-12 col-md-5">
+                                        <label class="form-label fs-8 fw-bold text-muted text-uppercase mb-1">Base Revision (Behind)</label>
+                                        <select class="form-select form-select-sm fs-7 fw-semibold" id="ghCompareBase">
+                                            <option value="main" selected>main (base)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-2 text-center pb-1">
+                                        <span class="badge bg-white text-muted border p-2"><i class="fa-solid fa-arrow-left-long me-1"></i> ... <i class="fa-solid fa-arrow-right-long ms-1"></i></span>
+                                    </div>
+                                    <div class="col-12 col-md-5">
+                                        <label class="form-label fs-8 fw-bold text-muted text-uppercase mb-1">Head Revision (Ahead)</label>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control fs-7 fw-semibold" id="ghCompareHead" value="develop" placeholder="Branch or SHA...">
+                                            <button class="btn btn-primary px-3 fw-semibold" id="btnRunCompare"><i class="fa-solid fa-bolt me-1"></i> Compare</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Compare Results Container -->
+                            <div id="ghCompareResults">
+                                <div class="text-center py-4 text-muted fs-7">
+                                    Pilih base dan head revision lalu klik <strong>Compare</strong> untuk melihat perbandingan diff.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. SUBTAB CONTENT: STATS & CONTRIBUTORS (Endpoints 11 & 12) -->
+                        <div class="gh-subtab-content d-none" id="ghContentStats">
+                            <div class="row g-4">
+                                <div class="col-12 col-lg-6">
+                                    <div class="p-3 bg-light rounded-4 border h-100">
+                                        <h3 class="h6 fw-bold mb-3 text-dark"><i class="fa-solid fa-chart-simple text-primary me-2"></i>Commit Activity Statistics</h3>
+                                        <p class="text-muted fs-8 mb-3">Weekly commit distribution and development cadence.</p>
+                                        <div class="commit-stats-bars d-flex align-items-end gap-2 justify-content-between p-3 bg-white rounded-3 border" style="height: 160px;" id="ghStatsBars">
+                                            <!-- Dynamic Weekly Bars -->
+                                        </div>
+                                        <div class="d-flex justify-content-between fs-8 text-muted mt-2 px-1">
+                                            <span>Earlier Weeks</span>
+                                            <span class="fw-bold text-dark">Latest Week</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="p-3 bg-light rounded-4 border h-100">
+                                        <h3 class="h6 fw-bold mb-3 text-dark"><i class="fa-solid fa-users text-success me-2"></i>Repository Contributors</h3>
+                                        <p class="text-muted fs-8 mb-3">Top contributors and commit counts.</p>
+                                        <div class="d-flex flex-column gap-2" id="ghContributorsList">
+                                            <!-- Dynamic Contributors Cards -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -978,6 +1228,75 @@ $basePath = '../';
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOTSTRAP 5 MODAL: GITHUB COMMIT DETAIL (Endpoint 6 & 7) -->
+    <div class="modal fade" id="ghCommitDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+                <div class="modal-header border-0 pb-0 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-dark text-white font-monospace px-2 py-1 fs-7" id="modalCommitSha">#sha</span>
+                        <span class="badge bg-success-subtle text-success fs-8 fw-bold" id="modalCommitHeadBadge"><i class="fa-solid fa-code-branch me-1"></i>HEAD of branch</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="#" target="_blank" class="btn btn-sm btn-outline-dark fs-8 fw-semibold" id="modalCommitGhLink">
+                            <i class="fa-brands fa-github me-1"></i> View on GitHub
+                        </a>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body pt-3">
+                    <h2 class="h5 fw-bold text-dark mb-2" id="modalCommitMessage">Commit Title Message</h2>
+                    
+                    <div class="p-3 bg-light rounded-3 border mb-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" class="avatar-md rounded-circle border" id="modalCommitAuthorAvatar" alt="Author" style="width: 42px; height: 42px;">
+                            <div>
+                                <span class="fw-bold text-dark fs-7 d-block" id="modalCommitAuthorName">Author Name</span>
+                                <span class="text-muted fs-8" id="modalCommitDate">Committed on Sep 30, 2026</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 fs-7">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1" id="modalCommitAdditions">+0 additions</span>
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1" id="modalCommitDeletions">-0 deletions</span>
+                            <span class="badge bg-secondary-subtle text-secondary border px-2 py-1" id="modalCommitTotalFiles">0 files changed</span>
+                        </div>
+                    </div>
+
+                    <h3 class="h6 fw-bold mb-2"><i class="fa-regular fa-file-lines text-primary me-1"></i> Changed Files & Diffs</h3>
+                    <div class="list-group list-group-flush border rounded-3 overflow-y-auto" style="max-height: 280px;" id="modalCommitFilesList">
+                        <!-- Dynamic Changed Files -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOTSTRAP 5 MODAL: GITHUB AUTH TOKEN CONFIG -->
+    <div class="modal fade" id="ghTokenModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold"><i class="fa-brands fa-github text-dark me-2"></i>GitHub API Authentication</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted fs-7 mb-3">
+                        Secara default API GitHub publik dibatasi 60 request/jam. Masukkan <strong>GitHub Personal Access Token (PAT)</strong> untuk menaikkan limit hingga 5.000 request/jam dan mengakses history private.
+                    </p>
+                    <div class="mb-3">
+                        <label for="inputGhToken" class="form-label fs-7 fw-semibold">GitHub Token (Bearer)</label>
+                        <input type="password" class="form-control fs-7" id="inputGhToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                        <span class="fs-8 text-muted mt-1 d-block">Token disimpan aman di LocalStorage browser Anda saja.</span>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-danger btn-sm px-3" id="btnClearGhToken">Clear Token</button>
+                    <button type="button" class="btn btn-primary btn-sm px-4 fw-semibold" id="btnSaveGhToken">Save & Connect</button>
                 </div>
             </div>
         </div>

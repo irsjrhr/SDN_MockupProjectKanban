@@ -108,8 +108,8 @@ $basePath = '../';
             </section>
 
             <!-- Toolbar Controls Bar (3 Views) -->
-            <div class="toolbar-container px-4 pb-3 border-bottom d-flex flex-wrap align-items-center justify-content-between gap-3" id="toolbar-container">
-                <div class="nav nav-pills view-tabs gap-2" id="viewTabs">
+            <div class="toolbar-container px-4 pb-3 border-bottom d-flex flex-nowrap align-items-center gap-3 overflow-x-auto" id="toolbar-container">
+                <div class="nav nav-pills view-tabs gap-2 flex-nowrap" id="viewTabs">
                     <!-- Tab 1: Dashboard -->
                     <button class="nav-link active tab-btn fw-semibold py-2 px-3 rounded-3" data-view="dashboard">
                         <i class="fa-solid fa-chart-pie me-1"></i> Dashboard

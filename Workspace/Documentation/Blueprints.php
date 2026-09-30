@@ -97,28 +97,31 @@ $basePath = '../../';
             </section>
 
             <!-- Main Master Table Content -->
-            <div class="view-wrapper flex-grow-1 p-4">
                 <!-- Filters & Search Toolbar -->
                 <div class="card shadow-sm border rounded-4 p-3 bg-white mb-4">
                     <div class="row g-3 align-items-center justify-content-between">
                         <div class="col-12 col-md-5">
                             <div class="input-group">
                                 <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                <input type="text" class="form-control border-start-0 fs-7" placeholder="Search architecture, blueprint, author...">
+                                <input type="text" id="docSearchInput" class="form-control border-start-0 fs-7" placeholder="Search architecture, blueprint title, project, author...">
                             </div>
                         </div>
                         <div class="col-12 col-md-7 d-flex flex-wrap align-items-center justify-content-md-end gap-2">
-                            <select class="form-select form-select-sm fs-7 w-auto">
+                            <select id="docStatusFilter" class="form-select form-select-sm fs-7 w-auto">
                                 <option value="">All Statuses</option>
-                                <option value="finalized">Finalized</option>
-                                <option value="review">In Review</option>
-                                <option value="draft">Draft</option>
+                                <option value="Approved">Approved</option>
+                                <option value="In Review">In Review</option>
+                                <option value="Draft">Draft</option>
+                                <option value="Archived">Archived</option>
                             </select>
-                            <select class="form-select form-select-sm fs-7 w-auto">
+                            <select id="docSortFilter" class="form-select form-select-sm fs-7 w-auto">
                                 <option value="newest">Sort: Newest</option>
                                 <option value="oldest">Sort: Oldest</option>
                                 <option value="title">Sort: Title A-Z</option>
                             </select>
+                            <a href="TrackingVersion.php" class="btn btn-sm btn-outline-danger rounded-3 d-flex align-items-center gap-1.5 fs-7">
+                                <i class="fa-solid fa-timeline"></i> Track Versioning
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -130,96 +133,26 @@ $basePath = '../../';
                             <thead class="table-light fs-8 text-uppercase text-muted fw-bold">
                                 <tr>
                                     <th class="ps-4" style="width: 40px;">
-                                        <input class="form-check-input" type="checkbox">
+                                        <input class="form-check-input" type="checkbox" id="selectAllDocs">
                                     </th>
-                                    <th>Blueprint & File Name</th>
-                                    <th>Version</th>
-                                    <th>Author</th>
-                                    <th>File Size</th>
-                                    <th>Upload Date</th>
-                                    <th>Status</th>
-                                    <th class="pe-4 text-end">Action</th>
+                                    <th><i class="fa-solid fa-cubes-stacked text-purple me-1.5 opacity-75" style="color: #7c3aed;"></i> Blueprint & File Name</th>
+                                    <th><i class="fa-solid fa-code-branch text-indigo me-1.5 opacity-75"></i> Version</th>
+                                    <th><i class="fa-regular fa-user text-secondary me-1.5 opacity-75"></i> Author</th>
+                                    <th><i class="fa-solid fa-hard-drive text-secondary me-1.5 opacity-75"></i> File Size</th>
+                                    <th><i class="fa-regular fa-clock text-secondary me-1.5 opacity-75"></i> Last Updated</th>
+                                    <th><i class="fa-solid fa-shield-halved text-secondary me-1.5 opacity-75"></i> Status</th>
+                                    <th class="pe-4 text-end"><i class="fa-solid fa-sliders text-secondary me-1.5 opacity-75"></i> Action</th>
                                 </tr>
                             </thead>
                             <tbody class="fs-7">
-                                <tr>
-                                    <td class="ps-4">
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-3">
-                                            <div class="p-2.5 bg-danger-subtle text-danger rounded-3 d-flex align-items-center justify-content-center">
-                                                <i class="fa-solid fa-map-location-dot fs-5"></i>
-                                            </div>
-                                            <div>
-                                                <span class="fw-bold text-dark d-block">System High-Level Architecture</span>
-                                                <span class="text-muted fs-8">Architecture_Diagram.pdf</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-light text-dark border">v3.0</span></td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" alt="Daniel Johnson" class="avatar-sm rounded-circle">
-                                            <span class="fw-semibold text-dark">Daniel Johnson</span>
-                                        </div>
-                                    </td>
-                                    <td class="text-secondary">5.5 MB</td>
-                                    <td class="text-secondary">Aug 28, 2026</td>
-                                    <td>
-                                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-2.5 py-1">Finalized</span>
-                                    </td>
-                                    <td class="pe-4 text-end">
-                                        <div class="btn-group btn-group-sm">
-                                            <button class="btn btn-light border" title="Preview"><i class="fa-regular fa-eye"></i></button>
-                                            <button class="btn btn-light border" title="Download"><i class="fa-solid fa-download"></i></button>
-                                            <button class="btn btn-light text-danger border" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="ps-4">
-                                        <input class="form-check-input" type="checkbox">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-3">
-                                            <div class="p-2.5 bg-danger-subtle text-danger rounded-3 d-flex align-items-center justify-content-center">
-                                                <i class="fa-solid fa-cloud fs-5"></i>
-                                            </div>
-                                            <div>
-                                                <span class="fw-bold text-dark d-block">AWS Cloud Infrastructure & VPC Topology</span>
-                                                <span class="text-muted fs-8">AWS_Cloud_Infrastructure_VPC.drawio</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-light text-dark border">v1.2</span></td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt="James Wilson" class="avatar-sm rounded-circle">
-                                            <span class="fw-semibold text-dark">James Wilson</span>
-                                        </div>
-                                    </td>
-                                    <td class="text-secondary">2.2 MB</td>
-                                    <td class="text-secondary">Sep 05, 2026</td>
-                                    <td>
-                                        <span class="badge bg-info bg-opacity-10 text-info border border-info px-2.5 py-1">Draft</span>
-                                    </td>
-                                    <td class="pe-4 text-end">
-                                        <div class="btn-group btn-group-sm">
-                                            <button class="btn btn-light border" title="Preview"><i class="fa-regular fa-eye"></i></button>
-                                            <button class="btn btn-light border" title="Download"><i class="fa-solid fa-download"></i></button>
-                                            <button class="btn btn-light text-danger border" title="Delete"><i class="fa-solid fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- Populated dynamically by DocTracker.initDocListPage('Blueprint') -->
                             </tbody>
                         </table>
                     </div>
 
                     <!-- Table Footer Pagination -->
                     <div class="card-footer bg-white border-top p-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
-                        <span class="text-muted fs-7">Showing <strong>1-2</strong> of <strong>2</strong> Blueprints</span>
+                        <span class="text-muted fs-7" id="showingDocCount">Showing <strong>0</strong> Blueprints</span>
                         <ul class="pagination pagination-sm mb-0">
                             <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                             <li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -243,25 +176,29 @@ $basePath = '../../';
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label fs-7 fw-semibold">Blueprint Title *</label>
-                            <input type="text" class="form-control fs-7" placeholder="e.g. Microservice Architecture" required>
+                            <input type="text" class="form-control fs-7" placeholder="e.g. Microservice Architecture Blueprint" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fs-7 fw-semibold">Upload File (Draw.io, PDF, PNG, SVG) *</label>
-                            <input type="file" class="form-control fs-7" required>
+                            <input type="file" class="form-control fs-7">
                         </div>
                         <div class="row g-3 mb-3">
                             <div class="col-6">
-                                <label class="form-label fs-7 fw-semibold">Version</label>
-                                <input type="text" class="form-control fs-7" placeholder="v1.0" value="v1.0">
+                                <label class="form-label fs-7 fw-semibold">Initial Version</label>
+                                <input type="text" class="form-control fs-7" placeholder="v1.0" value="v1.0.0">
                             </div>
                             <div class="col-6">
                                 <label class="form-label fs-7 fw-semibold">Status</label>
                                 <select class="form-select fs-7">
-                                    <option value="finalized">Finalized</option>
+                                    <option value="approved">Approved</option>
                                     <option value="review" selected>In Review</option>
                                     <option value="draft">Draft</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fs-7 fw-semibold">Description / Topology Scope Summary</label>
+                            <textarea class="form-control fs-7" rows="3" placeholder="Add infrastructure and cloud topology summary..."></textarea>
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-0">
@@ -279,6 +216,13 @@ $basePath = '../../';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Application Script -->
     <script src="../../assets/js/app.js"></script>
+    <!-- Centralized Document & Tracking Versioning Script -->
+    <script src="../../assets/js/doc-tracker.js"></script>
+    <script>
+        $(document).ready(function () {
+            window.initDocListPage('Blueprint');
+        });
+    </script>
 </body>
 
 </html>

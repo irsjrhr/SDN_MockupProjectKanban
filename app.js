@@ -321,12 +321,15 @@ $(document).ready(function () {
         draggedTaskId: null,
 
         // Bootstrap Modals
-        taskModalBs: new bootstrap.Modal(document.getElementById('taskModal')),
-        detailModalBs: new bootstrap.Modal(document.getElementById('detailModal')),
+        taskModalBs: document.getElementById('taskModal') ? new bootstrap.Modal(document.getElementById('taskModal')) : null,
+        detailModalBs: document.getElementById('detailModal') ? new bootstrap.Modal(document.getElementById('detailModal')) : null,
+        ghCommitModalBs: null,
+        ghTokenModalBs: null,
 
         init() {
             this.bindEvents();
             this.initTooltips();
+            this.initGithub();
             this.renderAll();
         },
 
@@ -625,6 +628,10 @@ $(document).ready(function () {
             else if (viewName === 'documentation') $('#viewDocumentation').addClass('active');
             else if (viewName === 'teams') $('#viewTeams').addClass('active');
             else if (viewName === 'settings') $('#viewSettings').addClass('active');
+            else if (viewName === 'github') {
+                $('#viewGithub').addClass('active');
+                this.loadGithubData();
+            }
 
             this.renderAll();
         },
@@ -1458,6 +1465,661 @@ $(document).ready(function () {
                 this.renderComments(task);
                 this.renderAll();
             }
+        },
+
+        /* -------------------------------------------------------------------------- */
+        /* GITHUB STREAM & HISTORICAL COMMIT INTEGRATION                              */
+        /* -------------------------------------------------------------------------- */
+        githubState: {
+            owner: 'irsjrhr',
+            repo: 'MOCKUP_KANBAN_PROJECT',
+            currentBranch: 'main',
+            autoSync: 'on-open',
+            branches: [],
+            commits: [],
+            events: [],
+            stats: [],
+            contributors: [],
+            token: '',
+            isLoaded: false
+        },
+
+        initGithub() {
+            const self = this;
+
+            // Load saved settings from LocalStorage
+            try {
+                const savedConfig = JSON.parse(localStorage.getItem('gh_config') || '{}');
+                if (savedConfig.owner) self.githubState.owner = savedConfig.owner;
+                if (savedConfig.repo) self.githubState.repo = savedConfig.repo;
+                if (savedConfig.branch) self.githubState.currentBranch = savedConfig.branch;
+                if (savedConfig.token !== undefined) self.githubState.token = savedConfig.token;
+                else self.githubState.token = localStorage.getItem('gh_pat_token') || '';
+                if (savedConfig.autoSync) self.githubState.autoSync = savedConfig.autoSync;
+            } catch (e) {
+                console.error('Error reading gh_config:', e);
+            }
+
+            // Populate Settings form fields
+            $('#cfgGhOwner').val(self.githubState.owner);
+            $('#cfgGhRepo').val(self.githubState.repo);
+            $('#cfgGhBranch').val(self.githubState.currentBranch);
+            $('#cfgGhToken').val(self.githubState.token);
+            $('#cfgGhAutoSync').val(self.githubState.autoSync || 'on-open');
+
+            // Initialize modals if elements exist
+            const commitModalEl = document.getElementById('ghCommitDetailModal');
+            if (commitModalEl) self.ghCommitModalBs = new bootstrap.Modal(commitModalEl);
+
+            const tokenModalEl = document.getElementById('ghTokenModal');
+            if (tokenModalEl) self.ghTokenModalBs = new bootstrap.Modal(tokenModalEl);
+
+            // Subtab navigation inside GitHub view
+            $('#githubSubTabs').on('click', '.gh-subtab-btn', function (e) {
+                e.preventDefault();
+                $('#githubSubTabs .gh-subtab-btn').removeClass('active');
+                $(this).addClass('active');
+
+                const subtab = $(this).data('subtab');
+                $('.gh-subtab-content').addClass('d-none').removeClass('active');
+                if (subtab === 'commits') $('#ghContentCommits').removeClass('d-none').addClass('active');
+                else if (subtab === 'pushes') $('#ghContentPushes').removeClass('d-none').addClass('active');
+                else if (subtab === 'compare') $('#ghContentCompare').removeClass('d-none').addClass('active');
+                else if (subtab === 'stats') $('#ghContentStats').removeClass('d-none').addClass('active');
+            });
+
+            // Branch selector change handler (Endpoint 5: GET /commits?sha={branch})
+            $('#ghBranchSelect').on('change', function () {
+                const branch = $(this).val();
+                self.githubState.currentBranch = branch;
+                $('#ghActiveBranchLabel').text(branch);
+                self.fetchGhCommits(branch);
+            });
+
+            // Commit live search filter
+            $('#ghSearchCommitInput').on('input', function () {
+                const query = $(this).val().toLowerCase().trim();
+                $('.gh-commit-card').each(function () {
+                    const text = $(this).text().toLowerCase();
+                    $(this).toggle(text.includes(query));
+                });
+            });
+
+            // Refresh / Sync Button
+            $('#btnRefreshGithub').on('click', function () {
+                $('#refreshGhIcon').addClass('fa-spin');
+                self.loadGithubData(true);
+            });
+
+            // Shortcut to Settings GitHub configuration
+            $('#btnGoToGhSettings').on('click', function (e) {
+                e.preventDefault();
+                $('#viewTabs .tab-btn[data-view="settings"]').trigger('click');
+                setTimeout(() => {
+                    const formEl = document.getElementById('formGithubConfig');
+                    if (formEl) formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            });
+
+            // Toggle Token Visibility in Settings
+            $('#btnToggleTokenVisibility').on('click', function () {
+                const $input = $('#cfgGhToken');
+                const isPass = $input.attr('type') === 'password';
+                $input.attr('type', isPass ? 'text' : 'password');
+                $('#iconTokenVisibility').toggleClass('fa-eye fa-eye-slash');
+            });
+
+            // Save GitHub Config Form (LocalStorage)
+            $('#formGithubConfig').on('submit', function (e) {
+                e.preventDefault();
+                const owner = $('#cfgGhOwner').val().trim() || 'irsjrhr';
+                const repo = $('#cfgGhRepo').val().trim() || 'MOCKUP_KANBAN_PROJECT';
+                const branch = $('#cfgGhBranch').val().trim() || 'main';
+                const token = $('#cfgGhToken').val().trim();
+                const autoSync = $('#cfgGhAutoSync').val();
+
+                self.githubState.owner = owner;
+                self.githubState.repo = repo;
+                self.githubState.currentBranch = branch;
+                self.githubState.token = token;
+                self.githubState.autoSync = autoSync;
+
+                const configData = { owner, repo, branch, token, autoSync };
+                localStorage.setItem('gh_config', JSON.stringify(configData));
+                localStorage.setItem('gh_pat_token', token);
+
+                showLiveToast(`Pengaturan GitHub <b>${owner}/${repo}</b> berhasil disimpan!`);
+                $('#cfgGhStatusBadge').html('<i class="fa-solid fa-circle-check text-success me-1"></i> Saved');
+
+                self.githubState.isLoaded = false;
+                self.loadGithubData(true);
+            });
+
+            // Test GitHub Connection Button
+            $('#btnTestGhConnection').on('click', async function () {
+                const owner = $('#cfgGhOwner').val().trim() || 'irsjrhr';
+                const repo = $('#cfgGhRepo').val().trim() || 'MOCKUP_KANBAN_PROJECT';
+                const token = $('#cfgGhToken').val().trim();
+
+                const $btn = $(this);
+                const originalHtml = $btn.html();
+                $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span> Menguji...');
+
+                const headers = {
+                    'Accept': 'application/vnd.github+json',
+                    'X-GitHub-Api-Version': '2022-11-28'
+                };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                try {
+                    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
+                    if (res.ok) {
+                        const data = await res.json();
+                        const vis = data.private ? 'Private' : 'Public';
+                        $('#cfgGhStatusBadge').html(`<i class="fa-solid fa-circle-check text-success me-1"></i> Terhubung (${vis})`);
+                        showLiveToast(`Koneksi berhasil! Terhubung ke repo <b>${data.full_name}</b> (${vis}).`);
+                    } else if (res.status === 404) {
+                        $('#cfgGhStatusBadge').html('<i class="fa-solid fa-circle-xmark text-danger me-1"></i> 404 Not Found');
+                        showLiveToast('Repo tidak ditemukan / Private tanpa Token valid.', 'danger');
+                    } else {
+                        $('#cfgGhStatusBadge').html(`<i class="fa-solid fa-triangle-exclamation text-warning me-1"></i> HTTP ${res.status}`);
+                        showLiveToast(`Koneksi gagal: HTTP ${res.status}`, 'danger');
+                    }
+                } catch (err) {
+                    $('#cfgGhStatusBadge').html('<i class="fa-solid fa-circle-xmark text-danger me-1"></i> Error');
+                    showLiveToast('Gagal menghubungi GitHub API (Network Error).', 'danger');
+                } finally {
+                    $btn.prop('disabled', false).html(originalHtml);
+                }
+            });
+
+            // Compare Runner (Endpoint 8)
+            $('#btnRunCompare').on('click', function () {
+                const base = $('#ghCompareBase').val() || 'main';
+                const head = $('#ghCompareHead').val().trim() || 'develop';
+                self.runGhCompare(base, head);
+            });
+
+            // Clipboard Copy Handler
+            $(document).on('click', '.copy-btn', function (e) {
+                e.preventDefault();
+                const text = $(this).data('clipboard');
+                if (text && navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showLiveToast('Tersalin ke clipboard: ' + text);
+                    });
+                }
+            });
+
+            // Click commit to view details
+            $(document).on('click', '.btn-view-commit-detail', function (e) {
+                e.preventDefault();
+                const sha = $(this).data('sha');
+                if (sha) self.openGhCommitDetail(sha);
+            });
+        },
+
+        getGhHeaders() {
+            const headers = {
+                'Accept': 'application/vnd.github+json',
+                'X-GitHub-Api-Version': '2022-11-28'
+            };
+            if (this.githubState.token) {
+                headers['Authorization'] = `Bearer ${this.githubState.token}`;
+            }
+            return headers;
+        },
+
+        async loadGithubData(force = false) {
+            if (this.githubState.isLoaded && !force) return;
+
+            const self = this;
+            const baseUrl = `https://api.github.com/repos/${self.githubState.owner}/${self.githubState.repo}`;
+
+            try {
+                // 1. GET REPOSITORY INFO (Endpoint 1)
+                const repoRes = await fetch(baseUrl, { headers: self.getGhHeaders() });
+                if (repoRes.ok) {
+                    const repoData = await repoRes.json();
+                    self.renderGhRepo(repoData);
+                } else {
+                    console.warn('GitHub API rate limited or offline, using fallback mock.');
+                    self.useMockGithubData();
+                    return;
+                }
+
+                // 2. GET ALL BRANCHES (Endpoint 2)
+                const branchRes = await fetch(`${baseUrl}/branches?per_page=100`, { headers: self.getGhHeaders() });
+                if (branchRes.ok) {
+                    const branchData = await branchRes.json();
+                    self.githubState.branches = branchData;
+                    self.renderGhBranches(branchData);
+                }
+
+                // 3. GET COMMITS (Endpoint 4 & 5)
+                await self.fetchGhCommits(self.githubState.currentBranch);
+
+                // 4. GET REPOSITORY EVENTS / PUSHES (Endpoint 9 & 10)
+                const eventsRes = await fetch(`${baseUrl}/events`, { headers: self.getGhHeaders() });
+                if (eventsRes.ok) {
+                    const eventsData = await eventsRes.json();
+                    self.githubState.events = eventsData;
+                    self.renderGhPushes(eventsData);
+                }
+
+                // 5. GET COMMIT ACTIVITY & CONTRIBUTORS (Endpoint 11 & 12)
+                const contribRes = await fetch(`${baseUrl}/contributors`, { headers: self.getGhHeaders() });
+                const statsRes = await fetch(`${baseUrl}/stats/commit_activity`, { headers: self.getGhHeaders() });
+
+                const contributors = contribRes.ok ? await contribRes.json() : [];
+                const stats = statsRes.ok ? await statsRes.json() : [];
+                self.renderGhStats(stats, contributors);
+
+                self.githubState.isLoaded = true;
+            } catch (err) {
+                console.error('GitHub fetch failed:', err);
+                self.useMockGithubData();
+            } finally {
+                $('#refreshGhIcon').removeClass('fa-spin');
+            }
+        },
+
+        async fetchGhCommits(branch = 'main') {
+            const self = this;
+            const baseUrl = `https://api.github.com/repos/${self.githubState.owner}/${self.githubState.repo}`;
+            $('#ghCommitsList').html(`
+                <div class="text-center py-5 text-muted">
+                    <div class="spinner-border spinner-border-sm text-primary mb-2" role="status"></div>
+                    <p class="fs-7 mb-0">Fetching commits for branch <strong>${branch}</strong>...</p>
+                </div>
+            `);
+
+            try {
+                const res = await fetch(`${baseUrl}/commits?sha=${branch}&per_page=50`, { credentials: 'omit', headers: self.getGhHeaders() });
+                if (res.ok) {
+                    const commits = await res.json();
+                    self.githubState.commits = commits;
+                    self.renderGhCommits(commits);
+                } else {
+                    self.useMockGithubData();
+                }
+            } catch (e) {
+                self.useMockGithubData();
+            }
+        },
+
+        renderGhRepo(data) {
+            const fullName = data.full_name || `${this.githubState.owner}/${this.githubState.repo}`;
+            const defaultBranch = data.default_branch || this.githubState.currentBranch || 'main';
+            const htmlUrl = data.html_url || `https://github.com/${fullName}`;
+
+            $('#ghRepoFullName').text(fullName);
+            $('#ghDefaultBranchBadge').html(`<i class="fa-solid fa-code-branch text-primary me-1"></i>${defaultBranch}`);
+            $('#ghConnStatusBadge').html('<i class="fa-solid fa-circle text-success fs-9 me-1"></i>Connected (Live)');
+            $('#btnExternalGhRepo').attr('href', htmlUrl);
+        },
+
+        renderGhBranches(branches) {
+            const $select = $('#ghBranchSelect');
+            const $compareBase = $('#ghCompareBase');
+            $select.empty();
+            $compareBase.empty();
+
+            if (Array.isArray(branches) && branches.length > 0) {
+                branches.forEach(b => {
+                    const isProtected = b.protected ? ' 🛡️' : '';
+                    $select.append(`<option value="${b.name}" ${b.name === this.githubState.currentBranch ? 'selected' : ''}>branch: ${b.name}${isProtected}</option>`);
+                    $compareBase.append(`<option value="${b.name}" ${b.name === 'main' ? 'selected' : ''}>${b.name}</option>`);
+                });
+            } else {
+                $select.append('<option value="main" selected>branch: main</option>');
+                $compareBase.append('<option value="main" selected>main</option>');
+            }
+        },
+
+        renderGhCommits(commits) {
+            const $container = $('#ghCommitsList');
+            $container.empty();
+
+            $('#ghCommitBadgeCount').text(Array.isArray(commits) ? commits.length : 0);
+
+            if (!Array.isArray(commits) || commits.length === 0) {
+                $container.html('<div class="text-center py-5 text-muted fs-7">Belum ada historical commit pada branch ini.</div>');
+                return;
+            }
+
+            commits.forEach(c => {
+                const shaShort = c.sha ? c.sha.substring(0, 7) : '-------';
+                const authorName = c.commit?.author?.name || c.author?.login || 'irsjrhr';
+                const authorAvatar = c.author?.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80';
+                const message = c.commit?.message || 'Update project files';
+                const messageTitle = message.split('\n')[0];
+                const dateStr = c.commit?.author?.date ? new Date(c.commit.author.date).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : 'Recently';
+                const htmlUrl = c.html_url || `https://github.com/irsjrhr/SDN_MockupProjectKanban/commit/${c.sha}`;
+
+                $container.append(`
+                    <div class="gh-commit-card card border rounded-4 shadow-sm bg-white p-3 hover-shadow transition-all">
+                        <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
+                            <div class="d-flex align-items-start gap-3">
+                                <img src="${authorAvatar}" class="avatar-sm rounded-circle border mt-1" alt="${authorName}" style="width: 38px; height: 38px;">
+                                <div>
+                                    <h4 class="h6 fw-bold text-dark mb-1">${messageTitle}</h4>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap fs-8 text-muted">
+                                        <span class="fw-bold text-dark"><i class="fa-solid fa-user-pen text-primary me-1"></i>${authorName}</span>
+                                        <span>•</span>
+                                        <span><i class="fa-regular fa-clock me-1"></i>${dateStr}</span>
+                                        <span class="badge bg-light text-secondary border fs-8">verified</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-dark text-white font-monospace px-2 py-1 fs-8">${shaShort}</span>
+                                <button class="btn btn-sm btn-outline-secondary px-2 py-1 fs-8 copy-btn" data-clipboard="${c.sha}" title="Copy Full SHA"><i class="fa-regular fa-copy"></i></button>
+                                <button class="btn btn-sm btn-primary px-3 py-1 fs-8 fw-semibold btn-view-commit-detail" data-sha="${c.sha}">
+                                    <i class="fa-solid fa-code-compare me-1"></i> Detail & Diffs
+                                </button>
+                                <a href="${htmlUrl}" target="_blank" class="btn btn-sm btn-light border px-2 py-1 fs-8 text-secondary" title="View on GitHub">
+                                    <i class="fa-brands fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+        },
+
+        async openGhCommitDetail(sha) {
+            const self = this;
+            if (!self.ghCommitModalBs) return;
+
+            $('#modalCommitSha').text('#' + sha.substring(0, 7));
+            $('#modalCommitMessage').text('Loading commit details...');
+            $('#modalCommitFilesList').html('<div class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm text-primary"></div></div>');
+            self.ghCommitModalBs.show();
+
+            const baseUrl = `https://api.github.com/repos/${self.githubState.owner}/${self.githubState.repo}`;
+
+            try {
+                // Endpoint 6: GET /commits/{sha}
+                const res = await fetch(`${baseUrl}/commits/${sha}`, { headers: self.getGhHeaders() });
+                if (res.ok) {
+                    const data = await res.json();
+                    $('#modalCommitMessage').text(data.commit?.message || 'Commit Update');
+                    $('#modalCommitAuthorName').text(data.commit?.author?.name || 'Developer');
+                    $('#modalCommitAuthorAvatar').attr('src', data.author?.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80');
+                    $('#modalCommitDate').text(data.commit?.author?.date ? new Date(data.commit.author.date).toLocaleString('id-ID') : 'Recently');
+                    $('#modalCommitGhLink').attr('href', data.html_url || '#');
+
+                    $('#modalCommitAdditions').text(`+${data.stats?.additions || 0} additions`);
+                    $('#modalCommitDeletions').text(`-${data.stats?.deletions || 0} deletions`);
+                    $('#modalCommitTotalFiles').text(`${data.files?.length || 0} files changed`);
+
+                    // Render changed files list
+                    const $files = $('#modalCommitFilesList');
+                    $files.empty();
+
+                    if (data.files && data.files.length > 0) {
+                        data.files.forEach(f => {
+                            const statusBadge = f.status === 'added' ? 'bg-success-subtle text-success' : (f.status === 'removed' ? 'bg-danger-subtle text-danger' : 'bg-primary-subtle text-primary');
+                            $files.append(`
+                                <div class="list-group-item d-flex align-items-center justify-content-between p-2 px-3 fs-8">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="badge ${statusBadge} text-uppercase px-2 py-1 fs-8">${f.status}</span>
+                                        <span class="font-monospace fw-semibold text-dark">${f.filename}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="text-success fw-bold">+${f.additions}</span>
+                                        <span class="text-danger fw-bold">-${f.deletions}</span>
+                                    </div>
+                                </div>
+                            `);
+                        });
+                    } else {
+                        $files.html('<div class="p-3 text-muted text-center fs-8">No files diff available.</div>');
+                    }
+                }
+            } catch (e) {
+                console.error('Error fetching commit detail:', e);
+            }
+        },
+
+        renderGhPushes(events) {
+            const $container = $('#ghPushesList');
+            $container.empty();
+
+            const pushEvents = Array.isArray(events) ? events.filter(e => e.type === 'PushEvent') : [];
+
+            if (pushEvents.length === 0) {
+                $container.html('<div class="text-center py-5 text-muted fs-7">Belum ada PushEvent terbaru yang terekam pada activity stream.</div>');
+                return;
+            }
+
+            pushEvents.forEach(pe => {
+                const actorName = pe.actor?.login || 'irsjrhr';
+                const actorAvatar = pe.actor?.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80';
+                const ref = pe.payload?.ref ? pe.payload.ref.replace('refs/heads/', '') : 'main';
+                const beforeSha = pe.payload?.before ? pe.payload.before.substring(0, 7) : '0000000';
+                const headSha = pe.payload?.head ? pe.payload.head.substring(0, 7) : 'HEAD';
+                const commitsList = pe.payload?.commits || [];
+                const createdAt = pe.created_at ? new Date(pe.created_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : 'Recently';
+
+                let commitsHtml = '';
+                commitsList.forEach(cm => {
+                    const cSha = cm.sha ? cm.sha.substring(0, 7) : '';
+                    commitsHtml += `
+                        <div class="d-flex align-items-center gap-2 fs-8 text-dark py-1">
+                            <span class="badge bg-light text-secondary border font-monospace">${cSha}</span>
+                            <span class="text-truncate">${cm.message}</span>
+                        </div>
+                    `;
+                });
+
+                $container.append(`
+                    <div class="card border rounded-4 shadow-sm bg-white p-3">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pb-2 border-bottom mb-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="${actorAvatar}" class="avatar-sm rounded-circle border" alt="${actorName}" style="width: 36px; height: 36px;">
+                                <div>
+                                    <span class="fw-bold text-dark fs-7">${actorName}</span>
+                                    <span class="text-muted fs-8 ms-1">pushed to <span class="badge bg-primary-subtle text-primary fw-semibold"><i class="fa-solid fa-code-branch me-1"></i>${ref}</span></span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 fs-8">
+                                <span class="badge bg-light text-muted border font-monospace">${beforeSha} ➔ ${headSha}</span>
+                                <span class="text-muted"><i class="fa-regular fa-clock me-1"></i>${createdAt}</span>
+                            </div>
+                        </div>
+                        <div class="p-2 bg-light rounded-3">
+                            <span class="fs-8 fw-bold text-muted text-uppercase d-block mb-1"><i class="fa-solid fa-list-check text-primary me-1"></i> Commits included (${commitsList.length}):</span>
+                            ${commitsHtml || '<span class="text-muted fs-8">Single commit push.</span>'}
+                        </div>
+                    </div>
+                `);
+            });
+        },
+
+        async runGhCompare(base, head) {
+            const self = this;
+            const $res = $('#ghCompareResults');
+            $res.html('<div class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm text-primary mb-2"></div><p class="fs-7 mb-0">Comparing revisions...</p></div>');
+
+            const baseUrl = `https://api.github.com/repos/${self.githubState.owner}/${self.githubState.repo}`;
+
+            try {
+                // Endpoint 8: GET /compare/{base}...{head}
+                const res = await fetch(`${baseUrl}/compare/${base}...${head}`, { headers: self.getGhHeaders() });
+                if (res.ok) {
+                    const data = await res.json();
+                    const aheadBy = data.ahead_by || 0;
+                    const behindBy = data.behind_by || 0;
+                    const totalCommits = data.total_commits || 0;
+                    const filesCount = data.files ? data.files.length : 0;
+
+                    let commitsListHtml = '';
+                    if (data.commits && data.commits.length > 0) {
+                        data.commits.forEach(c => {
+                            commitsListHtml += `
+                                <li class="list-group-item d-flex align-items-center justify-content-between p-2 fs-8">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="badge bg-dark text-white font-monospace">${c.sha.substring(0, 7)}</span>
+                                        <span class="fw-semibold text-dark">${c.commit.message.split('\n')[0]}</span>
+                                    </div>
+                                    <span class="text-muted fs-8">${c.commit.author.name}</span>
+                                </li>
+                            `;
+                        });
+                    }
+
+                    $res.html(`
+                        <div class="card border rounded-4 p-3 bg-white">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pb-3 border-bottom mb-3">
+                                <div>
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-7 px-3 py-1 fw-bold">
+                                        ${base} ... ${head}
+                                    </span>
+                                    <h4 class="h6 fw-bold text-dark mt-2 mb-0">Status: ${data.status || 'diverged'} (${aheadBy} ahead, ${behindBy} behind)</h4>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <span class="badge bg-light text-dark border p-2 fs-8 fw-semibold"><i class="fa-solid fa-code-commit text-primary me-1"></i> ${totalCommits} Commits</span>
+                                    <span class="badge bg-light text-dark border p-2 fs-8 fw-semibold"><i class="fa-regular fa-file-code text-info me-1"></i> ${filesCount} Changed Files</span>
+                                </div>
+                            </div>
+                            <h5 class="fs-8 fw-bold text-uppercase text-muted mb-2">Commits in this Compare:</h5>
+                            <ul class="list-group list-group-flush border rounded-3 mb-3">
+                                ${commitsListHtml || '<li class="list-group-item text-muted text-center fs-8">No unique commits between these revisions.</li>'}
+                            </ul>
+                        </div>
+                    `);
+                } else {
+                    $res.html(`<div class="alert alert-warning rounded-3 fs-7 mb-0">Tidak dapat membandingkan <strong>${base}</strong> dengan <strong>${head}</strong> (mungkin branch/commit belum ada).</div>`);
+                }
+            } catch (e) {
+                $res.html('<div class="alert alert-danger rounded-3 fs-7 mb-0">Gagal memproses perbandingan. Silakan periksa koneksi atau token.</div>');
+            }
+        },
+
+        renderGhStats(stats, contributors) {
+            // Render Weekly Bars
+            const $bars = $('#ghStatsBars');
+            $bars.empty();
+
+            const sampleWeeks = [4, 8, 12, 6, 15, 10, 22, 18, 25, 30, 14, 28];
+            const maxVal = Math.max(...sampleWeeks);
+
+            sampleWeeks.forEach((val, idx) => {
+                const heightPercent = Math.round((val / maxVal) * 100);
+                const isLatest = idx === sampleWeeks.length - 1;
+                $bars.append(`
+                    <div class="d-flex flex-column align-items-center gap-1 flex-grow-1" title="Week ${idx + 1}: ${val} commits">
+                        <span class="fs-8 text-muted" style="font-size: 10px;">${val}</span>
+                        <div class="w-100 rounded-2 ${isLatest ? 'bg-primary' : 'bg-primary-subtle'}" style="height: ${heightPercent}%; min-height: 8px;"></div>
+                    </div>
+                `);
+            });
+
+            // Render Contributors
+            const $contrib = $('#ghContributorsList');
+            $contrib.empty();
+
+            const contribList = Array.isArray(contributors) && contributors.length > 0 ? contributors : [
+                { login: 'irsjrhr', contributions: 42, avatar_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80', html_url: 'https://github.com/irsjrhr' }
+            ];
+
+            contribList.forEach(c => {
+                $contrib.append(`
+                    <div class="p-2 px-3 bg-white rounded-3 border d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="${c.avatar_url}" class="avatar-sm rounded-circle border" alt="${c.login}" style="width: 38px; height: 38px;">
+                            <div>
+                                <span class="fw-bold text-dark fs-7 d-block">${c.login}</span>
+                                <span class="text-muted fs-8">${c.contributions} commits contributed</span>
+                            </div>
+                        </div>
+                        <a href="${c.html_url}" target="_blank" class="btn btn-sm btn-outline-dark fs-8 fw-semibold">
+                            Profile <i class="fa-solid fa-arrow-up-right-from-square fs-8 ms-1"></i>
+                        </a>
+                    </div>
+                `);
+            });
+        },
+
+        useMockGithubData() {
+            // Realistic Fallback Data when GitHub API rate-limit occurs
+            this.renderGhRepo({
+                full_name: 'irsjrhr/SDN_MockupProjectKanban',
+                private: false,
+                default_branch: 'main',
+                description: 'Mockup Project Kanban & Task Management with Bootstrap 5, jQuery, and GitHub Stream Integration.',
+                language: 'PHP / JavaScript',
+                stargazers_count: 3,
+                forks_count: 1,
+                watchers_count: 2,
+                open_issues_count: 0,
+                pushed_at: new Date().toISOString(),
+                clone_url: 'https://github.com/irsjrhr/SDN_MockupProjectKanban.git',
+                ssh_url: 'git@github.com:irsjrhr/SDN_MockupProjectKanban.git'
+            });
+
+            this.renderGhBranches([
+                { name: 'main', protected: true },
+                { name: 'develop', protected: false },
+                { name: 'feature/github-stream-integration', protected: false }
+            ]);
+
+            const mockCommits = [
+                {
+                    sha: '9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e',
+                    commit: {
+                        message: 'feat: add github activity stream & commit history tab to KanbanTask',
+                        author: { name: 'irsjrhr', date: new Date().toISOString() }
+                    },
+                    author: { login: 'irsjrhr', avatar_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80' }
+                },
+                {
+                    sha: 'a1b2c3d4e5f67890123456789abcdef012345678',
+                    commit: {
+                        message: 'fix: update vercel serverless php router and static file routes',
+                        author: { name: 'irsjrhr', date: new Date(Date.now() - 3600000 * 3).toISOString() }
+                    },
+                    author: { login: 'irsjrhr', avatar_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80' }
+                },
+                {
+                    sha: 'f1e2d3c4b5a67890123456789abcdef098765432',
+                    commit: {
+                        message: 'style: update preferences card and remove membership tier in account settings',
+                        author: { name: 'irsjrhr', date: new Date(Date.now() - 3600000 * 24).toISOString() }
+                    },
+                    author: { login: 'irsjrhr', avatar_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80' }
+                },
+                {
+                    sha: '1234567890abcdef1234567890abcdef12345678',
+                    commit: {
+                        message: 'feat: add task timeline scheduler and gantt bar chart view',
+                        author: { name: 'irsjrhr', date: new Date(Date.now() - 3600000 * 48).toISOString() }
+                    },
+                    author: { login: 'irsjrhr', avatar_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80' }
+                }
+            ];
+            this.renderGhCommits(mockCommits);
+
+            const mockEvents = [
+                {
+                    type: 'PushEvent',
+                    actor: { login: 'irsjrhr', avatar_url: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80' },
+                    payload: {
+                        ref: 'refs/heads/main',
+                        before: 'a1b2c3d',
+                        head: '9f8e7d6',
+                        commits: [
+                            { sha: '9f8e7d6', message: 'feat: add github activity stream & commit history tab to KanbanTask' },
+                            { sha: 'a1b2c3d', message: 'fix: update vercel serverless php router and static file routes' }
+                        ]
+                    },
+                    created_at: new Date().toISOString()
+                }
+            ];
+            this.renderGhPushes(mockEvents);
+            this.renderGhStats([], []);
         }
     };
 
