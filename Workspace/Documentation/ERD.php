@@ -1,81 +1,16 @@
 <?php
+$pageTitle = 'ERD List - Documentation - Syncboard';
 $currentPage = 'erd';
 $currentModule = 'workspace';
 $basePath = '../../';
+$breadcrumbs = [
+    ['title' => 'Workspace', 'url' => '../KanbanProject.php'],
+    ['title' => 'Documentation', 'url' => '#'],
+    ['title' => 'ERD', 'url' => '']
+];
+include __DIR__ . '/../../layouts/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERD List - Documentation - Syncboard</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="../../assets/css/styles.css">
-</head>
-
-<body class="bg-main">
-    <div class="app-container d-flex">
-        <!-- Sidebar Navigation Component -->
-        <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
-
-        <!-- Main Content Area -->
-        <main class="main-content flex-grow-1 d-flex flex-column min-vh-100">
-            <!-- Top Header Navbar -->
-            <header class="top-navbar bg-white border-bottom px-4 d-flex align-items-center justify-content-between">
-                <div class="navbar-left d-flex align-items-center gap-3">
-                    <button class="btn btn-light d-md-none" id="sidebarToggleBtn">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb mb-0 fs-7">
-                            <li class="breadcrumb-item text-muted"><a href="../KanbanProject.php" class="text-muted text-decoration-none">Workspace</a></li>
-                            <li class="breadcrumb-item text-muted">Documentation</li>
-                            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">ERD</li>
-                        </ol>
-                    </nav>
-                </div>
-
-                <div class="navbar-right d-flex align-items-center gap-3">
-                    <button class="btn btn-light btn-nav-icon rounded-circle position-relative" title="Notifications">
-                        <i class="fa-regular fa-bell"></i>
-                        <span class="notification-dot position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1"></span>
-                    </button>
-                    <button class="btn btn-light btn-nav-icon rounded-circle" title="Messages">
-                        <i class="fa-regular fa-comment-dots"></i>
-                    </button>
-
-                    <div class="dropdown">
-                        <div class="user-profile-menu d-flex align-items-center gap-2 p-1 rounded-pill cursor-pointer" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Jenno Wilson" class="avatar-md rounded-circle">
-                            <div class="user-meta d-flex flex-column d-none d-sm-flex">
-                                <span class="user-name fw-bold fs-7 lh-1">Jenno Wilson</span>
-                                <span class="user-email text-muted fs-8">jeno.sonn@gmail.com</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-down text-muted fs-8 ms-1"></i>
-                        </div>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                            <li><a class="dropdown-menu-item dropdown-item fs-7" href="#"><i class="fa-regular fa-user me-2"></i> Profile</a></li>
-                            <li><a class="dropdown-menu-item dropdown-item fs-7" href="../Setting.php"><i class="fa-solid fa-gear me-2"></i> Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-menu-item dropdown-item text-danger fs-7" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </header>
 
             <!-- Page Header Banner -->
             <section class="project-header p-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
@@ -159,10 +94,7 @@ $basePath = '../../';
                             <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                         </ul>
                     </div>
-                </div>
             </div>
-        </main>
-    </div>
 
     <!-- Upload Document Modal -->
     <div class="modal fade" id="uploadDocModal" tabindex="-1" aria-hidden="true">
@@ -210,19 +142,8 @@ $basePath = '../../';
         </div>
     </div>
 
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- Bootstrap 5 Bundle JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Application Script -->
-    <script src="../../assets/js/app.js"></script>
-    <!-- Centralized Document & Tracking Versioning Script -->
-    <script src="../../assets/js/doc-tracker.js"></script>
-    <script>
-        $(document).ready(function () {
-            window.initDocListPage('ERD');
-        });
-    </script>
-</body>
+<?php
+$extraJs = "<script>$(document).ready(function () { window.initDocListPage('ERD'); });</script>";
+include __DIR__ . '/../../layouts/footer.php';
+?>
 
-</html>

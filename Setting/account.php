@@ -1,57 +1,15 @@
 <?php
+$pageTitle = 'Account Information - Settings - Syncboard';
 $currentPage = 'setting-account';
 $currentModule = 'setting';
 $basePath = '../';
+$breadcrumbs = [
+    ['title' => 'Settings', 'url' => 'general.php'],
+    ['title' => 'Account Information', 'url' => '']
+];
+include __DIR__ . '/../layouts/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Information - Settings - Syncboard</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="../assets/css/styles.css">
-</head>
-
-<body class="bg-main">
-    <div class="app-container d-flex">
-        <!-- Sidebar Navigation Component -->
-        <?php include __DIR__ . '/../layouts/sidebar.php'; ?>
-
-        <!-- Main Content Area -->
-        <main class="main-content flex-grow-1 d-flex flex-column min-vh-100">
-            <!-- Top Header Navbar -->
-            <header class="top-navbar bg-white border-bottom px-4 d-flex align-items-center justify-content-between">
-                <div class="navbar-left d-flex align-items-center gap-3">
-                    <button class="btn btn-light d-md-none" id="sidebarToggleBtn">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb mb-0 fs-7">
-                            <li class="breadcrumb-item text-muted"><a href="general.php" class="text-muted text-decoration-none">Settings</a></li>
-                            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Account Information</li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="navbar-right d-flex align-items-center gap-2">
-                    <button class="btn btn-outline-secondary fs-7 rounded-3 px-3" id="btnDiscardProfile">Discard</button>
-                    <button class="btn btn-primary fs-7 rounded-3 px-3 shadow-sm" id="btnSaveProfile"><i class="fa-solid fa-check me-1"></i> Save Changes</button>
-                </div>
-            </header>
 
             <!-- Page Header -->
             <section class="project-header p-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
@@ -302,10 +260,7 @@ $basePath = '../';
                         </div>
 
                     </div>
-                </div>
             </div>
-        </main>
-    </div>
 
     <!-- Toast Notification Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1090;">
@@ -320,12 +275,6 @@ $basePath = '../';
         </div>
     </div>
 
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- Bootstrap 5 Bundle JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Application Script -->
-    <script src="../assets/js/app.js"></script>
 
     <!-- Account Information Page Scripts -->
     <script>
@@ -418,6 +367,8 @@ $basePath = '../';
         });
     });
     </script>
-</body>
+<?php
+include __DIR__ . '/../layouts/footer.php';
+?>
 
-</html>
+

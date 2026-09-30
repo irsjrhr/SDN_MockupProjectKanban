@@ -1,154 +1,28 @@
 <?php
+$pageTitle = 'Documents Tracking Version - Documentation - Syncboard';
 $currentPage = 'tracking-version';
 $currentModule = 'workspace';
 $basePath = '../../';
+$breadcrumbs = [
+    ['title' => 'Workspace', 'url' => '../KanbanProject.php'],
+    ['title' => 'Documentation', 'url' => 'BRD.php'],
+    ['title' => 'Version Tracking', 'url' => '']
+];
+include __DIR__ . '/../../layouts/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    .font-mono { font-family: 'Fira Code', monospace; }
+    .timeline-version-tree { position: relative; padding-left: 28px; }
+    .timeline-version-tree::before { content: ''; position: absolute; top: 14px; bottom: 14px; left: 10px; width: 2px; background: #e2e8f0; }
+    .timeline-version-node { position: relative; margin-bottom: 24px; }
+    .timeline-version-node::before { content: ''; position: absolute; left: -24px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid var(--primary-color, #4f46e5); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); z-index: 1; }
+    .timeline-version-node.node-latest::before { background: #10b981; border-color: #059669; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); }
+    .doc-type-pill { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 6px; }
+    .card-doc-track { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid #e2e8f0; }
+    .card-doc-track:hover { border-color: #cbd5e1; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03); transform: translateY(-2px); }
+    .changelog-box { background-color: #f8fafc; border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 6px; }
+</style>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documents Tracking Version - Documentation - Syncboard</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="../../assets/css/styles.css">
-
-    <style>
-        .font-mono {
-            font-family: 'Fira Code', monospace;
-        }
-
-        .timeline-version-tree {
-            position: relative;
-            padding-left: 28px;
-        }
-
-        .timeline-version-tree::before {
-            content: '';
-            position: absolute;
-            top: 14px;
-            bottom: 14px;
-            left: 10px;
-            width: 2px;
-            background: #e2e8f0;
-        }
-
-        .timeline-version-node {
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-        .timeline-version-node::before {
-            content: '';
-            position: absolute;
-            left: -24px;
-            top: 6px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #fff;
-            border: 3px solid var(--primary-color, #4f46e5);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-            z-index: 1;
-        }
-
-        .timeline-version-node.node-latest::before {
-            background: #10b981;
-            border-color: #059669;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
-        }
-
-        .doc-type-pill {
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 3px 8px;
-            border-radius: 6px;
-        }
-
-        .card-doc-track {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid #e2e8f0;
-        }
-
-        .card-doc-track:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-            transform: translateY(-2px);
-        }
-
-        .changelog-box {
-            background-color: #f8fafc;
-            border-left: 3px solid #6366f1;
-            padding: 10px 14px;
-            border-radius: 6px;
-        }
-    </style>
-</head>
-
-<body class="bg-main">
-    <div class="app-container d-flex">
-        <!-- Sidebar Navigation Component -->
-        <?php include __DIR__ . '/../../layouts/sidebar.php'; ?>
-
-        <!-- Main Content Area -->
-        <main class="main-content flex-grow-1 d-flex flex-column min-vh-100">
-            <!-- Top Header Navbar -->
-            <header class="top-navbar bg-white border-bottom px-4 d-flex align-items-center justify-content-between">
-                <div class="navbar-left d-flex align-items-center gap-3">
-                    <button class="btn btn-light d-md-none" id="sidebarToggleBtn">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb mb-0 fs-7">
-                            <li class="breadcrumb-item text-muted"><a href="../KanbanProject.php" class="text-muted text-decoration-none">Workspace</a></li>
-                            <li class="breadcrumb-item text-muted"><a href="BRD.php" class="text-muted text-decoration-none">Documentation</a></li>
-                            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Version Tracking</li>
-                        </ol>
-                    </nav>
-                </div>
-
-                <div class="navbar-right d-flex align-items-center gap-3">
-                    <button class="btn btn-light btn-nav-icon rounded-circle position-relative" title="Notifications">
-                        <i class="fa-regular fa-bell"></i>
-                        <span class="notification-dot position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1"></span>
-                    </button>
-                    <button class="btn btn-light btn-nav-icon rounded-circle" title="Messages">
-                        <i class="fa-regular fa-comment-dots"></i>
-                    </button>
-
-                    <div class="dropdown">
-                        <div class="user-profile-menu d-flex align-items-center gap-2 p-1 rounded-pill cursor-pointer" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Jenno Wilson" class="avatar-md rounded-circle">
-                            <div class="user-meta d-flex flex-column d-none d-sm-flex">
-                                <span class="user-name fw-bold fs-7 lh-1">Jenno Wilson</span>
-                                <span class="user-email text-muted fs-8">jeno.sonn@gmail.com</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-down text-muted fs-8 ms-1"></i>
-                        </div>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                            <li><a class="dropdown-menu-item dropdown-item fs-7" href="../../Setting/account.php"><i class="fa-regular fa-user me-2"></i> Account Info</a></li>
-                            <li><a class="dropdown-menu-item dropdown-item fs-7" href="../../Setting/account-security.php"><i class="fa-solid fa-shield-halved me-2"></i> Security</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-menu-item dropdown-item text-danger fs-7" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </header>
 
             <!-- Page Header Banner -->
             <section class="project-header p-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
@@ -299,10 +173,7 @@ $basePath = '../../';
                         </div>
                     </div>
                 </div>
-
             </div>
-        </main>
-    </div>
 
     <!-- MODAL 1: RELEASE NEW VERSION -->
     <div class="modal fade" id="modalNewVersion" tabindex="-1" aria-labelledby="modalNewVersionLabel" aria-hidden="true">
@@ -496,16 +367,8 @@ $basePath = '../../';
         </div>
     </div>
 
-    <!-- jQuery 3.7.1 -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Application Script -->
-    <script src="../../assets/js/app.js"></script>
-    <!-- Centralized Document & Tracking Versioning Store -->
-    <script src="../../assets/js/doc-tracker.js"></script>
-
     <script>
+
         /* Helper Badge Colors */
         function getTypeBadgeClass(type) {
             switch (type) {
@@ -909,10 +772,10 @@ $basePath = '../../';
             $('#btnConfirmRollback').on('click', function () {
                 const targetVer = $('#rollbackTargetVer').text();
                 $('#modalRollback').modal('hide');
-                showTrackToast(`Document restored to ${targetVer}. Version record updated.`);
-            });
         });
     </script>
-</body>
+<?php
+include __DIR__ . '/../../layouts/footer.php';
+?>
 
-</html>
+
