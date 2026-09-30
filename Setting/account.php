@@ -219,34 +219,6 @@ $basePath = '../';
                     <!-- Right Column: Account Status, Preferences & Linked Apps -->
                     <div class="col-12 col-xl-4">
 
-                        <!-- Membership & Role Summary -->
-                        <div class="card shadow-sm border rounded-4 bg-white p-4 mb-4">
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <div class="rounded-circle bg-primary-subtle text-primary p-3 d-flex align-items-center justify-content-center" style="width: 52px; height: 52px;">
-                                    <i class="fa-solid fa-crown fs-4"></i>
-                                </div>
-                                <div>
-                                    <span class="fs-8 text-uppercase fw-bold text-muted d-block">Membership Tier</span>
-                                    <h3 class="h6 fw-extrabold mb-0 text-dark">Enterprise Pro Member</h3>
-                                </div>
-                            </div>
-                            <p class="text-muted fs-8 mb-3">Akun Anda memiliki hak akses penuh Workspace Administrator, multi-project timeline editing, dan unlimited task kanbans.</p>
-                            
-                            <div class="p-3 bg-light rounded-3 mb-3">
-                                <div class="d-flex justify-content-between fs-8 mb-1">
-                                    <span class="fw-semibold text-dark">Cloud Storage Usage</span>
-                                    <span class="text-primary fw-bold">14.2 GB / 50 GB</span>
-                                </div>
-                                <div class="progress" style="height: 6px;">
-                                    <div class="progress-bar bg-primary" style="width: 28%;"></div>
-                                </div>
-                            </div>
-
-                            <button class="btn btn-outline-primary btn-sm w-100 rounded-3 fs-8 fw-semibold" onclick="showAccountToast('Paket langganan aktif hingga 31 Desember 2027')">
-                                <i class="fa-solid fa-receipt me-1"></i> Lihat Detail Billing & Paket
-                            </button>
-                        </div>
-
                         <!-- Preferences & Localization -->
                         <div class="card shadow-sm border rounded-4 bg-white p-4 mb-4">
                             <h3 class="h6 fw-bold mb-3 text-dark"><i class="fa-solid fa-sliders text-primary me-2"></i>Preferensi Akun</h3>

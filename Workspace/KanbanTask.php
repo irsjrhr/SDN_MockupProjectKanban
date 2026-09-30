@@ -115,7 +115,7 @@ $basePath = '../';
                         <i class="fa-solid fa-table-cells-large me-1"></i> Board & List
                     </button>
                     <button class="nav-link tab-btn fw-semibold py-2 px-3 rounded-3" data-view="calendar">
-                        <i class="fa-regular fa-calendar-days me-1"></i> Calendar
+                        <i class="fa-regular fa-calendar-days me-1"></i> Calendar & Timeline
                     </button>
                     <button class="nav-link tab-btn fw-semibold py-2 px-3 rounded-3" data-view="documentation">
                         <i class="fa-regular fa-folder-open me-1"></i> Documentation
