@@ -30,7 +30,7 @@ $basePath = '../';
 <body class="bg-main">
     <div class="app-container d-flex">
         <!-- Sidebar Navigation Component -->
-        <?php include __DIR__ . '/sidebar.php'; ?>
+        <?php include __DIR__ . '/../layouts/sidebar.php'; ?>
 
         <!-- Main Content Area -->
         <main class="main-content flex-grow-1 d-flex flex-column min-vh-100">

@@ -1437,7 +1437,8 @@ function openDetailModal(code) {
     const revCount = (doc.revisions && doc.revisions.length) ? doc.revisions.length : 1;
     $('#detailRevisionsCount').text(`${revCount} histori rilis revisi tersinkronisasi di modul Track Versioning.`);
 
-    $('#detailBtnGoTracking').attr('href', `TrackingVersion.php?doc=${doc.code}`);
+    const trackingUrl = window.location.pathname.includes('/Documentation/') ? `TrackingVersion.php?doc=${doc.code}` : `Documentation/TrackingVersion.php?doc=${doc.code}`;
+    $('#detailBtnGoTracking').attr('href', trackingUrl);
 
     $('#detailBtnDownload').off('click').on('click', function () {
         DocTracker.showToast(`Mengunduh berkas ${doc.fileName} (${doc.latestVersion})...`);
@@ -1486,3 +1487,144 @@ function openEditModal(code) {
     const modal = new bootstrap.Modal(document.getElementById('modalDocEdit'));
     modal.show();
 }
+
+/**
+ * Initialize Documentation Tab in KanbanTask.php
+ */
+window.initKanbanTaskDocView = function () {
+    const $container = $('#viewDocumentation');
+    if (!$container.length) return;
+
+    function renderCategoryCards() {
+        const types = [
+            { key: 'BRD', title: 'Business Requirements Document (BRD)', url: 'Documentation/BRD.php' },
+            { key: 'FSD', title: 'Functional Specification Document (FSD)', url: 'Documentation/FSD.php' },
+            { key: 'PRD', title: 'Product Requirements Document (PRD)', url: 'Documentation/PRD.php' },
+            { key: 'ERD', title: 'Entity Relationship Diagram & Schema (ERD)', url: 'Documentation/ERD.php' },
+            { key: 'Blueprint', title: 'System Architecture & Blueprints', url: 'Documentation/Blueprints.php' },
+        ];
+
+        const allDocs = DocTracker.getAllDocs();
+
+        types.forEach(t => {
+            const listEl = $(`#docList_${t.key.toLowerCase()}`);
+            if (!listEl.length) return;
+
+            const docs = allDocs.filter(d => d.type.toUpperCase() === t.key.toUpperCase() || (t.key === 'Blueprint' && d.type.toUpperCase().includes('BLUEPRINT')));
+            $(`#docCount_${t.key.toLowerCase()}`).text(`${docs.length} Items`);
+
+            if (docs.length === 0) {
+                listEl.html(`
+                    <div class="p-4 text-center text-muted fs-8">
+                        <i class="fa-regular fa-folder-open fs-4 d-block mb-1 opacity-50"></i>
+                        No ${t.key} documents recorded yet.
+                    </div>
+                `);
+                return;
+            }
+
+            let html = '';
+            docs.forEach(doc => {
+                const revCount = (doc.revisions && doc.revisions.length) ? doc.revisions.length : 1;
+                html += `
+                    <div class="list-group-item p-3 d-flex flex-wrap align-items-center justify-content-between gap-3 border-bottom hover-bg-light transition-fast" data-doc-code="${doc.code}">
+                        <div class="d-flex align-items-center gap-3">
+                            ${DocTracker.getFileIcon(doc.fileName, doc.type)}
+                            <div>
+                                <a href="javascript:void(0)" class="fw-bold text-dark text-decoration-none d-block hover-primary btn-open-detail" data-code="${doc.code}">
+                                    ${doc.title}
+                                </a>
+                                <div class="d-flex flex-wrap align-items-center gap-2 mt-1">
+                                    <span class="badge bg-light text-muted border font-mono fs-9 px-2 py-0.5 rounded-2"><i class="fa-solid fa-hashtag me-1 opacity-50"></i>${doc.code}</span>
+                                    <span class="text-secondary fs-8 d-inline-flex align-items-center gap-1"><i class="fa-regular fa-file text-muted fs-9"></i> ${doc.fileName}</span>
+                                    <span class="badge bg-indigo-subtle text-indigo fs-9 px-2 py-0.5 rounded-2"><i class="fa-solid fa-layer-group me-1"></i>${doc.project}</span>
+                                    <span class="text-muted fs-9">&bull; Updated ${doc.updatedAt}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3 ms-auto">
+                            <div class="text-end d-none d-md-block">
+                                <span class="badge bg-dark bg-gradient text-white font-mono fs-8 px-2 py-1 rounded-2 shadow-xs d-inline-flex align-items-center gap-1">
+                                    <i class="fa-solid fa-code-branch fs-9 text-info"></i> ${doc.latestVersion}
+                                </span>
+                                <div class="mt-1">
+                                    <a href="Documentation/TrackingVersion.php?doc=${doc.code}" class="text-decoration-none fs-9 text-primary fw-medium" title="View Trail">
+                                        <i class="fa-solid fa-clock-rotate-left me-1"></i>${revCount} Revisions
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div>
+                                ${DocTracker.getStatusBadge(doc.status)}
+                            </div>
+
+                            <div class="doc-action-group">
+                                <button type="button" class="btn btn-sm btn-icon-action btn-view-doc btn-open-detail" data-code="${doc.code}" data-bs-toggle="tooltip" data-bs-title="View Detail" title="View Detail">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-icon-action btn-edit-doc btn-open-edit" data-code="${doc.code}" data-bs-toggle="tooltip" data-bs-title="Edit & Bump Version" title="Edit & Bump Version">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <a href="Documentation/TrackingVersion.php?doc=${doc.code}" class="btn btn-sm btn-icon-action btn-track-doc" data-bs-toggle="tooltip" data-bs-title="Track Versioning" title="Track Versioning">
+                                    <i class="fa-solid fa-timeline"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm btn-icon-action btn-download-doc" data-code="${doc.code}" data-bs-toggle="tooltip" data-bs-title="Download Spec" title="Download Spec">
+                                    <i class="fa-solid fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            listEl.html(html);
+        });
+
+        // Initialize tooltips
+        try {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            [...tooltipTriggerList].forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        } catch (e) {}
+    }
+
+    renderCategoryCards();
+    window.refreshKanbanTaskDocs = renderCategoryCards;
+
+    // Listen for tab switch to documentation
+    $(document).on('click', '#viewTabs button[data-view="documentation"]', function () {
+        renderCategoryCards();
+    });
+
+    // Event: Open Detail Modal
+    $(document).on('click', '.btn-open-detail', function (e) {
+        e.preventDefault();
+        const code = $(this).data('code');
+        openDetailModal(code);
+    });
+
+    // Event: Open Edit Modal
+    $(document).on('click', '.btn-open-edit', function (e) {
+        e.preventDefault();
+        const code = $(this).data('code');
+        openEditModal(code);
+    });
+
+    // Event: Download mock
+    $(document).on('click', '.btn-download-doc', function (e) {
+        e.preventDefault();
+        const code = $(this).data('code');
+        const doc = DocTracker.getDocByCode(code);
+        DocTracker.showToast(`Mengunduh berkas ${doc.fileName} (${doc.latestVersion})...`);
+    });
+
+    // Setup Modals Logic
+    setupDetailAndEditModals('BRD');
+};
+
+// Auto initialize when KanbanTask documentation view is present
+$(document).ready(function () {
+    if ($('#viewDocumentation').length) {
+        window.initKanbanTaskDocView();
+    }
+});
+

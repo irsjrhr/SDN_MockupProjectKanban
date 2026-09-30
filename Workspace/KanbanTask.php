@@ -30,7 +30,7 @@ $basePath = '../';
 <body class="bg-main">
     <div class="app-container d-flex">
         <!-- Sidebar Navigation Component -->
-        <?php include __DIR__ . '/sidebar.php'; ?>
+        <?php include __DIR__ . '/../layouts/sidebar.php'; ?>
 
         <!-- Main Content Area -->
         <main class="main-content flex-grow-1 d-flex flex-column min-vh-100">
@@ -532,137 +532,162 @@ $basePath = '../';
 
                 <!-- 5. DOCUMENTATION VIEW -->
                 <div class="view-content" id="viewDocumentation">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
-                        <div>
-                            <h2 class="h5 fw-bold mb-0">Project Documentation</h2>
-                            <span class="fs-8 text-muted">Manage all essential project documents</span>
+                    <!-- Documentation Header Toolbar -->
+                    <div class="card shadow-sm border rounded-4 p-3.5 bg-white mb-4">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                            <div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <h2 class="h5 fw-bold mb-0 text-dark">Project Documentation Repository</h2>
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-8 px-2 py-0.5 rounded-2">Synchronized</span>
+                                </div>
+                                <span class="fs-8 text-muted mt-0.5 d-block">Pusat master spesifikasi BRD, FSD, PRD, ERD, Blueprint terintegrasi langsung dengan Track Versioning.</span>
+                            </div>
+                            <div class="d-flex flex-wrap align-items-center gap-2">
+                                <a href="Documentation/TrackingVersion.php" class="btn btn-sm btn-primary rounded-3 d-flex align-items-center gap-1.5 fs-7 shadow-xs">
+                                    <i class="fa-solid fa-timeline"></i> Track Versioning
+                                </a>
+                            </div>
                         </div>
-                        <button class="btn btn-primary px-3 py-2 fw-semibold rounded-3 d-flex align-items-center gap-2 fs-7 shadow-sm">
-                            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Document
-                        </button>
+                        
+                        <!-- Quick Jump Module Pills -->
+                        <div class="d-flex flex-wrap align-items-center gap-2 pt-3 mt-3 border-top">
+                            <span class="fs-8 text-muted fw-bold text-uppercase me-1"><i class="fa-solid fa-link me-1"></i> Quick Jump:</span>
+                            <a href="Documentation/BRD.php" class="btn btn-xs btn-outline-primary rounded-pill fs-8 px-3 py-1 fw-semibold">
+                                <i class="fa-solid fa-file-invoice me-1"></i> BRD
+                            </a>
+                            <a href="Documentation/FSD.php" class="btn btn-xs btn-outline-success rounded-pill fs-8 px-3 py-1 fw-semibold">
+                                <i class="fa-solid fa-file-code me-1"></i> FSD
+                            </a>
+                            <a href="Documentation/PRD.php" class="btn btn-xs btn-outline-info rounded-pill fs-8 px-3 py-1 fw-semibold">
+                                <i class="fa-solid fa-rectangle-list me-1"></i> PRD
+                            </a>
+                            <a href="Documentation/ERD.php" class="btn btn-xs btn-outline-warning rounded-pill fs-8 px-3 py-1 fw-semibold">
+                                <i class="fa-solid fa-diagram-project me-1"></i> ERD
+                            </a>
+                            <a href="Documentation/Blueprints.php" class="btn btn-xs btn-outline-danger rounded-pill fs-8 px-3 py-1 fw-semibold">
+                                <i class="fa-solid fa-cubes-stacked me-1"></i> Blueprints
+                            </a>
+                        </div>
                     </div>
 
                     <div class="d-flex flex-column gap-4">
-                        <!-- BRD Box -->
-                        <div class="card shadow-sm border rounded-4 bg-white" id="doc-brd">
-                            <div class="card-header bg-transparent border-bottom p-3 d-flex align-items-center gap-3">
-                                <div class="p-2 bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center">
-                                    <i class="fa-regular fa-file-code fs-5"></i>
+                        <!-- 1. BRD Box -->
+                        <div class="card shadow-sm border rounded-4 bg-white overflow-hidden" id="doc-brd">
+                            <div class="card-header bg-white border-bottom p-3 d-flex align-items-center justify-content-between gap-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="doc-icon-box doc-icon-word shadow-xs">
+                                        <i class="fa-solid fa-file-invoice"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0 fs-6 fw-bold text-dark">Business Requirements Document (BRD)</h5>
+                                        <span class="fs-8 text-muted">Kebutuhan bisnis, scope baseline, dan kepatuhan enterprise</span>
+                                    </div>
                                 </div>
-                                <h5 class="mb-0 fs-5 fw-bold">BRD (Business Requirement Document)</h5>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-light text-muted border font-mono fs-8" id="docCount_brd">0 Items</span>
+                                    <a href="Documentation/BRD.php" class="btn btn-sm btn-outline-primary rounded-3 fs-8 fw-semibold">
+                                        Buka Master BRD <i class="fa-solid fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="list-group list-group-flush border-0 overflow-y-auto" style="max-height: 300px;">
-                                <a href="#" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between gap-2 border-bottom">
-                                    <div>
-                                        <div class="fw-semibold fs-6 text-dark mb-1">BRD_v1.0_Final.docx</div>
-                                        <div class="text-muted fs-7">Added 2 days ago by Sophia Carter &bull; 1.2 MB</div>
-                                    </div>
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success">Approved</span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between gap-2 border-bottom">
-                                    <div>
-                                        <div class="fw-semibold fs-6 text-dark mb-1">BRD_Draft_02.docx</div>
-                                        <div class="text-muted fs-7">Added 5 days ago by Michael Anderson &bull; 1.1 MB</div>
-                                    </div>
-                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary">Archived</span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between gap-2 border-bottom">
-                                    <div>
-                                        <div class="fw-semibold fs-6 text-dark mb-1">BRD_Draft_01.docx</div>
-                                        <div class="text-muted fs-7">Added 1 week ago by Sophia Carter &bull; 900 KB</div>
-                                    </div>
-                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary">Archived</span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between gap-2 border-bottom">
-                                    <div>
-                                        <div class="fw-semibold fs-6 text-dark mb-1">BRD_Initial_Notes.txt</div>
-                                        <div class="text-muted fs-7">Added 2 weeks ago by Michael Anderson &bull; 15 KB</div>
-                                    </div>
-                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary">Archived</span>
-                                </a>
+                            <div class="list-group list-group-flush border-0" id="docList_brd">
+                                <!-- Dynamic BRD Documents from DocTracker -->
                             </div>
                         </div>
 
-                        <!-- FSD Box -->
-                        <div class="card shadow-sm border rounded-4 bg-white" id="doc-fsd">
-                            <div class="card-header bg-transparent border-bottom p-3 d-flex align-items-center gap-3">
-                                <div class="p-2 bg-success-subtle text-success rounded-3 d-flex align-items-center justify-content-center">
-                                    <i class="fa-regular fa-file-code fs-5"></i>
+                        <!-- 2. FSD Box -->
+                        <div class="card shadow-sm border rounded-4 bg-white overflow-hidden" id="doc-fsd">
+                            <div class="card-header bg-white border-bottom p-3 d-flex align-items-center justify-content-between gap-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="doc-icon-box doc-icon-code shadow-xs">
+                                        <i class="fa-solid fa-file-code"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0 fs-6 fw-bold text-dark">Functional Specification Document (FSD)</h5>
+                                        <span class="fs-8 text-muted">Spesifikasi logika teknis, arsitektur event, dan state machine</span>
+                                    </div>
                                 </div>
-                                <h5 class="mb-0 fs-5 fw-bold">FSD (Functional Specification Document)</h5>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-light text-muted border font-mono fs-8" id="docCount_fsd">0 Items</span>
+                                    <a href="Documentation/FSD.php" class="btn btn-sm btn-outline-success rounded-3 fs-8 fw-semibold">
+                                        Buka Master FSD <i class="fa-solid fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="list-group list-group-flush border-0 overflow-y-auto" style="max-height: 300px;">
-                                <a href="#" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between gap-2 border-bottom">
-                                    <div>
-                                        <div class="fw-semibold fs-6 text-dark mb-1">FSD_Module_Auth.pdf</div>
-                                        <div class="text-muted fs-7">Added 1 week ago by James Wilson &bull; 2.5 MB</div>
-                                    </div>
-                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning">In Review</span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between gap-2 border-bottom">
-                                    <div>
-                                        <div class="fw-semibold fs-6 text-dark mb-1">FSD_Dashboard_Specs.pdf</div>
-                                        <div class="text-muted fs-7">Added 2 weeks ago by James Wilson &bull; 3.1 MB</div>
-                                    </div>
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success">Approved</span>
-                                </a>
+                            <div class="list-group list-group-flush border-0" id="docList_fsd">
+                                <!-- Dynamic FSD Documents from DocTracker -->
                             </div>
                         </div>
 
-                        <!-- PRD Box -->
-                        <div class="card shadow-sm border rounded-4 bg-white" id="doc-prd">
-                            <div class="card-header bg-transparent border-bottom p-3 d-flex align-items-center gap-3">
-                                <div class="p-2 bg-info-subtle text-info rounded-3 d-flex align-items-center justify-content-center">
-                                    <i class="fa-regular fa-file-lines fs-5"></i>
-                                </div>
-                                <h5 class="mb-0 fs-5 fw-bold">PRD (Product Requirement Document)</h5>
-                            </div>
-                            <div class="list-group list-group-flush border-0 overflow-y-auto" style="max-height: 300px;">
-                                <a href="#" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between gap-2 border-bottom">
-                                    <div>
-                                        <div class="fw-semibold fs-6 text-dark mb-1">PRD_Middleware_v2.pdf</div>
-                                        <div class="text-muted fs-7">Added 3 weeks ago by Michael Anderson &bull; 4.2 MB</div>
+                        <!-- 3. PRD Box -->
+                        <div class="card shadow-sm border rounded-4 bg-white overflow-hidden" id="doc-prd">
+                            <div class="card-header bg-white border-bottom p-3 d-flex align-items-center justify-content-between gap-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="doc-icon-box doc-icon-default shadow-xs">
+                                        <i class="fa-solid fa-rectangle-list"></i>
                                     </div>
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success">Approved</span>
-                                </a>
+                                    <div>
+                                        <h5 class="mb-0 fs-6 fw-bold text-dark">Product Requirements Document (PRD)</h5>
+                                        <span class="fs-8 text-muted">Fitur produk, user journey, acceptance criteria, dan roadmap</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-light text-muted border font-mono fs-8" id="docCount_prd">0 Items</span>
+                                    <a href="Documentation/PRD.php" class="btn btn-sm btn-outline-info rounded-3 fs-8 fw-semibold">
+                                        Buka Master PRD <i class="fa-solid fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="list-group list-group-flush border-0" id="docList_prd">
+                                <!-- Dynamic PRD Documents from DocTracker -->
                             </div>
                         </div>
 
-                        <!-- ERD Box -->
-                        <div class="card shadow-sm border rounded-4 bg-white" id="doc-erd">
-                            <div class="card-header bg-transparent border-bottom p-3 d-flex align-items-center gap-3">
-                                <div class="p-2 bg-warning-subtle text-warning rounded-3 d-flex align-items-center justify-content-center">
-                                    <i class="fa-solid fa-diagram-project fs-5"></i>
-                                </div>
-                                <h5 class="mb-0 fs-5 fw-bold">ERD (Entity Relationship Diagram)</h5>
-                            </div>
-                            <div class="list-group list-group-flush border-0 overflow-y-auto" style="max-height: 300px;">
-                                <a href="#" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between gap-2 border-bottom">
-                                    <div>
-                                        <div class="fw-semibold fs-6 text-dark mb-1">Database_Schema_v1.png</div>
-                                        <div class="text-muted fs-7">Added yesterday by James Wilson &bull; 850 KB</div>
+                        <!-- 4. ERD Box -->
+                        <div class="card shadow-sm border rounded-4 bg-white overflow-hidden" id="doc-erd">
+                            <div class="card-header bg-white border-bottom p-3 d-flex align-items-center justify-content-between gap-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="doc-icon-box doc-icon-diagram shadow-xs">
+                                        <i class="fa-solid fa-diagram-project"></i>
                                     </div>
-                                    <span class="badge bg-info bg-opacity-10 text-info border border-info">Draft</span>
-                                </a>
+                                    <div>
+                                        <h5 class="mb-0 fs-6 fw-bold text-dark">Entity Relationship Diagram (ERD)</h5>
+                                        <span class="fs-8 text-muted">Struktur relasi tabel database, foreign keys, dan indeks skema</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-light text-muted border font-mono fs-8" id="docCount_erd">0 Items</span>
+                                    <a href="Documentation/ERD.php" class="btn btn-sm btn-outline-warning rounded-3 fs-8 fw-semibold">
+                                        Buka Master ERD <i class="fa-solid fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="list-group list-group-flush border-0" id="docList_erd">
+                                <!-- Dynamic ERD Documents from DocTracker -->
                             </div>
                         </div>
 
-                        <!-- Blueprints Box -->
-                        <div class="card shadow-sm border rounded-4 bg-white" id="doc-blueprints">
-                            <div class="card-header bg-transparent border-bottom p-3 d-flex align-items-center gap-3">
-                                <div class="p-2 bg-danger-subtle text-danger rounded-3 d-flex align-items-center justify-content-center">
-                                    <i class="fa-solid fa-map-location-dot fs-5"></i>
-                                </div>
-                                <h5 class="mb-0 fs-5 fw-bold">Blueprints (Architecture & Design)</h5>
-                            </div>
-                            <div class="list-group list-group-flush border-0 overflow-y-auto" style="max-height: 300px;">
-                                <a href="#" class="list-group-item list-group-item-action p-3 d-flex align-items-center justify-content-between gap-2 border-bottom">
-                                    <div>
-                                        <div class="fw-semibold fs-6 text-dark mb-1">Architecture_Diagram.pdf</div>
-                                        <div class="text-muted fs-7">Added 1 month ago by Daniel Johnson &bull; 5.5 MB</div>
+                        <!-- 5. Blueprints Box -->
+                        <div class="card shadow-sm border rounded-4 bg-white overflow-hidden" id="doc-blueprints">
+                            <div class="card-header bg-white border-bottom p-3 d-flex align-items-center justify-content-between gap-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="doc-icon-box doc-icon-blueprint shadow-xs">
+                                        <i class="fa-solid fa-cubes-stacked"></i>
                                     </div>
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success">Finalized</span>
-                                </a>
+                                    <div>
+                                        <h5 class="mb-0 fs-6 fw-bold text-dark">Architecture & System Blueprints</h5>
+                                        <span class="fs-8 text-muted">Diagram infrastruktur cloud, CI/CD pipeline, dan topologi jaringan</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-light text-muted border font-mono fs-8" id="docCount_blueprint">0 Items</span>
+                                    <a href="Documentation/Blueprints.php" class="btn btn-sm btn-outline-danger rounded-3 fs-8 fw-semibold">
+                                        Buka Master Blueprints <i class="fa-solid fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="list-group list-group-flush border-0" id="docList_blueprint">
+                                <!-- Dynamic Blueprints Documents from DocTracker -->
                             </div>
                         </div>
                     </div>
@@ -1309,6 +1334,8 @@ $basePath = '../';
 
     <!-- Application Script (jQuery version) -->
     <script src="../assets/js/app.js"></script>
+    <!-- Documentation Tracker Script -->
+    <script src="../assets/js/doc-tracker.js"></script>
 </body>
 
 </html>
