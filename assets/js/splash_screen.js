@@ -10,7 +10,7 @@
 // ==============================================================================
 // KONFIGURASI TIMING & VARIABEL UTAMA (SEMUA KAPITAL DI AWAL SCRIPT)
 // ==============================================================================
-const SPLASH_DURATION = 800;         // Durasi minimal (ms) splash screen tampil agar loader terlihat elegan
+const SPLASH_DURATION = 300;         // Durasi minimal (ms) splash screen tampil agar loader terlihat elegan
 const SPLASH_MAX_TIMEOUT = 2000;     // Batas waktu maksimal (ms) fallback penutupan jika aset eksternal lambat
 const SPLASH_FADEOUT_DELAY = 850;    // Durasi (ms) menunggu animasi CSS tirai terbuka penuh sebelum di-hide
 const SPLASH_TRANSITION_DELAY = 280; // Durasi (ms) animasi tirai menutup saat navigasi link internal

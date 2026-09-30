@@ -147,40 +147,6 @@ include __DIR__ . '/../layouts/header.php';
                             </div>
                         </div>
                     </div>
-
-                    <!-- Right Sidebar Info / Overview -->
-                    <div class="col-12 col-xl-4">
-                        <div class="card shadow-sm border rounded-4 bg-white p-4 mb-4">
-                            <h3 class="h6 fw-bold mb-3 text-dark"><i class="fa-solid fa-circle-info text-primary me-2"></i>Workspace Plan</h3>
-                            <div class="p-3 bg-light rounded-3 mb-3 border">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <span class="fs-8 text-muted fw-bold text-uppercase">Current Tier</span>
-                                    <span class="badge bg-primary">Enterprise Pro</span>
-                                </div>
-                                <div class="h5 fw-bold mb-0 text-dark">Unlimited Projects & Tasks</div>
-                            </div>
-                            <ul class="list-unstyled fs-7 mb-3 text-muted d-flex flex-column gap-2">
-                                <li><i class="fa-solid fa-check text-success me-2"></i> Active Projects: <strong>5 / Unlimited</strong></li>
-                                <li><i class="fa-solid fa-check text-success me-2"></i> Team Members: <strong>24 / 50 Seats</strong></li>
-                                <li><i class="fa-solid fa-check text-success me-2"></i> Cloud Storage: <strong>4.2 GB / 500 GB</strong></li>
-                                <li><i class="fa-solid fa-check text-success me-2"></i> Live Telemetry: <strong>Active (5 Nodes)</strong></li>
-                            </ul>
-                            <button class="btn btn-outline-primary w-100 fs-7 rounded-3"><i class="fa-solid fa-bolt me-1"></i> Manage Subscription</button>
-                        </div>
-
-                        <div class="card shadow-sm border rounded-4 bg-white p-4">
-                            <h3 class="h6 fw-bold mb-3 text-dark"><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i>Danger Zone</h3>
-                            <p class="text-muted fs-8 mb-3">Irreversible actions that affect all projects and workspaces.</p>
-                            <div class="d-flex flex-column gap-2">
-                                <button class="btn btn-outline-warning text-dark text-start fs-7 rounded-3 p-2">
-                                    <i class="fa-solid fa-box-archive me-2 text-warning"></i> Archive Entire Workspace
-                                </button>
-                                <button class="btn btn-outline-danger text-start fs-7 rounded-3 p-2">
-                                    <i class="fa-solid fa-trash-can me-2 text-danger"></i> Delete All Workspace Data
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 <?php
