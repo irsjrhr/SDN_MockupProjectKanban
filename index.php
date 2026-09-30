@@ -4,5 +4,5 @@
  * Redirects to Workspace Kanban Project by default
  */
 
-header("Location: Workspace/Kanban Project.php");
+header("Location: Workspace/KanbanProject.php");
 exit;

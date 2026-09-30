@@ -42,7 +42,7 @@ $basePath = '../../';
                     </button>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 fs-7">
-                            <li class="breadcrumb-item text-muted"><a href="../Kanban Project.php" class="text-muted text-decoration-none">Workspace</a></li>
+                            <li class="breadcrumb-item text-muted"><a href="../KanbanProject.php" class="text-muted text-decoration-none">Workspace</a></li>
                             <li class="breadcrumb-item text-muted">Documentation</li>
                             <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">BRD</li>
                         </ol>

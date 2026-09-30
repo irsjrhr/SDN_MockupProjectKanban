@@ -15,6 +15,24 @@ $sidebarMenu = [
     ],
     'sections' => [
         [
+            'section_title' => 'Personal Account',
+            'add_button' => false,
+            'items' => [
+                [
+                    'title' => 'Account Information',
+                    'url' => $basePath . 'Setting/account.php',
+                    'icon' => 'fa-regular fa-id-badge',
+                    'active' => ($currentPage === 'setting-account' || $currentPage === 'account')
+                ],
+                [
+                    'title' => 'Account Security',
+                    'url' => $basePath . 'Setting/account-security.php',
+                    'icon' => 'fa-solid fa-user-shield',
+                    'active' => ($currentPage === 'setting-account-security' || $currentPage === 'account-security')
+                ],
+            ]
+        ],
+        [
             'section_title' => 'General Settings',
             'add_button' => false,
             'items' => [

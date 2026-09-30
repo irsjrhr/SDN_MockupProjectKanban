@@ -758,60 +758,120 @@
 
                 <!-- 4. CALENDAR VIEW -->
                 <div class="view-content" id="viewCalendar">
-                    <div class="card shadow-sm border rounded-4 p-4 calendar-wrapper">
-                        <div
-                            class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 pb-3 border-bottom">
+                    <div class="card shadow-sm border rounded-4 p-4 calendar-wrapper bg-white">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 pb-3 border-bottom">
                             <div class="d-flex align-items-center gap-3 flex-wrap">
                                 <h2 class="h5 fw-bold mb-0" id="calendarMonthTitle">September 2026</h2>
 
-                                <!-- Subtabs Toggle: View by Calendar vs View by Timeline -->
-                                <div class="nav nav-pills calendar-subtabs p-1 bg-light rounded-3 border"
-                                    id="calendarSubTabs">
-                                    <button class="nav-link active cal-subtab-btn py-1 px-3 fs-7 fw-semibold rounded-2"
-                                        data-subview="grid">
+                                <!-- Subtabs Toggle: Calendar Grid vs Gantt Timeline vs Timeline Scheduler Manager -->
+                                <div class="nav nav-pills calendar-subtabs p-1 bg-light rounded-3 border" id="calendarSubTabs">
+                                    <button class="nav-link active cal-subtab-btn py-1 px-3 fs-7 fw-semibold rounded-2" data-subview="grid">
                                         <i class="fa-regular fa-calendar-days me-1"></i> View by Calendar
                                     </button>
-                                    <button class="nav-link cal-subtab-btn py-1 px-3 fs-7 fw-semibold rounded-2"
-                                        data-subview="timeline">
+                                    <button class="nav-link cal-subtab-btn py-1 px-3 fs-7 fw-semibold rounded-2" data-subview="timeline">
                                         <i class="fa-solid fa-chart-gantt me-1"></i> View by Timeline
+                                    </button>
+                                    <button class="nav-link cal-subtab-btn py-1 px-3 fs-7 fw-semibold rounded-2" data-subview="schedule-manager">
+                                        <i class="fa-solid fa-sliders me-1"></i> Task Timeline Scheduler
                                     </button>
                                 </div>
                             </div>
 
-                            <div class="btn-group btn-group-sm">
-                                <button class="btn btn-outline-secondary" id="btnPrevMonth"><i
-                                        class="fa-solid fa-chevron-left"></i></button>
-                                <button class="btn btn-outline-secondary fw-semibold" id="btnToday">Today</button>
-                                <button class="btn btn-outline-secondary" id="btnNextMonth"><i
-                                        class="fa-solid fa-chevron-right"></i></button>
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-secondary" id="btnPrevMonth" title="Previous Month"><i class="fa-solid fa-chevron-left"></i></button>
+                                    <button class="btn btn-outline-secondary fw-semibold" id="btnToday">Today</button>
+                                    <button class="btn btn-outline-secondary" id="btnNextMonth" title="Next Month"><i class="fa-solid fa-chevron-right"></i></button>
+                                </div>
+                                <button class="btn btn-sm btn-primary fw-semibold rounded-3 d-flex align-items-center gap-1.5 px-3 py-1.5 shadow-sm" id="btnQuickAddTaskFromCal">
+                                    <i class="fa-solid fa-plus"></i> New Task Timeline
+                                </button>
                             </div>
                         </div>
 
                         <!-- 1. Subview: Calendar Grid -->
                         <div class="calendar-subview-content active" id="subviewGrid">
-                            <div class="calendar-grid d-grid gap-2" id="calendarGrid"
-                                style="grid-template-columns: repeat(7, 1fr);">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <span class="fs-8 text-muted fw-semibold"><i class="fa-solid fa-circle-info text-primary me-1"></i> Click on any task to view or modify its scheduled timeline.</span>
+                                <div class="d-flex align-items-center gap-2 fs-8">
+                                    <span class="d-inline-flex align-items-center gap-1"><span class="badge badge-todo p-1 rounded-circle"></span> To Do</span>
+                                    <span class="d-inline-flex align-items-center gap-1"><span class="badge badge-progress p-1 rounded-circle"></span> In Progress</span>
+                                    <span class="d-inline-flex align-items-center gap-1"><span class="badge badge-review p-1 rounded-circle"></span> Review</span>
+                                    <span class="d-inline-flex align-items-center gap-1"><span class="badge badge-complete p-1 rounded-circle"></span> Complete</span>
+                                </div>
+                            </div>
+                            <div class="calendar-grid d-grid gap-2" id="calendarGrid" style="grid-template-columns: repeat(7, 1fr);">
                                 <!-- Dynamic Calendar Cells -->
                             </div>
                         </div>
 
-                        <!-- 2. Subview: Timeline Schedule -->
+                        <!-- 2. Subview: Timeline Schedule (Gantt) -->
                         <div class="calendar-subview-content" id="subviewTimeline">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 p-2 bg-light-subtle rounded-3 border">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="fs-8 fw-bold text-uppercase text-muted">Timeline Filter:</span>
+                                    <select class="form-select form-select-sm fs-8 w-auto py-1" id="timelineStatusFilter">
+                                        <option value="all">All Statuses</option>
+                                        <option value="todo">To Do</option>
+                                        <option value="in-progress">In Progress</option>
+                                        <option value="review">Review</option>
+                                        <option value="completed">Complete</option>
+                                    </select>
+                                </div>
+                                <div class="fs-8 text-muted">
+                                    <span><i class="fa-solid fa-arrows-left-right me-1 text-primary"></i> Bars reflect realistic task duration & progress</span>
+                                </div>
+                            </div>
+
                             <div class="timeline-container p-1">
-                                <div
-                                    class="timeline-header d-flex align-items-center border-bottom pb-2 mb-3 fw-bold text-muted fs-8 text-uppercase">
-                                    <div style="width: 260px; flex-shrink: 0;">Task & Status</div>
+                                <div class="timeline-header d-flex align-items-center border-bottom pb-2 mb-3 fw-bold text-muted fs-8 text-uppercase">
+                                    <div style="width: 280px; flex-shrink: 0;">Task, Timeline & Priority</div>
                                     <div class="flex-grow-1 d-flex justify-content-between text-center px-3">
                                         <span class="w-25">Week 1 (Sep 1 - 7)</span>
                                         <span class="w-25">Week 2 (Sep 8 - 14)</span>
                                         <span class="w-25">Week 3 (Sep 15 - 21)</span>
                                         <span class="w-25">Week 4 (Sep 22 - 30)</span>
                                     </div>
-                                    <div style="width: 100px; flex-shrink: 0;" class="text-end">Assignees</div>
+                                    <div style="width: 140px; flex-shrink: 0;" class="text-end">Assignees & Actions</div>
                                 </div>
                                 <div class="timeline-body d-flex flex-column gap-2" id="timelineTasksList">
                                     <!-- Dynamic Timeline Rows rendered via jQuery -->
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Subview: Task Timeline Scheduler / Configurator -->
+                        <div class="calendar-subview-content" id="subviewScheduleManager">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 p-3 bg-primary-subtle rounded-3 border border-primary-subtle">
+                                <div>
+                                    <h6 class="fw-bold text-primary mb-1"><i class="fa-solid fa-sliders me-1"></i> Per-Task Timeline & Schedule Manager</h6>
+                                    <p class="fs-8 text-secondary mb-0">Atur langsung tanggal mulai (Start Date), batas waktu (Due Date), durasi hari, dan prioritas untuk setiap task di bawah ini.</p>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button class="btn btn-sm btn-outline-primary bg-white fs-8 fw-semibold" id="btnSyncAllTimelines">
+                                        <i class="fa-solid fa-rotate me-1"></i> Reset to Default Timeline
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive border rounded-3 bg-white">
+                                <table class="table table-hover align-middle mb-0 timeline-schedule-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="py-3 px-3" style="min-width: 240px;">Task Title</th>
+                                            <th class="py-3 px-2" style="width: 120px;">Status</th>
+                                            <th class="py-3 px-2" style="width: 110px;">Priority</th>
+                                            <th class="py-3 px-2" style="min-width: 140px;">Start Date</th>
+                                            <th class="py-3 px-2" style="min-width: 140px;">Due Date</th>
+                                            <th class="py-3 px-2" style="width: 90px;">Duration</th>
+                                            <th class="py-3 px-2" style="min-width: 130px;">Quick Preset</th>
+                                            <th class="py-3 px-3 text-end" style="width: 120px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="timelineSchedulerTableBody" class="fs-7">
+                                        <!-- Dynamic rows for editing per-task timeline rendered by jQuery -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -1170,11 +1230,35 @@
                                 </select>
                             </div>
                             <div class="col-6">
-                                <label for="taskTagsInput" class="form-label fs-7 fw-semibold">Tags (comma
-                                    separated)</label>
-                                <input type="text" class="form-control fs-7" id="taskTagsInput"
-                                    placeholder="Design UI/UX, Frontend">
+                                <label for="taskPriority" class="form-label fs-7 fw-semibold">Priority Level</label>
+                                <select class="form-select fs-7" id="taskPriority">
+                                    <option value="low">Low Priority</option>
+                                    <option value="medium" selected>Medium Priority</option>
+                                    <option value="high">High Priority</option>
+                                    <option value="urgent">Urgent / SLA Alert</option>
+                                </select>
                             </div>
+                        </div>
+
+                        <!-- Timeline Schedule: Start Date & Due Date -->
+                        <div class="row g-3 mb-3 p-2 bg-light-subtle rounded-3 border">
+                            <div class="col-6">
+                                <label for="taskStartDate" class="form-label fs-8 fw-bold text-uppercase text-muted mb-1">
+                                    <i class="fa-regular fa-calendar-plus text-primary me-1"></i> Start Date
+                                </label>
+                                <input type="date" class="form-control form-control-sm fs-7" id="taskStartDate" value="2026-09-01">
+                            </div>
+                            <div class="col-6">
+                                <label for="taskDueDate" class="form-label fs-8 fw-bold text-uppercase text-muted mb-1">
+                                    <i class="fa-regular fa-calendar-check text-danger me-1"></i> Due Date
+                                </label>
+                                <input type="date" class="form-control form-control-sm fs-7" id="taskDueDate" value="2026-09-15">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="taskTagsInput" class="form-label fs-7 fw-semibold">Tags (comma separated)</label>
+                            <input type="text" class="form-control fs-7" id="taskTagsInput" placeholder="Design UI/UX, Frontend">
                         </div>
 
                         <div class="mb-3">
@@ -1189,17 +1273,14 @@
                             <div class="d-flex flex-column gap-2" id="subtaskInputsList">
                                 <!-- Dynamic subtask inputs -->
                             </div>
-                            <button type="button" class="btn btn-sm btn-light border mt-2 fs-8 fw-semibold"
-                                id="btnAddSubtaskInput">
+                            <button type="button" class="btn btn-sm btn-light border mt-2 fs-8 fw-semibold" id="btnAddSubtaskInput">
                                 <i class="fa-solid fa-plus me-1"></i> Add Subtask Item
                             </button>
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-0">
-                        <button type="button" class="btn btn-outline-secondary px-3 fs-7"
-                            data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary px-4 fs-7 fw-semibold" id="btnSaveTask">Save
-                            Task</button>
+                        <button type="button" class="btn btn-outline-secondary px-3 fs-7" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary px-4 fs-7 fw-semibold" id="btnSaveTask">Save Task</button>
                     </div>
                 </form>
             </div>
@@ -1215,10 +1296,8 @@
                         <!-- Dynamic Tags -->
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <button class="btn btn-sm btn-light text-secondary border" id="btnEditTaskFromDetail"
-                            title="Edit Task"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button class="btn btn-sm btn-light text-danger border" id="btnDeleteTaskFromDetail"
-                            title="Delete Task"><i class="fa-solid fa-trash-can"></i></button>
+                        <button class="btn btn-sm btn-light text-secondary border" id="btnEditTaskFromDetail" title="Edit Task"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-sm btn-light text-danger border" id="btnDeleteTaskFromDetail" title="Delete Task"><i class="fa-solid fa-trash-can"></i></button>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                 </div>
@@ -1233,15 +1312,12 @@
                             <div class="subtasks-section mb-4">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <h3 class="h6 fw-bold mb-0">Checklist Subtasks</h3>
-                                    <span class="fs-8 text-muted fw-semibold" id="detailSubtaskProgressText">2 of 4
-                                        completed</span>
+                                    <span class="fs-8 text-muted fw-semibold" id="detailSubtaskProgressText">2 of 4 completed</span>
                                 </div>
                                 <div class="progress mb-3" style="height: 8px;">
-                                    <div class="progress-bar bg-primary" id="detailProgressFill" role="progressbar"
-                                        style="width: 50%;"></div>
+                                    <div class="progress-bar bg-primary" id="detailProgressFill" role="progressbar" style="width: 50%;"></div>
                                 </div>
-                                <ul class="list-group list-group-flush subtask-checklist fs-7"
-                                    id="detailSubtasksChecklist">
+                                <ul class="list-group list-group-flush subtask-checklist fs-7" id="detailSubtasksChecklist">
                                     <!-- Dynamic checklist -->
                                 </ul>
                             </div>
@@ -1249,19 +1325,15 @@
                             <!-- Comments Stream -->
                             <div class="comments-section">
                                 <h3 class="h6 fw-bold mb-3">Activity & Comments</h3>
-                                <div class="comments-list d-flex flex-column gap-2 mb-3 overflow-y-auto"
-                                    id="commentsList" style="max-height: 200px;">
+                                <div class="comments-list d-flex flex-column gap-2 mb-3 overflow-y-auto" id="commentsList" style="max-height: 200px;">
                                     <!-- Dynamic Comments -->
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-text bg-white border-end-0 p-1">
-                                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80"
-                                            class="avatar-sm rounded-circle" alt="User">
+                                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" class="avatar-sm rounded-circle" alt="User">
                                     </span>
-                                    <input type="text" class="form-control border-start-0 border-end-0 fs-7"
-                                        id="newCommentInput" placeholder="Write a comment or update...">
-                                    <button class="btn btn-primary px-3 fs-7" id="btnSendComment"><i
-                                            class="fa-solid fa-paper-plane"></i></button>
+                                    <input type="text" class="form-control border-start-0 border-end-0 fs-7" id="newCommentInput" placeholder="Write a comment or update...">
+                                    <button class="btn btn-primary px-3 fs-7" id="btnSendComment"><i class="fa-solid fa-paper-plane"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -1275,6 +1347,29 @@
                                     <option value="review">Review</option>
                                     <option value="completed">Complete</option>
                                 </select>
+                            </div>
+
+                            <!-- Timeline & Schedule Info in Details -->
+                            <div class="p-3 bg-light rounded-3 border mb-3">
+                                <span class="fs-8 text-uppercase fw-bold text-muted d-block mb-2"><i class="fa-regular fa-calendar-days text-primary me-1"></i> Timeline Schedule</span>
+                                <div class="d-flex flex-column gap-1 fs-7">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted fs-8">Start Date:</span>
+                                        <span class="fw-bold text-dark fs-8" id="detailStartDate">Sep 01, 2026</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted fs-8">Due Date:</span>
+                                        <span class="fw-bold text-danger fs-8" id="detailDueDate">Sep 15, 2026</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted fs-8">Duration:</span>
+                                        <span class="badge bg-primary-subtle text-primary fw-bold" id="detailDuration">14 Days</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-1 pt-1 border-top">
+                                        <span class="text-muted fs-8">Priority:</span>
+                                        <span class="badge" id="detailPriorityBadge">Medium</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="mb-3">

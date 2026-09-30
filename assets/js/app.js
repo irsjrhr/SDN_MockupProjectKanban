@@ -11,7 +11,7 @@ $(document).ready(function () {
         { id: 'm4', name: 'James Wilson', role: 'Backend Programmer', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80' }
     ];
 
-    // Initial Data matching Mockup
+    // Initial Data matching Mockup with Comprehensive Timeline Schedule
     const INITIAL_TASKS = [
         // --- TO DO ---
         {
@@ -19,6 +19,10 @@ $(document).ready(function () {
             title: 'Homepage UI Design Draft',
             desc: 'Building the first version of homepage layout focusing on usability and flow.',
             status: 'todo',
+            priority: 'high',
+            startDate: '2026-09-01',
+            dueDate: '2026-09-06',
+            progress: 0,
             tags: ['Design UI/UX', 'Frontend'],
             assignees: ['m1', 'm2'],
             subtasks: [
@@ -36,6 +40,10 @@ $(document).ready(function () {
             title: 'Product Detail Wireframe',
             desc: 'Wireframing the product detail page with focus on images and description.',
             status: 'todo',
+            priority: 'medium',
+            startDate: '2026-09-04',
+            dueDate: '2026-09-11',
+            progress: 0,
             tags: ['UX', 'Research'],
             assignees: ['m1', 'm3'],
             subtasks: [
@@ -55,6 +63,10 @@ $(document).ready(function () {
             title: 'Shopping Cart Structure',
             desc: 'Planning the shopping cart page to ensure user-friendly checkout flow.',
             status: 'todo',
+            priority: 'high',
+            startDate: '2026-09-08',
+            dueDate: '2026-09-16',
+            progress: 0,
             tags: ['Backend', 'API'],
             assignees: ['m3', 'm4'],
             subtasks: [
@@ -78,6 +90,10 @@ $(document).ready(function () {
             title: 'User Registration Flow',
             desc: 'Building user account creation system with secure authentication.',
             status: 'in-progress',
+            priority: 'urgent',
+            startDate: '2026-09-02',
+            dueDate: '2026-09-12',
+            progress: 50,
             tags: ['Frontend', 'Auth'],
             assignees: ['m1', 'm3'],
             subtasks: [
@@ -102,6 +118,10 @@ $(document).ready(function () {
             title: 'Product Catalog Layout',
             desc: 'Creating responsive product grid for better shopping experience.',
             status: 'in-progress',
+            priority: 'medium',
+            startDate: '2026-09-06',
+            dueDate: '2026-09-18',
+            progress: 60,
             tags: ['Design UI/UX', 'Frontend'],
             assignees: ['m1', 'm2'],
             subtasks: [
@@ -120,6 +140,10 @@ $(document).ready(function () {
             title: 'Payment Gateway Setup',
             desc: 'Integrating payment gateway API to support multiple methods.',
             status: 'in-progress',
+            priority: 'urgent',
+            startDate: '2026-09-09',
+            dueDate: '2026-09-22',
+            progress: 75,
             tags: ['Backend', 'API'],
             assignees: ['m3', 'm4'],
             subtasks: [
@@ -140,6 +164,10 @@ $(document).ready(function () {
             title: 'Homepage Responsive Check',
             desc: 'Testing homepage layout across devices to ensure responsiveness.',
             status: 'review',
+            priority: 'high',
+            startDate: '2026-09-13',
+            dueDate: '2026-09-20',
+            progress: 50,
             tags: ['QA', 'Frontend'],
             assignees: ['m2', 'm3'],
             subtasks: [
@@ -158,6 +186,10 @@ $(document).ready(function () {
             title: 'Product Image Optimization',
             desc: 'Checking optimized images for clarity and performance balance.',
             status: 'review',
+            priority: 'medium',
+            startDate: '2026-09-15',
+            dueDate: '2026-09-24',
+            progress: 75,
             tags: ['Media', 'Performance'],
             assignees: ['m1', 'm2'],
             subtasks: [
@@ -175,6 +207,10 @@ $(document).ready(function () {
             title: 'Checkout Flow Testing',
             desc: 'Reviewing checkout process to ensure smooth user experience.',
             status: 'review',
+            priority: 'urgent',
+            startDate: '2026-09-18',
+            dueDate: '2026-09-27',
+            progress: 75,
             tags: ['QA', 'Backend'],
             assignees: ['m3', 'm4'],
             subtasks: [
@@ -194,6 +230,10 @@ $(document).ready(function () {
             title: 'Login Page Interface',
             desc: 'Finished building login interface including input validation.',
             status: 'completed',
+            priority: 'medium',
+            startDate: '2026-09-01',
+            dueDate: '2026-09-07',
+            progress: 100,
             tags: ['Design UI/UX', 'Frontend'],
             assignees: ['m1', 'm2'],
             subtasks: [
@@ -211,6 +251,10 @@ $(document).ready(function () {
             title: 'Database Schema Setup',
             desc: 'Delivered database setup with tables for users, orders, and items.',
             status: 'completed',
+            priority: 'high',
+            startDate: '2026-09-01',
+            dueDate: '2026-09-05',
+            progress: 100,
             tags: ['Backend', 'Database'],
             assignees: ['m3', 'm4'],
             subtasks: [
@@ -224,6 +268,48 @@ $(document).ready(function () {
             ]
         }
     ];
+
+    // Helper functions for dates & timeline
+    function parseDate(dateStr) {
+        if (!dateStr) return new Date(2026, 8, 1);
+        const parts = dateStr.split('-');
+        return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    }
+
+    function formatDateShort(dateStr) {
+        if (!dateStr) return '';
+        const d = parseDate(dateStr);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${months[d.getMonth()]} ${day}`;
+    }
+
+    function calculateDuration(startStr, dueStr) {
+        const d1 = parseDate(startStr);
+        const d2 = parseDate(dueStr);
+        const diffTime = Math.abs(d2 - d1);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        return isNaN(diffDays) ? 1 : diffDays;
+    }
+
+    function showLiveToast(msg, type = 'success') {
+        $('.timeline-live-toast').remove();
+        const icon = type === 'success' ? 'fa-circle-check text-success' : 'fa-circle-info text-primary';
+        const $toast = $(`
+            <div class="timeline-live-toast card shadow-lg border p-3 rounded-4 bg-white d-flex flex-row align-items-center gap-3">
+                <i class="fa-solid ${icon} fs-4"></i>
+                <div class="flex-grow-1">
+                    <span class="fw-bold fs-7 d-block text-dark">Syncboard Update</span>
+                    <span class="text-secondary fs-8">${msg}</span>
+                </div>
+                <button type="button" class="btn-close fs-8" onclick="$(this).closest('.timeline-live-toast').remove()"></button>
+            </div>
+        `);
+        $('body').append($toast);
+        setTimeout(() => {
+            $toast.fadeOut(300, function () { $(this).remove(); });
+        }, 3500);
+    }
 
     // Main App Controller
     const SyncboardApp = {
@@ -339,7 +425,7 @@ $(document).ready(function () {
                 }
             });
 
-            // Calendar Subtab Switcher (View by Calendar vs View by Timeline)
+            // Calendar Subtab Switcher (View by Calendar vs View by Timeline vs Task Timeline Scheduler)
             $('#calendarSubTabs').on('click', '.cal-subtab-btn', function (e) {
                 e.preventDefault();
                 $('#calendarSubTabs .cal-subtab-btn').removeClass('active');
@@ -351,6 +437,34 @@ $(document).ready(function () {
                     $('#subviewGrid').addClass('active');
                 } else if (subview === 'timeline') {
                     $('#subviewTimeline').addClass('active');
+                } else if (subview === 'schedule-manager') {
+                    $('#subviewScheduleManager').addClass('active');
+                }
+            });
+
+            // Quick Add Task from Calendar Header
+            $('#btnQuickAddTaskFromCal').on('click', function () {
+                self.openTaskModal(null, 'todo', '2026-09-01', '2026-09-15');
+            });
+
+            // Timeline Status Filter
+            $('#timelineStatusFilter').on('change', function () {
+                const status = $(this).val();
+                let filtered = self.getFilteredTasks();
+                if (status !== 'all') {
+                    filtered = filtered.filter(t => t.status === status);
+                }
+                self.renderTimelineSchedule(filtered);
+                self.renderTimelineSchedulerTable(filtered);
+            });
+
+            // Reset / Sync all task timelines to default
+            $('#btnSyncAllTimelines').on('click', function () {
+                if (confirm('Reset all task timelines to default September 2026 distribution?')) {
+                    self.tasks = JSON.parse(JSON.stringify(INITIAL_TASKS));
+                    self.saveTasks();
+                    self.renderAll();
+                    showLiveToast('All task timelines have been reset to default.');
                 }
             });
 
@@ -524,6 +638,7 @@ $(document).ready(function () {
             this.renderListTable(filtered);
             this.renderCalendar(filtered);
             this.renderTimelineSchedule(filtered);
+            this.renderTimelineSchedulerTable(filtered);
 
             // Update Header & Category Badges
             this.updateCounts();
@@ -593,7 +708,15 @@ $(document).ready(function () {
             const self = this;
             const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
             const doneSubtasks = task.subtasks ? task.subtasks.filter(s => s.done).length : 0;
-            const progressPercent = totalSubtasks > 0 ? Math.round((doneSubtasks / totalSubtasks) * 100) : 0;
+            const progressPercent = totalSubtasks > 0 ? Math.round((doneSubtasks / totalSubtasks) * 100) : (task.progress || 0);
+
+            // Priority and timeline attributes
+            const priority = task.priority || 'medium';
+            const priorityClass = `badge-priority-${priority}`;
+            const priorityLabel = priority.toUpperCase();
+            const startShort = formatDateShort(task.startDate || '2026-09-01');
+            const dueShort = formatDateShort(task.dueDate || '2026-09-15');
+            const durationDays = calculateDuration(task.startDate || '2026-09-01', task.dueDate || '2026-09-15');
 
             // Tag badges
             const tagsHtml = $.map(task.tags, function (tag) {
@@ -627,15 +750,23 @@ $(document).ready(function () {
             $card.html(`
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="card-tags">${tagsHtml}</div>
-                    <button class="btn btn-sm text-muted p-0 card-menu-btn" title="Options"><i class="fa-solid fa-ellipsis"></i></button>
+                    <span class="badge ${priorityClass} fs-8 fw-bold">${priorityLabel}</span>
                 </div>
                 <h4 class="card-title h6 fw-bold mb-1 text-dark">${task.title}</h4>
-                <p class="card-desc text-secondary fs-7 mb-3">${task.desc}</p>
+                <p class="card-desc text-secondary fs-7 mb-2">${task.desc}</p>
                 
+                <!-- Timeline Range Badge -->
+                <div class="d-flex align-items-center justify-content-between fs-8 text-muted mb-3 bg-light-subtle p-1.5 rounded-2 border">
+                    <span class="d-inline-flex align-items-center gap-1">
+                        <i class="fa-regular fa-calendar-days text-primary"></i> ${startShort} - ${dueShort}
+                    </span>
+                    <span class="badge bg-white text-dark border fw-bold">${durationDays}d</span>
+                </div>
+
                 <div class="card-progress-wrap mb-3">
                     <div class="d-flex justify-content-between align-items-center fs-8 fw-semibold text-muted mb-1">
-                        <span>Progress</span>
-                        <span>${doneSubtasks}/${totalSubtasks}</span>
+                        <span>Checklist</span>
+                        <span>${doneSubtasks}/${totalSubtasks} (${progressPercent}%)</span>
                     </div>
                     <div class="progress" style="height: 5px;">
                         <div class="progress-bar bg-${self.getStatusBsColor(task.status)}" style="width: ${progressPercent}%;"></div>
@@ -714,6 +845,7 @@ $(document).ready(function () {
                     completed: '<span class="badge badge-complete rounded-pill px-2 py-1 fs-8">Complete</span>'
                 };
 
+                const priorityClass = `badge-priority-${task.priority || 'medium'}`;
                 const tagsHtml = $.map(task.tags, t => `<span class="tag-badge tag-default me-1">${t}</span>`).join('');
                 
                 const assigneesHtml = $.map(task.assignees, mId => {
@@ -723,11 +855,15 @@ $(document).ready(function () {
 
                 const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
                 const doneSubtasks = task.subtasks ? task.subtasks.filter(s => s.done).length : 0;
+                const startShort = formatDateShort(task.startDate || '2026-09-01');
+                const dueShort = formatDateShort(task.dueDate || '2026-09-15');
 
                 const $tr = $('<tr>');
                 $tr.html(`
                     <td class="py-3 px-4 fw-bold cursor-pointer task-title-cell text-dark">${task.title}</td>
                     <td class="py-3 px-4">${statusBadgeMap[task.status] || ''}</td>
+                    <td class="py-3 px-4"><span class="badge ${priorityClass} fs-8">${(task.priority || 'medium').toUpperCase()}</span></td>
+                    <td class="py-3 px-4 fs-8 text-muted fw-semibold">${startShort} - ${dueShort}</td>
                     <td class="py-3 px-4">${tagsHtml}</td>
                     <td class="py-3 px-4 fw-semibold text-muted">${doneSubtasks}/${totalSubtasks}</td>
                     <td class="py-3 px-4"><div class="card-assignees">${assigneesHtml}</div></td>
@@ -745,7 +881,7 @@ $(document).ready(function () {
         },
 
         /* -------------------------------------------------------------------------- */
-        /* CALENDAR VIEW RENDER                                                       */
+        /* CALENDAR VIEW RENDER (SEPTEMBER 2026 REAL CALENDAR)                        */
         /* -------------------------------------------------------------------------- */
         renderCalendar(tasks) {
             const self = this;
@@ -753,38 +889,91 @@ $(document).ready(function () {
 
             const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             $.each(days, function (i, day) {
-                $grid.append(`<div class="text-center fs-8 fw-bold text-muted pb-2">${day}</div>`);
+                $grid.append(`<div class="text-center fs-8 fw-bold text-muted pb-2 border-bottom">${day}</div>`);
             });
 
+            // September 2026: 30 days. Sep 1 is Tuesday.
+            // 2 prev days (Aug 30, Aug 31), 30 days of Sep, 3 next days (Oct 1, 2, 3) = 35 cells.
             for (let i = 1; i <= 35; i++) {
-                const dateNum = (i % 30) || 30;
-                const $cell = $('<div>', { class: 'cal-cell' });
-                $cell.append(`<span class="cal-date-num">${dateNum}</span>`);
+                let dayNum = 0;
+                let isCurrentMonth = true;
+                let dateStr = '';
 
-                const dayTasks = tasks.filter((_, idx) => (idx % 30) + 1 === dateNum);
-                $.each(dayTasks, function (_, task) {
-                    const $pill = $('<div>', {
-                        class: 'cal-task-pill tag-default text-truncate',
-                        text: task.title
-                    }).on('click', function () {
-                        self.openDetailModal(task.id);
-                    });
-                    $cell.append($pill);
+                if (i <= 2) {
+                    // Aug 30, Aug 31
+                    dayNum = 29 + i;
+                    isCurrentMonth = false;
+                    dateStr = `2026-08-${String(dayNum).padStart(2, '0')}`;
+                } else if (i > 32) {
+                    // Oct 1, Oct 2, Oct 3
+                    dayNum = i - 32;
+                    isCurrentMonth = false;
+                    dateStr = `2026-10-${String(dayNum).padStart(2, '0')}`;
+                } else {
+                    // Sep 1 - Sep 30
+                    dayNum = i - 2;
+                    dateStr = `2026-09-${String(dayNum).padStart(2, '0')}`;
+                }
+
+                const $cell = $('<div>', {
+                    class: `cal-cell ${isCurrentMonth ? '' : 'bg-light-subtle opacity-75'}`
                 });
+
+                const $cellHeader = $(`
+                    <div class="cal-cell-header">
+                        <span class="cal-date-num ${dayNum === 15 && isCurrentMonth ? 'badge bg-primary text-white p-1 rounded-circle' : ''}">${dayNum}</span>
+                        ${isCurrentMonth ? `<button class="btn btn-sm btn-link text-decoration-none cal-cell-add-btn text-muted" title="Add task on Sep ${dayNum}"><i class="fa-solid fa-plus"></i></button>` : ''}
+                    </div>
+                `);
+
+                $cellHeader.find('.cal-cell-add-btn').on('click', function (e) {
+                    e.stopPropagation();
+                    self.openTaskModal(null, 'todo', dateStr, dateStr);
+                });
+
+                $cell.append($cellHeader);
+
+                // Find tasks that are scheduled on this day
+                if (isCurrentMonth) {
+                    const thisDate = parseDate(dateStr);
+                    const dayTasks = tasks.filter(t => {
+                        const start = parseDate(t.startDate || '2026-09-01');
+                        const due = parseDate(t.dueDate || '2026-09-15');
+                        return start <= thisDate && thisDate <= due;
+                    });
+
+                    $.each(dayTasks.slice(0, 3), function (_, task) {
+                        const statusClass = `badge-${task.status === 'completed' ? 'complete' : task.status === 'in-progress' ? 'progress' : task.status}`;
+                        const $pill = $('<div>', {
+                            class: `cal-task-pill ${statusClass} text-truncate d-flex align-items-center gap-1 shadow-2xs`,
+                            title: `${task.title} (${task.startDate} to ${task.dueDate})`
+                        });
+                        $pill.html(`<i class="fa-solid fa-circle fs-9"></i> <span>${task.title}</span>`);
+                        $pill.on('click', function (e) {
+                            e.stopPropagation();
+                            self.openDetailModal(task.id);
+                        });
+                        $cell.append($pill);
+                    });
+
+                    if (dayTasks.length > 3) {
+                        $cell.append(`<span class="fs-9 text-muted fw-bold">+${dayTasks.length - 3} more</span>`);
+                    }
+                }
 
                 $grid.append($cell);
             }
-
-            // Render Timeline Schedule Subview
-            this.renderTimelineSchedule(tasks);
         },
 
+        /* -------------------------------------------------------------------------- */
+        /* TIMELINE SCHEDULE (GANTT) RENDER                                           */
+        /* -------------------------------------------------------------------------- */
         renderTimelineSchedule(tasks) {
             const self = this;
             const $list = $('#timelineTasksList').empty();
 
             if (tasks.length === 0) {
-                $list.html('<div class="text-center text-muted p-4 fs-7">No tasks found for timeline.</div>');
+                $list.html('<div class="text-center text-muted p-4 fs-7"><i class="fa-regular fa-folder-open me-2"></i> No tasks found matching the filter.</div>');
                 return;
             }
 
@@ -796,39 +985,77 @@ $(document).ready(function () {
             };
 
             const statusBadgeMap = {
-                todo: '<span class="badge badge-todo rounded-pill px-2 py-0.5 fs-8 me-2">To Do</span>',
-                'in-progress': '<span class="badge badge-progress rounded-pill px-2 py-0.5 fs-8 me-2">In Progress</span>',
-                review: '<span class="badge badge-review rounded-pill px-2 py-0.5 fs-8 me-2">Review</span>',
-                completed: '<span class="badge badge-complete rounded-pill px-2 py-0.5 fs-8 me-2">Complete</span>'
+                todo: '<span class="badge badge-todo rounded-pill px-2 py-0.5 fs-8 me-1.5">To Do</span>',
+                'in-progress': '<span class="badge badge-progress rounded-pill px-2 py-0.5 fs-8 me-1.5">In Progress</span>',
+                review: '<span class="badge badge-review rounded-pill px-2 py-0.5 fs-8 me-1.5">Review</span>',
+                completed: '<span class="badge badge-complete rounded-pill px-2 py-0.5 fs-8 me-1.5">Complete</span>'
             };
 
             $.each(tasks, function (idx, task) {
-                const widthPercent = Math.min(100, Math.max(30, ((idx + 1) * 25) % 100));
-                const startMargin = (idx * 15) % 55;
+                const startObj = parseDate(task.startDate || '2026-09-01');
+                const dueObj = parseDate(task.dueDate || '2026-09-15');
+                const startDay = Math.min(30, Math.max(1, startObj.getDate()));
+                const dueDay = Math.min(30, Math.max(1, dueObj.getDate()));
+                const duration = calculateDuration(task.startDate || '2026-09-01', task.dueDate || '2026-09-15');
+
+                const startMargin = ((startDay - 1) / 30) * 100;
+                const widthPercent = Math.max(10, Math.min(100 - startMargin, (duration / 30) * 100));
+
+                const priority = task.priority || 'medium';
+                const priorityClass = `badge-priority-${priority}`;
 
                 const assigneesHtml = $.map(task.assignees, mId => {
                     const m = TEAM_MEMBERS.find(mem => mem.id === mId);
                     return m ? `<img src="${m.avatar}" class="avatar-xs rounded-circle me-1" title="${m.name}" alt="${m.name}">` : '';
                 }).join('');
 
-                const $row = $('<div>', { class: 'timeline-row d-flex align-items-center' });
+                const $row = $('<div>', { class: 'gantt-grid-row gap-3' });
                 $row.html(`
-                    <div class="d-flex flex-column" style="width: 260px; flex-shrink: 0;">
-                        <span class="fw-bold fs-7 text-dark text-truncate">${task.title}</span>
-                        <div class="d-flex align-items-center mt-1">
+                    <!-- Task Title & Date info -->
+                    <div class="d-flex flex-column" style="min-width: 0;">
+                        <span class="fw-bold fs-7 text-dark text-truncate" title="${task.title}">${task.title}</span>
+                        <div class="d-flex align-items-center gap-1 mt-1 flex-wrap">
                             ${statusBadgeMap[task.status] || ''}
-                            <span class="fs-8 text-muted fw-semibold">${task.tags.join(', ')}</span>
+                            <span class="badge ${priorityClass} fs-9">${priority.toUpperCase()}</span>
+                            <span class="fs-8 text-muted fw-semibold">${formatDateShort(task.startDate)} - ${formatDateShort(task.dueDate)} (${duration}d)</span>
                         </div>
                     </div>
-                    <div class="flex-grow-1 px-3">
-                        <div class="timeline-bar-track">
-                            <div class="timeline-bar-fill ${statusClassMap[task.status] || 'timeline-bar-progress'}" style="width: ${widthPercent}%; margin-left: ${startMargin}%;"></div>
+
+                    <!-- Gantt Timeline Bar -->
+                    <div class="px-2">
+                        <div class="timeline-bar-track position-relative" style="height: 18px; border-radius: 999px;">
+                            <div class="timeline-bar-fill ${statusClassMap[task.status] || 'timeline-bar-progress'} d-flex align-items-center justify-content-center text-white fs-9 fw-bold px-2 text-truncate" 
+                                 style="width: ${widthPercent}%; margin-left: ${startMargin}%; height: 100%; border-radius: 999px;"
+                                 title="${task.title}: ${task.startDate} to ${task.dueDate} (${duration} days)">
+                                ${duration >= 4 ? `${duration} days` : ''}
+                            </div>
                         </div>
                     </div>
-                    <div style="width: 100px; flex-shrink: 0;" class="d-flex justify-content-end">
+
+                    <!-- Actions & Assignees -->
+                    <div class="d-flex align-items-center justify-content-end gap-2">
                         <div class="card-assignees">${assigneesHtml}</div>
+                        <button class="btn btn-sm btn-outline-secondary py-0.5 px-2 fs-8 btn-quick-adjust-timeline" title="Adjust Timeline Dates">
+                            <i class="fa-solid fa-sliders"></i>
+                        </button>
                     </div>
-                `).on('click', function () {
+                `);
+
+                $row.find('.btn-quick-adjust-timeline').on('click', function (e) {
+                    e.stopPropagation();
+                    // Switch to Task Timeline Scheduler tab and highlight row
+                    $('#calendarSubTabs .cal-subtab-btn[data-subview="schedule-manager"]').trigger('click');
+                    setTimeout(() => {
+                        const $targetRow = $(`#row-schedule-${task.id}`);
+                        if ($targetRow.length) {
+                            $targetRow[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            $targetRow.addClass('table-primary');
+                            setTimeout(() => $targetRow.removeClass('table-primary'), 1500);
+                        }
+                    }, 50);
+                });
+
+                $row.on('click', function () {
                     self.openDetailModal(task.id);
                 });
 
@@ -837,9 +1064,134 @@ $(document).ready(function () {
         },
 
         /* -------------------------------------------------------------------------- */
+        /* TASK TIMELINE SCHEDULER TABLE RENDER (DIRECT INLINE DATE ADJUSTMENT)      */
+        /* -------------------------------------------------------------------------- */
+        renderTimelineSchedulerTable(tasks) {
+            const self = this;
+            const $tbody = $('#timelineSchedulerTableBody').empty();
+
+            if (tasks.length === 0) {
+                $tbody.html('<tr><td colspan="8" class="text-center text-muted p-4">No tasks found for timeline scheduling.</td></tr>');
+                return;
+            }
+
+            const statusBadgeMap = {
+                todo: '<span class="badge badge-todo rounded-pill px-2 py-1 fs-8">To Do</span>',
+                'in-progress': '<span class="badge badge-progress rounded-pill px-2 py-1 fs-8">In Progress</span>',
+                review: '<span class="badge badge-review rounded-pill px-2 py-1 fs-8">Review</span>',
+                completed: '<span class="badge badge-complete rounded-pill px-2 py-1 fs-8">Complete</span>'
+            };
+
+            $.each(tasks, function (idx, task) {
+                const startDateVal = task.startDate || '2026-09-01';
+                const dueDateVal = task.dueDate || '2026-09-15';
+                const priorityVal = task.priority || 'medium';
+                const durationDays = calculateDuration(startDateVal, dueDateVal);
+
+                const $tr = $('<tr>', { id: `row-schedule-${task.id}` });
+                $tr.html(`
+                    <!-- Task Title -->
+                    <td class="py-2.5 px-3">
+                        <span class="fw-bold text-dark d-block">${task.title}</span>
+                        <span class="fs-8 text-muted">${task.tags.join(', ')}</span>
+                    </td>
+
+                    <!-- Status -->
+                    <td class="py-2.5 px-2">${statusBadgeMap[task.status] || ''}</td>
+
+                    <!-- Priority Selector -->
+                    <td class="py-2.5 px-2">
+                        <select class="form-select form-select-sm fs-8 py-1 task-table-priority" data-task-id="${task.id}">
+                            <option value="low" ${priorityVal === 'low' ? 'selected' : ''}>Low</option>
+                            <option value="medium" ${priorityVal === 'medium' ? 'selected' : ''}>Medium</option>
+                            <option value="high" ${priorityVal === 'high' ? 'selected' : ''}>High</option>
+                            <option value="urgent" ${priorityVal === 'urgent' ? 'selected' : ''}>Urgent</option>
+                        </select>
+                    </td>
+
+                    <!-- Start Date Input -->
+                    <td class="py-2.5 px-2">
+                        <input type="date" class="form-control form-control-sm fs-8 py-1 task-table-start" data-task-id="${task.id}" value="${startDateVal}">
+                    </td>
+
+                    <!-- Due Date Input -->
+                    <td class="py-2.5 px-2">
+                        <input type="date" class="form-control form-control-sm fs-8 py-1 task-table-due" data-task-id="${task.id}" value="${dueDateVal}">
+                    </td>
+
+                    <!-- Duration Badge -->
+                    <td class="py-2.5 px-2">
+                        <span class="badge bg-primary-subtle text-primary fw-bold task-table-duration fs-8">${durationDays}d</span>
+                    </td>
+
+                    <!-- Quick Preset Buttons -->
+                    <td class="py-2.5 px-2">
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-light border timeline-quick-btn btn-preset" data-task-id="${task.id}" data-days="3" title="+3 Days">+3d</button>
+                            <button class="btn btn-light border timeline-quick-btn btn-preset" data-task-id="${task.id}" data-days="7" title="+1 Week">+1w</button>
+                            <button class="btn btn-light border timeline-quick-btn btn-preset-week" data-task-id="${task.id}" data-week="this" title="Set to Week 1">W1</button>
+                        </div>
+                    </td>
+
+                    <!-- Action Save Button -->
+                    <td class="py-2.5 px-3 text-end">
+                        <button class="btn btn-sm btn-primary py-1 px-2 fs-8 fw-semibold btn-save-timeline-row" data-task-id="${task.id}">
+                            <i class="fa-solid fa-floppy-disk me-1"></i> Apply
+                        </button>
+                    </td>
+                `);
+
+                // Live date recalculation on change
+                const updateRowDuration = () => {
+                    const start = $tr.find('.task-table-start').val();
+                    const due = $tr.find('.task-table-due').val();
+                    const dur = calculateDuration(start, due);
+                    $tr.find('.task-table-duration').text(`${dur}d`);
+                };
+
+                $tr.find('.task-table-start, .task-table-due').on('change', updateRowDuration);
+
+                // Quick Preset Handler
+                $tr.find('.btn-preset').on('click', function () {
+                    const days = parseInt($(this).data('days')) || 3;
+                    const $startInput = $tr.find('.task-table-start');
+                    const $dueInput = $tr.find('.task-table-due');
+                    const curStart = parseDate($startInput.val());
+                    const newDue = new Date(curStart.getFullYear(), curStart.getMonth(), curStart.getDate() + days - 1);
+                    const dueStr = `${newDue.getFullYear()}-${String(newDue.getMonth() + 1).padStart(2, '0')}-${String(newDue.getDate()).padStart(2, '0')}`;
+                    $dueInput.val(dueStr);
+                    updateRowDuration();
+                });
+
+                $tr.find('.btn-preset-week').on('click', function () {
+                    $tr.find('.task-table-start').val('2026-09-01');
+                    $tr.find('.task-table-due').val('2026-09-07');
+                    updateRowDuration();
+                });
+
+                // Save Timeline Row Button
+                $tr.find('.btn-save-timeline-row').on('click', function () {
+                    const startVal = $tr.find('.task-table-start').val();
+                    const dueVal = $tr.find('.task-table-due').val();
+                    const priorityVal = $tr.find('.task-table-priority').val();
+
+                    task.startDate = startVal;
+                    task.dueDate = dueVal;
+                    task.priority = priorityVal;
+
+                    self.saveTasks();
+                    self.renderAll();
+                    showLiveToast(`Timeline for <b>"${task.title}"</b> updated to <b>${formatDateShort(startVal)} - ${formatDateShort(dueVal)}</b>!`);
+                });
+
+                $tbody.append($tr);
+            });
+        },
+
+        /* -------------------------------------------------------------------------- */
         /* TASK MODAL HANDLERS                                                        */
         /* -------------------------------------------------------------------------- */
-        openTaskModal(taskId = null, defaultStatus = 'todo') {
+        openTaskModal(taskId = null, defaultStatus = 'todo', defaultStart = '2026-09-01', defaultDue = '2026-09-15') {
             $('#taskForm')[0].reset();
             $('#subtaskInputsList').empty();
             this.renderMemberSelectorGrid();
@@ -852,6 +1204,9 @@ $(document).ready(function () {
                     $('#taskTitle').val(task.title);
                     $('#taskDescription').val(task.desc);
                     $('#taskStatus').val(task.status);
+                    $('#taskPriority').val(task.priority || 'medium');
+                    $('#taskStartDate').val(task.startDate || '2026-09-01');
+                    $('#taskDueDate').val(task.dueDate || '2026-09-15');
                     $('#taskTagsInput').val(task.tags.join(', '));
 
                     // Check member checkboxes
@@ -871,6 +1226,9 @@ $(document).ready(function () {
                 $('#modalTaskHeading').text('Create New Task');
                 $('#taskId').val('');
                 $('#taskStatus').val(defaultStatus);
+                $('#taskPriority').val('medium');
+                $('#taskStartDate').val(defaultStart);
+                $('#taskDueDate').val(defaultDue);
                 this.addSubtaskInputField('');
                 this.addSubtaskInputField('');
             }
@@ -915,6 +1273,9 @@ $(document).ready(function () {
             const title = $('#taskTitle').val().trim();
             const desc = $('#taskDescription').val().trim();
             const status = $('#taskStatus').val();
+            const priority = $('#taskPriority').val() || 'medium';
+            const startDate = $('#taskStartDate').val() || '2026-09-01';
+            const dueDate = $('#taskDueDate').val() || '2026-09-15';
             const tagsRaw = $('#taskTagsInput').val();
 
             const tags = $.map(tagsRaw.split(','), t => t.trim()).filter(t => t.length > 0);
@@ -942,21 +1303,30 @@ $(document).ready(function () {
                     title,
                     desc,
                     status,
+                    priority,
+                    startDate,
+                    dueDate,
                     tags,
                     assignees,
                     subtasks
                 };
+                showLiveToast(`Task <b>"${title}"</b> updated successfully!`);
             } else {
                 this.tasks.push({
                     id,
                     title,
                     desc,
                     status,
+                    priority,
+                    startDate,
+                    dueDate,
+                    progress: 0,
                     tags,
                     assignees,
                     subtasks,
                     comments: []
                 });
+                showLiveToast(`Task <b>"${title}"</b> created with timeline schedule!`);
             }
 
             this.saveTasks();
@@ -975,6 +1345,21 @@ $(document).ready(function () {
             $('#detailTitle').text(task.title);
             $('#detailDesc').text(task.desc);
             $('#detailStatusSelect').val(task.status);
+
+            // Timeline Schedule fields in details
+            const startStr = task.startDate || '2026-09-01';
+            const dueStr = task.dueDate || '2026-09-15';
+            const duration = calculateDuration(startStr, dueStr);
+            const priority = task.priority || 'medium';
+
+            $('#detailStartDate').text(formatDateShort(startStr) + ', 2026');
+            $('#detailDueDate').text(formatDateShort(dueStr) + ', 2026');
+            $('#detailDuration').text(`${duration} Days`);
+
+            const priorityClass = `badge-priority-${priority}`;
+            $('#detailPriorityBadge')
+                .attr('class', `badge ${priorityClass}`)
+                .text(priority.toUpperCase());
 
             // Tags
             const tagsHtml = $.map(task.tags, t => `<span class="tag-badge tag-default me-1">${t}</span>`).join('');
@@ -1008,7 +1393,7 @@ $(document).ready(function () {
             const self = this;
             const total = task.subtasks ? task.subtasks.length : 0;
             const done = task.subtasks ? task.subtasks.filter(s => s.done).length : 0;
-            const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+            const percent = total > 0 ? Math.round((done / total) * 100) : (task.progress || 0);
 
             $('#detailSubtaskProgressText').text(`${done} of ${total} completed`);
             $('#detailProgressFill').css('width', `${percent}%`);

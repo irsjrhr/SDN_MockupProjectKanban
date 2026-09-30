@@ -135,6 +135,7 @@ APPS TO DO PROJECT/
 │   └── sidebar.php                 # Sidebar data untuk Monitoring module
 ├── Setting/                        # Modul Master Pengaturan Aplikasi
 │   ├── index.php                   # Redirect ke general.php
+│   ├── account.php                 # Personal profile, avatar, credentials & account preferences
 │   ├── general.php                 # Workspace branding, timezone & defaults
 │   ├── kanban.php                  # Master kanban stages, WIP limits & priorities
 │   ├── notifications.php           # Notification channels (Slack, Discord, SMTP)
@@ -142,8 +143,8 @@ APPS TO DO PROJECT/
 │   ├── security.php                # 2FA enforcement, session timeout & audit policy
 │   └── sidebar.php                 # Sidebar data untuk Setting module
 ├── Workspace/                      # Modul Ruang Kerja Tim & Proyek
-│   ├── Kanban Project.php          # Interactive Multi-Project Kanban Board
-│   ├── Kanban Master.php           # Master Kanban view (Board & List views)
+│   ├── KanbanProject.php           # Master Project portfolio & directory (Dashboard, Board & List)
+│   ├── KanbanTask.php              # Interactive Task Kanban Board (Kanban, List, Calendar & Timeline)
 │   ├── CalendarTimeline.php        # Master Calendar, Gantt Timeline & Milestone Config
 │   ├── dashboard.php               # Workspace analytics & sprint completion stats
 │   ├── Teams.php                   # Direktori anggota tim & alokasi beban kerja

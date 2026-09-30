@@ -25,41 +25,47 @@ $sidebarMenu = [
                     'active' => ($currentPage === 'dashboard')
                 ],
                 [
-                    'title' => 'Kanban Master',
-                    'url' => $basePath . 'Workspace/Kanban Master.php',
-                    'icon' => 'fa-solid fa-table-columns',
-                    'active' => ($currentPage === 'kanban-master')
+                    'title' => 'Kanban Project',
+                    'url' => $basePath . 'Workspace/KanbanProject.php',
+                    'icon' => 'fa-solid fa-layer-group',
+                    'active' => in_array($currentPage, ['kanban-project', 'kanban-master'])
                 ],
                 [
-                    'title' => 'Kanban Project',
+                    'title' => 'Kanban Task',
                     'url' => '#',
-                    'icon' => 'fa-solid fa-layer-group',
+                    'icon' => 'fa-solid fa-table-columns',
                     'has_submenu' => true,
-                    'open' => in_array($currentPage, ['kanban', 'project-company', 'project-middleware', 'project-landing']),
-                    'active' => in_array($currentPage, ['kanban', 'project-company', 'project-middleware', 'project-landing']),
+                    'open' => in_array($currentPage, ['kanban', 'kanban-task', 'project-company', 'project-middleware', 'project-landing']),
+                    'active' => in_array($currentPage, ['kanban', 'kanban-task', 'project-company', 'project-middleware', 'project-landing']),
                     'submenu' => [
                         [
                             'title' => 'Company Website',
-                            'url' => $basePath . 'Workspace/Kanban Project.php?project=company',
+                            'url' => $basePath . 'Workspace/KanbanTask.php?project=company',
                             'badge_class' => 'badge-company',
                             'badge_icon' => 'fa-solid fa-play fa-rotate-270',
                             'active' => ($currentPage === 'project-company')
                         ],
                         [
                             'title' => 'Middleware Project',
-                            'url' => $basePath . 'Workspace/Kanban Project.php',
+                            'url' => $basePath . 'Workspace/KanbanTask.php',
                             'badge_class' => 'badge-ecommerce',
                             'badge_icon' => 'fa-solid fa-bag-shopping',
-                            'active' => ($currentPage === 'kanban' || $currentPage === 'project-middleware')
+                            'active' => ($currentPage === 'kanban' || $currentPage === 'project-middleware' || $currentPage === 'kanban-task')
                         ],
                         [
                             'title' => 'Landing Page Campaign',
-                            'url' => $basePath . 'Workspace/Kanban Project.php?project=landing',
+                            'url' => $basePath . 'Workspace/KanbanTask.php?project=landing',
                             'badge_class' => 'badge-landing',
                             'badge_icon' => 'fa-solid fa-play fa-rotate-270',
                             'active' => ($currentPage === 'project-landing')
                         ],
                     ]
+                ],
+                [
+                    'title' => 'Calendar & Timeline',
+                    'url' => $basePath . 'Workspace/CalendarTimeline.php',
+                    'icon' => 'fa-solid fa-calendar-days',
+                    'active' => in_array($currentPage, ['calendar-timeline', 'timeline', 'calendar'])
                 ],
 
                 [

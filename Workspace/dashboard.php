@@ -89,8 +89,8 @@ $basePath = '../';
                 </div>
 
                 <div class="project-actions-area d-flex align-items-center gap-3">
-                    <a href="Kanban Project.php" class="btn btn-primary px-3 py-2 fw-semibold rounded-3 d-flex align-items-center gap-2 shadow-sm">
-                        <i class="fa-solid fa-layer-group"></i> Go to Kanban
+                    <a href="KanbanTask.php" class="btn btn-primary px-3 py-2 fw-semibold rounded-3 d-flex align-items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-table-columns"></i> Go to Kanban
                     </a>
                 </div>
             </section>
