@@ -22,7 +22,8 @@ $targetEmail = isset($_GET['email']) && !empty($_GET['email']) ? htmlspecialchar
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="<?= $basePath ?>assets/img/sdn.png">
+    <link rel="icon" type="image/png" href="<?= $basePath ?>assets/img/sdnicon.png">
+    <link rel="apple-touch-icon" href="<?= $basePath ?>assets/img/sdnicon.png">
     <title><?= htmlspecialchars($pageTitle) ?></title>
 
     <!-- Google Fonts -->

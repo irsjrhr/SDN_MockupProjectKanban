@@ -1,0 +1,105 @@
+/**
+ * ==============================================================================
+ * SYNCBOARD DESIGN SYSTEM - KANBAN BOARD & CARDS
+ * Location: /assets/css/kanban.css
+ * ==============================================================================
+ */
+
+.kanban-column {
+    min-height: 500px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.kanban-column.drag-over {
+    background-color: var(--color-primary-light) !important;
+    border-color: var(--color-primary) !important;
+}
+
+.badge-todo { background-color: var(--color-todo-bg); color: var(--color-todo); }
+.badge-progress { background-color: var(--color-progress-bg); color: var(--color-progress); }
+.badge-review { background-color: var(--color-review-bg); color: var(--color-review); }
+.badge-complete { background-color: var(--color-complete-bg); color: var(--color-complete); }
+
+.task-card {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: grab;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.task-card:hover {
+    box-shadow: 0 12px 24px -8px rgba(79, 70, 229, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+}
+
+.task-card:active {
+    cursor: grabbing;
+}
+
+.task-card.dragging {
+    opacity: 0.5;
+    transform: scale(0.98);
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag-badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.tag-design { background-color: #f3e8ff; color: #7e22ce; }
+.tag-frontend { background-color: #e0e7ff; color: #3730a3; }
+.tag-auth { background-color: #e0f2fe; color: #0369a1; }
+.tag-qa { background-color: #fef3c7; color: #b45309; }
+.tag-research { background-color: #fce7f3; color: #be185d; }
+.tag-media { background-color: #ffedd5; color: #c2410c; }
+.tag-performance { background-color: #fef9c3; color: #a16207; }
+.tag-backend { background-color: #fee2e2; color: #b91c1c; }
+.tag-api { background-color: #e0f2fe; color: #0284c7; }
+.tag-database { background-color: #dcfce7; color: #15803d; }
+.tag-default { background-color: #f1f5f9; color: #475569; }
+
+.card-assignees {
+    display: flex;
+    align-items: center;
+}
+
+.card-assignees img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    margin-left: -7px;
+    object-fit: cover;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.15s ease, z-index 0.15s ease;
+}
+
+.card-assignees img:first-child {
+    margin-left: 0;
+}
+
+.card-assignees img:hover {
+    transform: translateY(-2px) scale(1.2);
+    z-index: 5;
+}
+
+/* Views Display Switcher */
+.view-content {
+    display: none;
+}
+
+.view-content.active {
+    display: block;
+}

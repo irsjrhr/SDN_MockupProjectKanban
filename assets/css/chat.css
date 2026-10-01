@@ -1,0 +1,71 @@
+/**
+ * ==============================================================================
+ * SYNCBOARD DESIGN SYSTEM - WORKSPACE MESSAGES & CHAT UI
+ * Location: /assets/css/chat.css
+ * ==============================================================================
+ */
+
+.chat-container {
+    height: calc(100vh - 170px);
+    min-height: 600px;
+}
+
+.chat-sidebar {
+    width: 320px;
+    min-width: 320px;
+}
+
+.chat-thread-container {
+    height: calc(100% - 150px);
+}
+
+.chat-bubble {
+    max-width: 75%;
+    border-radius: 16px;
+    position: relative;
+}
+
+.chat-bubble.incoming {
+    background-color: #f8fafc;
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
+    border-bottom-left-radius: 4px;
+}
+
+.chat-bubble.outgoing {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-bubble.outgoing .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.chat-bubble.outgoing .code-snippet {
+    background: rgba(0, 0, 0, 0.25);
+    color: #f8fafc;
+}
+
+.code-snippet {
+    background-color: #1e293b;
+    color: #38bdf8;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 0.8rem;
+}
+
+.chat-user-item {
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.chat-user-item:hover {
+    background-color: #f1f5f9;
+}
+
+.chat-user-item.active {
+    background-color: #eef2ff;
+    border-left: 3px solid var(--color-primary);
+}

@@ -1,0 +1,276 @@
+/**
+ * ==============================================================================
+ * SYNCBOARD DESIGN SYSTEM - DUAL SIDEBAR & TOP NAVBAR LAYOUT
+ * Location: /assets/css/layout.css
+ * ==============================================================================
+ */
+
+/* -------------------------------------------------------------------------- */
+/* 1. PRIMARY FAR-LEFT RAIL SIDEBAR                                           */
+/* -------------------------------------------------------------------------- */
+.sidebar-rail {
+    width: 64px;
+    min-width: 64px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    z-index: 1045;
+    background: linear-gradient(180deg, #1e3a8a 0%, #0f172a 100%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.rail-brand-icon {
+    width: 42px;
+    height: 42px;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+}
+
+.rail-brand-icon:hover {
+    transform: scale(1.05);
+}
+
+.rail-item {
+    width: 42px;
+    height: 42px;
+    color: #93c5fd;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    font-size: 1.1rem;
+}
+
+.rail-item:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+.rail-item.active {
+    background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. SECONDARY PANEL SIDEBAR                                                 */
+/* -------------------------------------------------------------------------- */
+.sidebar {
+    width: 250px;
+    min-width: 250px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    z-index: 1040;
+    background-color: #ffffff;
+    transition: transform var(--transition-fast);
+}
+
+.sidebar-header {
+    padding: 14px 16px;
+}
+
+.workspace-selector {
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: background-color var(--transition-fast);
+}
+
+.workspace-selector:hover {
+    background-color: #f8fafc;
+}
+
+.workspace-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.workspace-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* Section Header */
+.section-header {
+    margin-bottom: 6px;
+}
+
+.section-title {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    color: var(--text-muted) !important;
+}
+
+/* Nav Item List */
+.nav-list {
+    gap: 3px;
+}
+
+.nav-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary) !important;
+    padding: 7px 10px !important;
+    border-radius: 8px;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    background-color: #f1f5f9;
+    color: var(--text-primary) !important;
+}
+
+.nav-link.active {
+    background-color: transparent;
+    color: var(--text-primary) !important;
+}
+
+.nav-link .icon {
+    font-size: 14px;
+    width: 16px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* Submenu Arrow Animation */
+.submenu-arrow {
+    transition: transform var(--transition-fast);
+}
+
+.has-submenu.open .submenu-arrow {
+    transform: rotate(180deg);
+}
+
+.submenu {
+    display: none;
+}
+
+.has-submenu.open .submenu {
+    display: block;
+}
+
+.submenu-link {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+}
+
+.submenu-link:hover {
+    background-color: #f1f5f9;
+    color: var(--text-primary);
+}
+
+.submenu-link.active {
+    background-color: #ffffff;
+    color: var(--text-primary) !important;
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 1px #e2e8f0;
+}
+
+/* Submenu Badge Icons matching Mockup */
+.badge-icon-sm {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: white;
+}
+
+.badge-company {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.badge-ecommerce {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+}
+
+.badge-landing {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. TOP NAVBAR                                                              */
+/* -------------------------------------------------------------------------- */
+.top-navbar {
+    height: 64px;
+}
+
+.btn-nav-icon {
+    width: 38px;
+    height: 38px;
+    color: var(--text-secondary);
+}
+
+.user-profile-menu {
+    padding: 3px 12px 3px 4px !important;
+    border: 1px solid var(--border-color);
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: all var(--transition-fast);
+}
+
+.user-profile-menu:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.user-profile-menu img {
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. RESPONSIVE SIDEBAR BREAKPOINTS                                          */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+    .sidebar {
+        position: fixed;
+        left: 64px;
+        top: 0;
+        transform: translateX(-100%);
+        box-shadow: 10px 0 25px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    .border-start-md {
+        border-left: none !important;
+        border-top: 1px solid var(--border-color);
+        padding-top: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar-rail {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+    }
+    .sidebar-rail.show {
+        transform: translateX(0);
+    }
+    .sidebar {
+        left: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    .border-start-md {
+        border-left: 1px solid var(--border-color) !important;
+    }
+}

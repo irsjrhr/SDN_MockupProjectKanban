@@ -1,0 +1,73 @@
+/**
+ * ==============================================================================
+ * SYNCBOARD DESIGN SYSTEM - VARIABLES & BASE UTILITIES
+ * Location: /assets/css/variables.css
+ * ==============================================================================
+ */
+
+:root {
+    --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Primary Palette */
+    --color-primary: #4f46e5;
+    --color-primary-hover: #4338ca;
+    --color-primary-light: #eef2ff;
+
+    /* Status Colors */
+    --color-todo: #ef4444;
+    --color-todo-bg: #fef2f2;
+    --color-progress: #3b82f6;
+    --color-progress-bg: #eff6ff;
+    --color-review: #f59e0b;
+    --color-review-bg: #fffbeb;
+    --color-complete: #10b981;
+    --color-complete-bg: #ecfdf5;
+
+    /* Neutral Tones */
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --border-color: #e2e8f0;
+
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+
+    --sidebar-width: 270px;
+    --transition-fast: 0.2s ease;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.bg-main {
+    background-color: var(--bg-main) !important;
+}
+
+/* Font Size Helpers & General Utilities */
+.fs-7 { font-size: 0.85rem !important; }
+.fs-8 { font-size: 0.75rem !important; }
+.fs-9 { font-size: 0.70rem !important; }
+.cursor-pointer { cursor: pointer; }
+.w-fit { width: fit-content !important; }
+.shadow-xs { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+
+/* Color Utility Helpers */
+.text-indigo { color: #4f46e5 !important; }
+.bg-indigo { background-color: #4f46e5 !important; }
+.bg-indigo-subtle {
+    background-color: #e0e7ff !important;
+    color: #4338ca !important;
+}
+
+.hover-primary {
+    transition: color 0.15s ease-in-out;
+}
+
+.hover-primary:hover {
+    color: var(--color-primary) !important;
+}

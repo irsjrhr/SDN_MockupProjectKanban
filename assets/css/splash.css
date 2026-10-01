@@ -1,0 +1,181 @@
+/**
+ * ==============================================================================
+ * SYNCBOARD DESIGN SYSTEM - UNIFIED SPLASH SCREEN & CURTAIN SLIDE ANIMATION
+ * Location: /assets/css/splash.css
+ * ==============================================================================
+ */
+
+.splash_screen {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: all;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s ease;
+}
+
+.splash_screen .container_content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash_screen .content_screen {
+    position: absolute;
+    top: 0;
+    width: 50.5%;
+    height: 100%;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: 1;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.splash_screen .content_screen.left {
+    left: 0;
+    transform: translateX(0);
+}
+
+.splash_screen .content_screen.right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.splash_screen .splash_center_box {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.splash_icon_badge {
+    width: 72px;
+    height: 72px;
+    background: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.25);
+    animation: splashPulse 1.8s infinite ease-in-out;
+    overflow: hidden;
+}
+
+.splash_icon_badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.splash_loading_bar {
+    width: 180px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+}
+
+.splash_loading_progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg, #38bdf8, #3b82f6);
+    border-radius: 999px;
+    animation: splashProgress 1.2s infinite ease-in-out;
+}
+
+@keyframes splashPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.35);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 14px 35px rgba(59, 130, 246, 0.55);
+    }
+}
+
+@keyframes splashProgress {
+    0% {
+        left: -40%;
+        width: 40%;
+    }
+    50% {
+        left: 25%;
+        width: 60%;
+    }
+    100% {
+        left: 100%;
+        width: 40%;
+    }
+}
+
+/* Emergency Stuck Bypass Handler Styles */
+.splash_stuck_handler {
+    animation: fadeInStuck 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    z-index: 10;
+}
+
+.splash_stuck_handler button {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+}
+
+.splash_stuck_handler button:hover {
+    background: rgba(255, 255, 255, 0.28);
+    border-color: #ffffff;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes fadeInStuck {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* State when Page Finished Loading */
+.splash_screen.loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease 0.45s, visibility 0.4s ease 0.45s;
+}
+
+.splash_screen.loaded .splash_center_box {
+    opacity: 0;
+    transform: scale(0.85);
+}
+
+.splash_screen.loaded .content_screen.left {
+    transform: translateX(-100%);
+}
+
+.splash_screen.loaded .content_screen.right {
+    transform: translateX(100%);
+}
