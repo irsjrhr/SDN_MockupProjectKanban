@@ -55,10 +55,10 @@ if (!isset($breadcrumbs) || !is_array($breadcrumbs)) {
 
         <div class="dropdown">
             <div class="user-profile-menu d-flex align-items-center gap-2 p-1 rounded-pill cursor-pointer" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Jenno Wilson" class="avatar-md rounded-circle">
+                <img src="../assets/img/user.jpg" alt="Irshandy Juniar Hardadi" class="avatar-md rounded-circle">
                 <div class="user-meta d-flex flex-column d-none d-sm-flex">
-                    <span class="user-name fw-bold fs-7 lh-1">Jenno Wilson</span>
-                    <span class="user-email text-muted fs-8">jeno.sonn@gmail.com</span>
+                    <span class="user-name fw-bold fs-7 lh-1">Irshandy Juniar Hardadi</span>
+                    <span class="user-email text-muted fs-8">irshandy.hardadi@sdn.id</span>
                 </div>
                 <i class="fa-solid fa-chevron-down text-muted fs-8 ms-1"></i>
             </div>

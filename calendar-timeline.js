@@ -107,9 +107,14 @@ $(document).ready(function () {
             progress: 100,
             priority: 'Medium',
             lead: 'Jenno Wilson',
+            assignee: 'Jenno Wilson',
             leadAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-01',
             dueDate: '2026-09-07',
+            est: '16h',
+            due: 'Sep 07',
+            desc: 'Setup core typography tokens, elevation scales, and dark-mode glassmorphism variables.',
             url: 'KanbanTask.php'
         },
         {
@@ -123,9 +128,14 @@ $(document).ready(function () {
             progress: 70,
             priority: 'High',
             lead: 'Sarah Chen',
+            assignee: 'Sarah Chen',
             leadAvatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-04',
             dueDate: '2026-09-12',
+            est: '24h',
+            due: 'Sep 12',
+            desc: 'JWT auth mechanism with refresh token rotation and Redis distributed cache integration.',
             url: 'KanbanTask.php'
         },
         {
@@ -139,9 +149,14 @@ $(document).ready(function () {
             progress: 50,
             priority: 'High',
             lead: 'Alex Rivera',
+            assignee: 'Alex Rivera',
             leadAvatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-08',
             dueDate: '2026-09-18',
+            est: '32h',
+            due: 'Sep 18',
+            desc: 'Multi-tenant database schema migrations with query optimization for high throughput.',
             url: 'KanbanTask.php'
         },
         {
@@ -155,9 +170,14 @@ $(document).ready(function () {
             progress: 0,
             priority: 'Urgent',
             lead: 'Michael Scott',
+            assignee: 'Michael Scott',
             leadAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-14',
             dueDate: '2026-09-25',
+            est: '20h',
+            due: 'Sep 25',
+            desc: 'Leaky bucket algorithm for microservice endpoints protection against DDoS spikes.',
             url: 'KanbanTask.php'
         },
         {
@@ -171,9 +191,14 @@ $(document).ready(function () {
             progress: 100,
             priority: 'Medium',
             lead: 'Sophia Carter',
+            assignee: 'Sophia Carter',
             leadAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-01',
             dueDate: '2026-09-09',
+            est: '12h',
+            due: 'Sep 09',
+            desc: 'High-converting headline copy, dynamic 3D spline hero graphics, and fast CDN assets.',
             url: 'KanbanTask.php?project=landing'
         },
         {
@@ -187,9 +212,14 @@ $(document).ready(function () {
             progress: 45,
             priority: 'High',
             lead: 'David Kim',
+            assignee: 'David Kim',
             leadAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-06',
             dueDate: '2026-09-17',
+            est: '18h',
+            due: 'Sep 17',
+            desc: 'Real-time form validation with asynchronous queue to trigger immediate lead sync.',
             url: 'KanbanTask.php?project=landing'
         },
         {
@@ -203,9 +233,14 @@ $(document).ready(function () {
             progress: 100,
             priority: 'Normal',
             lead: 'Michael Anderson',
+            assignee: 'Michael Anderson',
             leadAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-08',
             dueDate: '2026-09-16',
+            est: '14h',
+            due: 'Sep 16',
+            desc: 'Modern SVG vector illustrations and refreshed photo library for investor pages.',
             url: 'KanbanTask.php?project=company'
         },
         {
@@ -219,9 +254,14 @@ $(document).ready(function () {
             progress: 90,
             priority: 'Medium',
             lead: 'Emily Watson',
+            assignee: 'Emily Watson',
             leadAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-15',
             dueDate: '2026-09-28',
+            est: '22h',
+            due: 'Sep 28',
+            desc: 'Interactive Chart.js quarterly earnings visualization with CSV download capability.',
             url: 'KanbanTask.php?project=company'
         },
         {
@@ -235,9 +275,14 @@ $(document).ready(function () {
             progress: 20,
             priority: 'High',
             lead: 'Daniel Johnson',
+            assignee: 'Daniel Johnson',
             leadAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-02',
             dueDate: '2026-09-16',
+            est: '28h',
+            due: 'Sep 16',
+            desc: 'Native iOS LocalAuthentication and Android BiometricPrompt security bridge.',
             url: 'KanbanTask.php?project=mobile'
         },
         {
@@ -251,15 +296,63 @@ $(document).ready(function () {
             progress: 10,
             priority: 'Urgent',
             lead: 'Daniel Johnson',
+            assignee: 'Daniel Johnson',
             leadAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80',
             startDate: '2026-09-12',
             dueDate: '2026-09-30',
+            est: '40h',
+            due: 'Sep 30',
+            desc: 'Vector clocks and timestamp based reconciliation algorithm for offline work.',
             url: 'KanbanTask.php?project=mobile'
+        },
+        {
+            id: 't-11',
+            type: 'task',
+            title: 'ETL Pipeline & Log Ingestion Daemon',
+            projectName: 'Internal Analytics Tool',
+            category: 'DevOps & Data',
+            badgeClass: 'badge-ecommerce',
+            status: 'completed',
+            progress: 100,
+            priority: 'Normal',
+            lead: 'James Wilson',
+            assignee: 'James Wilson',
+            leadAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80',
+            startDate: '2026-09-01',
+            dueDate: '2026-09-15',
+            est: '30h',
+            due: 'Sep 15',
+            desc: 'Kafka message consumer with batch micro-loading to ClickHouse analytics warehouse.',
+            url: 'KanbanTask.php?project=analytics'
+        },
+        {
+            id: 't-12',
+            type: 'task',
+            title: 'Grafana Live Dashboard Integration',
+            projectName: 'Internal Analytics Tool',
+            category: 'Frontend & Data',
+            badgeClass: 'badge-ecommerce',
+            status: 'completed',
+            progress: 100,
+            priority: 'Medium',
+            lead: 'James Wilson',
+            assignee: 'James Wilson',
+            leadAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80',
+            startDate: '2026-09-16',
+            dueDate: '2026-09-25',
+            est: '16h',
+            due: 'Sep 25',
+            desc: 'Embedded real-time metric panels for system latencies and API throughput monitoring.',
+            url: 'KanbanTask.php?project=analytics'
         }
     ];
 
     let ALL_PROJECTS = JSON.parse(JSON.stringify(DEFAULT_MASTER_PROJECTS));
     let ALL_TASKS = JSON.parse(JSON.stringify(DEFAULT_MASTER_TASKS));
+    let currentActiveCalBreakdownProj = null;
 
     window.showMasterToast = function (msg) {
         $('#masterToastMsg').text(msg);
@@ -308,6 +401,265 @@ $(document).ready(function () {
             return true;
         });
     }
+
+    /* -------------------------------------------------------------------------- */
+    /* TASK BREAKDOWN MODAL ENGINE FOR CALENDAR & TIMELINE                        */
+    /* -------------------------------------------------------------------------- */
+    function openCalendarTaskBreakdown(targetIdentifier, filterStatus) {
+        let proj = null;
+
+        if (targetIdentifier) {
+            proj = ALL_PROJECTS.find(p => p.id === targetIdentifier || p.title === targetIdentifier || p.projectName === targetIdentifier);
+            if (!proj) {
+                const matchedTask = ALL_TASKS.find(t => t.id === targetIdentifier || t.title === targetIdentifier);
+                if (matchedTask) {
+                    proj = ALL_PROJECTS.find(p => p.projectName === matchedTask.projectName || p.title === matchedTask.projectName);
+                }
+            }
+        }
+
+        if (!proj) {
+            proj = ALL_PROJECTS[0];
+        }
+
+        if (!proj) return;
+
+        currentActiveCalBreakdownProj = proj;
+        const projectTasks = ALL_TASKS.filter(t => t.projectName === proj.projectName || t.projectName === proj.title);
+
+        // 1. Populate Header Information
+        $('#calBreakdownTitle').text(proj.title);
+        $('#calBreakdownCategory').text(proj.category || 'General');
+        $('#calBreakdownPriority').text(`${proj.priority || 'Medium'} Priority`);
+
+        const statusBadgeMap = {
+            todo: '<span class="badge bg-danger-subtle text-danger border border-danger-subtle fs-8 px-2 py-0.5 rounded-2 fw-semibold">Planning / To Do</span>',
+            'in-progress': '<span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-8 px-2 py-0.5 rounded-2 fw-semibold">In Development</span>',
+            review: '<span class="badge bg-warning-subtle text-warning border border-warning-subtle fs-8 px-2 py-0.5 rounded-2 fw-semibold">Testing & Review</span>',
+            completed: '<span class="badge bg-success-subtle text-success border border-success-subtle fs-8 px-2 py-0.5 rounded-2 fw-semibold">Completed / Released</span>'
+        };
+        $('#calBreakdownStatus').html(statusBadgeMap[proj.status] || `<span class="badge bg-light text-dark">${proj.status}</span>`);
+        $('#calBreakdownLead').text(proj.lead || 'Jenno Wilson');
+
+        const duration = calculateDays(proj.startDate, proj.dueDate);
+        $('#calBreakdownDates').text(`${formatShortDate(proj.startDate)} - ${formatShortDate(proj.dueDate)}, 2026 (${duration}d)`);
+
+        const domainHost = proj.id === 'p-middleware' ? 'api.sdn-middleware.internal' :
+                           proj.id === 'p-company' ? 'www.company-portal.internal' :
+                           proj.id === 'p-landing' ? 'campaign.landing-promo.internal' :
+                           proj.id === 'p-mobile' ? 'app.crm-mobile.internal' : 'analytics.monitoring.internal';
+        $('#calBreakdownDomain').text(domainHost).attr('href', `../Monitoring/dashboard.php?domain=${domainHost}`);
+        $('#calBreakdownOpenTaskBoardBtn').attr('href', proj.url || 'KanbanTask.php');
+
+        // Icon styling
+        if (proj.icon) {
+            $('#calBreakdownIcon').attr('class', `${proj.icon} fs-5`);
+        }
+
+        // 2. Calculate Counters
+        const countTodo = projectTasks.filter(t => t.status === 'todo').length;
+        const countProgress = projectTasks.filter(t => t.status === 'in-progress').length;
+        const countReview = projectTasks.filter(t => t.status === 'review').length;
+        const countDone = projectTasks.filter(t => t.status === 'completed').length;
+        const total = projectTasks.length;
+
+        const calculatedProgress = total > 0 ? Math.round((countDone / total) * 100) : (proj.progress || 0);
+        $('#calBreakdownProgressPct').text(`${calculatedProgress}%`);
+        $('#calBreakdownProgressBar').css('width', `${calculatedProgress}%`).attr('aria-valuenow', calculatedProgress);
+        $('#calBreakdownTaskStats').html(`<i class="fa-solid fa-list-check me-1 text-primary"></i> ${countDone} of ${total} Tasks Finished`);
+
+        $('#calBreakdownCountTodo').text(countTodo);
+        $('#calBreakdownCountProgress').text(countProgress);
+        $('#calBreakdownCountReview').text(countReview);
+        $('#calBreakdownCountDone').text(countDone);
+
+        // 3. Reset or Set Filters
+        $('#calBreakdownSearch').val('');
+        $('#calBreakdownStatusFilter').val(filterStatus || 'all');
+        $('#calBreakdownPriorityFilter').val('all');
+
+        // 4. Render Table Rows
+        renderCalBreakdownTaskTable();
+
+        // 5. Open Modal
+        const modalEl = document.getElementById('calendarTaskBreakdownModal');
+        if (modalEl) {
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.show();
+        }
+    }
+
+    function renderCalBreakdownTaskTable() {
+        const $tbody = $('#calBreakdownTaskTableBody').empty();
+        if (!currentActiveCalBreakdownProj) return;
+
+        const proj = currentActiveCalBreakdownProj;
+        const tasks = ALL_TASKS.filter(t => t.projectName === proj.projectName || t.projectName === proj.title);
+        const searchKeyword = ($('#calBreakdownSearch').val() || '').toLowerCase().trim();
+        const statusFilter = $('#calBreakdownStatusFilter').val() || 'all';
+        const priorityFilter = $('#calBreakdownPriorityFilter').val() || 'all';
+
+        const filteredTasks = tasks.filter(t => {
+            const matchesSearch = !searchKeyword ||
+                (t.title && t.title.toLowerCase().includes(searchKeyword)) ||
+                (t.id && t.id.toLowerCase().includes(searchKeyword)) ||
+                (t.desc && t.desc.toLowerCase().includes(searchKeyword)) ||
+                ((t.assignee || t.lead) && (t.assignee || t.lead).toLowerCase().includes(searchKeyword));
+
+            const matchesStatus = statusFilter === 'all' || t.status === statusFilter;
+            const matchesPriority = priorityFilter === 'all' || t.priority === priorityFilter;
+
+            return matchesSearch && matchesStatus && matchesPriority;
+        });
+
+        if (filteredTasks.length === 0) {
+            $tbody.html(`
+                <tr>
+                    <td colspan="7" class="text-center py-4 text-muted fs-8">
+                        <i class="fa-regular fa-folder-open fs-5 d-block mb-1 text-secondary"></i>
+                        No tasks found matching filter criteria in <strong>${proj.title}</strong>.
+                    </td>
+                </tr>
+            `);
+            return;
+        }
+
+        const taskStatusBadgeMap = {
+            todo: '<span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-0.5 fs-8 rounded-pill"><span class="dot dot-todo me-1"></span>To Do</span>',
+            'in-progress': '<span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-0.5 fs-8 rounded-pill"><span class="dot dot-progress me-1"></span>In Progress</span>',
+            review: '<span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-0.5 fs-8 rounded-pill"><span class="dot dot-review me-1"></span>Review</span>',
+            completed: '<span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0.5 fs-8 rounded-pill"><span class="dot dot-complete me-1"></span>Completed</span>'
+        };
+
+        const taskPriorityBadgeMap = {
+            Urgent: '<span class="badge bg-danger text-white rounded-pill fs-8 px-2 py-0.5">Urgent</span>',
+            High: '<span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill fs-8 px-2 py-0.5">High</span>',
+            Medium: '<span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill fs-8 px-2 py-0.5">Medium</span>',
+            Normal: '<span class="badge bg-light text-muted border rounded-pill fs-8 px-2 py-0.5">Normal</span>'
+        };
+
+        $.each(filteredTasks, function (_, task) {
+            const avatarImg = task.avatar || task.leadAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80';
+            const assigneeName = task.assignee || task.lead || 'Engineer';
+            const progressBarColor = task.status === 'completed' ? 'bg-success' : task.status === 'review' ? 'bg-warning' : 'bg-primary';
+
+            const $tr = $(`
+                <tr>
+                    <td class="ps-3 py-2.5">
+                        <span class="badge bg-light text-dark border font-monospace fs-8 px-2 py-1">${task.id}</span>
+                    </td>
+                    <td class="py-2.5">
+                        <div class="fw-bold text-dark fs-7">${task.title}</div>
+                        <span class="fs-8 text-muted d-block text-truncate" style="max-width: 320px;">${task.desc || 'Task delivery milestone and specifications.'}</span>
+                    </td>
+                    <td class="py-2.5">
+                        ${taskStatusBadgeMap[task.status] || task.status}
+                    </td>
+                    <td class="py-2.5">
+                        ${taskPriorityBadgeMap[task.priority] || task.priority}
+                    </td>
+                    <td class="py-2.5">
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="${avatarImg}" class="avatar-xs rounded-circle border" alt="${assigneeName}">
+                            <span class="fs-8 fw-semibold text-dark">${assigneeName}</span>
+                        </div>
+                    </td>
+                    <td class="py-2.5">
+                        <div class="d-flex align-items-center gap-1.5 fs-8 text-muted mb-1">
+                            <i class="fa-regular fa-clock text-primary"></i> ${task.est || '16h'} &bull; ${task.due || formatShortDate(task.dueDate)}
+                        </div>
+                        <div class="progress" style="height: 4px; width: 80px;">
+                            <div class="progress-bar ${progressBarColor}" style="width: ${task.progress || (task.status === 'completed' ? 100 : 40)}%;"></div>
+                        </div>
+                    </td>
+                    <td class="pe-3 py-2.5 text-end">
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-sm btn-light border btn-cal-task-toggle-status" data-task-id="${task.id}" title="Cycle Status">
+                                <i class="fa-solid fa-arrows-rotate text-primary fs-8"></i>
+                            </button>
+                            <a href="${task.url || proj.url || 'KanbanTask.php'}" class="btn btn-sm btn-light border" title="Open in Task Board">
+                                <i class="fa-solid fa-arrow-up-right-from-square fs-8 text-secondary"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            `);
+
+            // Quick Status Cycle inside modal
+            $tr.find('.btn-cal-task-toggle-status').on('click', function (e) {
+                e.stopPropagation();
+                const statusOrder = ['todo', 'in-progress', 'review', 'completed'];
+                const nextIdx = (statusOrder.indexOf(task.status) + 1) % statusOrder.length;
+                task.status = statusOrder[nextIdx];
+                task.progress = task.status === 'completed' ? 100 : task.status === 'review' ? 85 : task.status === 'in-progress' ? 50 : 0;
+
+                openCalendarTaskBreakdown(proj.id, $('#calBreakdownStatusFilter').val());
+                renderMasterCalendar();
+                renderMasterTimeline();
+                renderMasterTimelineSchedulerTable();
+                renderRoadmapCards();
+                showMasterToast(`Task ${task.id} updated to ${task.status.toUpperCase()}`);
+            });
+
+            $tbody.append($tr);
+        });
+    }
+
+    // Modal Search and Filter listeners
+    $('#calBreakdownSearch').on('input', function () {
+        renderCalBreakdownTaskTable();
+    });
+
+    $('#calBreakdownStatusFilter, #calBreakdownPriorityFilter').on('change', function () {
+        renderCalBreakdownTaskTable();
+    });
+
+    $('.cal-breakdown-stat-filter').on('click', function () {
+        const targetStatus = $(this).data('status');
+        $('#calBreakdownStatusFilter').val(targetStatus);
+        renderCalBreakdownTaskTable();
+    });
+
+    // Quick Add Task inside modal
+    $('#btnCalBreakdownQuickAddTask').on('click', function () {
+        if (!currentActiveCalBreakdownProj) return;
+        const taskTitle = prompt(`Enter new task title for "${currentActiveCalBreakdownProj.title}":`);
+        if (taskTitle && taskTitle.trim()) {
+            const newTaskId = `t-${Date.now().toString().slice(-4)}`;
+            const newTask = {
+                id: newTaskId,
+                type: 'task',
+                title: taskTitle.trim(),
+                projectName: currentActiveCalBreakdownProj.projectName || currentActiveCalBreakdownProj.title,
+                category: 'Development',
+                badgeClass: 'badge-progress',
+                status: 'todo',
+                progress: 0,
+                priority: 'Medium',
+                lead: currentActiveCalBreakdownProj.lead || 'Sophia Carter',
+                assignee: currentActiveCalBreakdownProj.lead || 'Sophia Carter',
+                leadAvatar: currentActiveCalBreakdownProj.leadAvatar,
+                avatar: currentActiveCalBreakdownProj.leadAvatar,
+                startDate: '2026-09-01',
+                dueDate: '2026-09-15',
+                est: '16h',
+                due: 'Sep 15',
+                desc: 'Quickly scheduled task from Calendar Timeline breakdown modal.',
+                url: currentActiveCalBreakdownProj.url || 'KanbanTask.php'
+            };
+
+            ALL_TASKS.push(newTask);
+            openCalendarTaskBreakdown(currentActiveCalBreakdownProj.id, $('#calBreakdownStatusFilter').val());
+            renderMasterCalendar();
+            renderMasterTimeline();
+            renderMasterTimelineSchedulerTable();
+            renderRoadmapCards();
+            showMasterToast(`Added task "${taskTitle.trim()}" to ${currentActiveCalBreakdownProj.title}`);
+        }
+    });
+
+    // Expose openCalendarTaskBreakdown globally for direct onclick calls if needed
+    window.openCalendarTaskBreakdown = openCalendarTaskBreakdown;
 
     /* -------------------------------------------------------------------------- */
     /* 2. TAB SWITCHERS                                                           */
@@ -426,18 +778,25 @@ $(document).ready(function () {
 
                     const $pill = $('<div>', {
                         class: `cal-task-pill ${statusClass} text-truncate d-flex align-items-center gap-1 shadow-2xs cursor-pointer`,
-                        title: `[${isProj ? 'Project' : 'Task'}] ${it.title} (${formatShortDate(it.startDate)} - ${formatShortDate(it.dueDate)})`
+                        title: `[${isProj ? 'Project' : 'Task'}] ${it.title} (${formatShortDate(it.startDate)} - ${formatShortDate(it.dueDate)})\nClick to view task breakdown`
                     });
                     $pill.html(`<i class="${icon} fs-9"></i> <span class="fw-semibold">${isProj ? '⭐ ' : ''}${it.title}</span>`);
+                    
+                    // Clicking pill opens the breakdown modal for this project / task's parent project
                     $pill.on('click', function (e) {
                         e.stopPropagation();
-                        window.location.href = it.url;
+                        openCalendarTaskBreakdown(it.projectName || it.title || it.id);
                     });
                     $cell.append($pill);
                 });
 
                 if (dayItems.length > 3) {
-                    $cell.append(`<span class="fs-9 text-muted fw-bold">+${dayItems.length - 3} more</span>`);
+                    const $moreBadge = $(`<span class="fs-9 text-muted fw-bold cursor-pointer hover-text-primary">+${dayItems.length - 3} more</span>`);
+                    $moreBadge.on('click', function (e) {
+                        e.stopPropagation();
+                        if (dayItems[0]) openCalendarTaskBreakdown(dayItems[0].projectName || dayItems[0].title);
+                    });
+                    $cell.append($moreBadge);
                 }
             }
 
@@ -492,7 +851,7 @@ $(document).ready(function () {
                         <div class="d-flex flex-column" style="min-width: 0;">
                             <div class="d-flex align-items-center gap-1.5">
                                 <span class="badge bg-primary fs-9 px-1.5 py-0.5">PROJECT</span>
-                                <a href="${proj.url}" class="fw-extrabold fs-7 text-dark text-truncate text-decoration-none" title="${proj.title}">${proj.title}</a>
+                                <a href="javascript:void(0)" class="fw-extrabold fs-7 text-dark text-truncate text-decoration-none btn-open-proj-breakdown" data-proj-id="${proj.id}" title="Click to view task breakdown">${proj.title}</a>
                             </div>
                             <div class="d-flex align-items-center gap-1 mt-1 flex-wrap">
                                 <span class="badge ${proj.badgeClass} fs-9">${proj.category}</span>
@@ -501,7 +860,7 @@ $(document).ready(function () {
                         </div>
 
                         <div class="px-2">
-                            <div class="timeline-bar-track position-relative" style="height: 22px; border-radius: 999px;">
+                            <div class="timeline-bar-track position-relative cursor-pointer btn-open-proj-breakdown" data-proj-id="${proj.id}" style="height: 22px; border-radius: 999px;" title="Click to view task breakdown">
                                 <div class="timeline-bar-fill bg-primary d-flex align-items-center justify-content-between text-white fs-9 fw-bold px-2 text-truncate" 
                                      style="width: ${widthPercent}%; margin-left: ${startMargin}%; height: 100%; border-radius: 999px;">
                                     <span>${duration}d</span>
@@ -512,6 +871,9 @@ $(document).ready(function () {
 
                         <div class="d-flex align-items-center justify-content-end gap-2">
                             <img src="${proj.leadAvatar}" class="avatar-xs rounded-circle border border-white" alt="${proj.lead}">
+                            <button class="btn btn-sm btn-outline-info py-0.5 px-2 fs-8 btn-open-proj-breakdown" data-proj-id="${proj.id}" title="View Task Breakdown">
+                                <i class="fa-solid fa-list-check"></i>
+                            </button>
                             <button class="btn btn-sm btn-outline-primary py-0.5 px-2 fs-8 btn-master-adjust-timeline" data-item-id="${proj.id}" title="Adjust Timeline">
                                 <i class="fa-solid fa-sliders"></i>
                             </button>
@@ -522,10 +884,15 @@ $(document).ready(function () {
                     </div>
                 `);
 
+                $projRow.find('.btn-open-proj-breakdown').on('click', function (e) {
+                    e.stopPropagation();
+                    openCalendarTaskBreakdown(proj.id);
+                });
+
                 $list.append($projRow);
 
                 // 2. Child Tasks under this project
-                const childTasks = ALL_TASKS.filter(t => t.projectName === proj.projectName);
+                const childTasks = ALL_TASKS.filter(t => t.projectName === proj.projectName || t.projectName === proj.title);
                 $.each(childTasks, function (_, task) {
                     const tStartObj = new Date(task.startDate || '2026-09-01');
                     const tStartDay = Math.min(30, Math.max(1, tStartObj.getDate()));
@@ -534,11 +901,11 @@ $(document).ready(function () {
                     const tWidthPercent = Math.max(10, Math.min(100 - tStartMargin, (tDuration / 30) * 100));
 
                     const $taskRow = $(`
-                        <div class="gantt-grid-row gap-3 ps-3 mb-1">
+                        <div class="gantt-grid-row gantt-task-child-row gap-3 ps-4 ms-3 mb-1 border-start border-3 border-primary bg-light-subtle rounded-end-3 py-2">
                             <div class="d-flex flex-column" style="min-width: 0;">
                                 <div class="d-flex align-items-center gap-1.5">
-                                    <span class="badge bg-secondary-subtle text-dark fs-9 px-1 py-0.5">TASK</span>
-                                    <span class="fw-bold fs-7 text-dark text-truncate" title="${task.title}">${task.title}</span>
+                                    <span class="badge bg-secondary-subtle text-dark fs-9 px-1.5 py-0.5"><i class="fa-solid fa-code-branch me-1 text-primary"></i>TASK</span>
+                                    <span class="fw-bold fs-7 text-dark text-truncate cursor-pointer hover-text-primary btn-open-task-breakdown" data-proj-id="${proj.id}" title="Click to view breakdown">${task.title}</span>
                                 </div>
                                 <div class="d-flex align-items-center gap-1 mt-1 flex-wrap">
                                     ${statusBadgeMap[task.status] || ''}
@@ -547,7 +914,7 @@ $(document).ready(function () {
                             </div>
 
                             <div class="px-2">
-                                <div class="timeline-bar-track position-relative" style="height: 16px; border-radius: 999px;">
+                                <div class="timeline-bar-track position-relative cursor-pointer btn-open-task-breakdown" data-proj-id="${proj.id}" style="height: 16px; border-radius: 999px;" title="Click to view project tasks">
                                     <div class="timeline-bar-fill ${statusClassMap[task.status] || 'timeline-bar-progress'} d-flex align-items-center justify-content-center text-white fs-9 fw-bold px-2 text-truncate" 
                                          style="width: ${tWidthPercent}%; margin-left: ${tStartMargin}%; height: 100%; border-radius: 999px;">
                                         ${tDuration >= 4 ? `${tDuration}d` : ''}
@@ -556,13 +923,19 @@ $(document).ready(function () {
                             </div>
 
                             <div class="d-flex align-items-center justify-content-end gap-2">
-                                <img src="${task.leadAvatar}" class="avatar-xs rounded-circle border border-white" alt="${task.lead}">
+                                <img src="${task.leadAvatar || task.avatar}" class="avatar-xs rounded-circle border border-white" alt="${task.lead}">
                                 <button class="btn btn-sm btn-outline-secondary py-0.5 px-2 fs-8 btn-master-adjust-timeline" data-item-id="${task.id}" title="Adjust Task Schedule">
                                     <i class="fa-solid fa-sliders"></i>
                                 </button>
                             </div>
                         </div>
                     `);
+
+                    $taskRow.find('.btn-open-task-breakdown').on('click', function (e) {
+                        e.stopPropagation();
+                        openCalendarTaskBreakdown(proj.id);
+                    });
+
                     $list.append($taskRow);
                 });
             });
@@ -581,7 +954,7 @@ $(document).ready(function () {
                         <div class="d-flex flex-column" style="min-width: 0;">
                             <div class="d-flex align-items-center gap-1.5">
                                 <span class="badge ${isProj ? 'bg-primary' : 'bg-secondary-subtle text-dark'} fs-9 px-1.5 py-0.5">${isProj ? 'PROJECT' : 'TASK'}</span>
-                                <span class="fw-bold fs-7 text-dark text-truncate" title="${it.title}">${it.title}</span>
+                                <span class="fw-bold fs-7 text-dark text-truncate cursor-pointer hover-text-primary btn-open-flat-breakdown" data-proj-name="${it.projectName || it.title}" title="Click to view breakdown">${it.title}</span>
                             </div>
                             <div class="d-flex align-items-center gap-1 mt-1 flex-wrap">
                                 ${statusBadgeMap[it.status] || ''}
@@ -590,7 +963,7 @@ $(document).ready(function () {
                         </div>
 
                         <div class="px-2">
-                            <div class="timeline-bar-track position-relative" style="height: ${isProj ? '20px' : '16px'}; border-radius: 999px;">
+                            <div class="timeline-bar-track position-relative cursor-pointer btn-open-flat-breakdown" data-proj-name="${it.projectName || it.title}" style="height: ${isProj ? '20px' : '16px'}; border-radius: 999px;" title="Click to view breakdown">
                                 <div class="timeline-bar-fill ${isProj ? 'bg-primary' : statusClassMap[it.status] || 'timeline-bar-progress'} d-flex align-items-center justify-content-center text-white fs-9 fw-bold px-2 text-truncate" 
                                      style="width: ${widthPercent}%; margin-left: ${startMargin}%; height: 100%; border-radius: 999px;">
                                     ${duration >= 4 ? `${duration}d` : ''}
@@ -599,13 +972,22 @@ $(document).ready(function () {
                         </div>
 
                         <div class="d-flex align-items-center justify-content-end gap-2">
-                            <img src="${it.leadAvatar}" class="avatar-xs rounded-circle border border-white" alt="${it.lead}">
+                            <img src="${it.leadAvatar || it.avatar}" class="avatar-xs rounded-circle border border-white" alt="${it.lead}">
+                            <button class="btn btn-sm btn-outline-info py-0.5 px-2 fs-8 btn-open-flat-breakdown" data-proj-name="${it.projectName || it.title}" title="View Breakdown">
+                                <i class="fa-solid fa-list-check"></i>
+                            </button>
                             <button class="btn btn-sm btn-outline-secondary py-0.5 px-2 fs-8 btn-master-adjust-timeline" data-item-id="${it.id}" title="Adjust Schedule">
                                 <i class="fa-solid fa-sliders"></i>
                             </button>
                         </div>
                     </div>
                 `);
+
+                $row.find('.btn-open-flat-breakdown').on('click', function (e) {
+                    e.stopPropagation();
+                    openCalendarTaskBreakdown($(this).data('proj-name'));
+                });
+
                 $list.append($row);
             });
         }
@@ -666,9 +1048,9 @@ $(document).ready(function () {
                 <!-- Item Title & Parent Project -->
                 <td class="py-2.5 px-2">
                     <div class="d-flex align-items-center gap-2">
-                        <img src="${it.leadAvatar}" class="avatar-xs rounded-circle border" alt="${it.lead}">
+                        <img src="${it.leadAvatar || it.avatar}" class="avatar-xs rounded-circle border" alt="${it.lead}">
                         <div>
-                            <a href="${it.url}" class="fw-bold text-dark text-decoration-none d-block">${it.title}</a>
+                            <a href="javascript:void(0)" class="fw-bold text-dark text-decoration-none d-block btn-sched-breakdown" data-proj-name="${it.projectName || it.title}" title="Click to view task breakdown">${it.title}</a>
                             <span class="fs-8 text-muted">${it.projectName} &bull; Lead: ${it.lead}</span>
                         </div>
                     </div>
@@ -717,6 +1099,9 @@ $(document).ready(function () {
                 <!-- Actions -->
                 <td class="py-2.5 px-3 text-end">
                     <div class="btn-group btn-group-sm">
+                        <button class="btn btn-light border btn-sched-breakdown" data-proj-name="${it.projectName || it.title}" title="View Task Breakdown">
+                            <i class="fa-solid fa-list-check text-info"></i>
+                        </button>
                         <button class="btn btn-light border btn-save-master-sched" data-item-id="${it.id}" title="Save Schedule Changes">
                             <i class="fa-solid fa-check text-success"></i>
                         </button>
@@ -726,6 +1111,11 @@ $(document).ready(function () {
                     </div>
                 </td>
             `);
+
+            $tr.find('.btn-sched-breakdown').on('click', function (e) {
+                e.stopPropagation();
+                openCalendarTaskBreakdown($(this).data('proj-name'));
+            });
 
             $tbody.append($tr);
         });
@@ -797,7 +1187,7 @@ $(document).ready(function () {
         const projects = ALL_PROJECTS.filter(p => projFilter === 'all' || p.projectName === projFilter);
 
         $.each(projects, function (_, proj) {
-            const childTasks = ALL_TASKS.filter(t => t.projectName === proj.projectName);
+            const childTasks = ALL_TASKS.filter(t => t.projectName === proj.projectName || t.projectName === proj.title);
             const doneCount = childTasks.filter(t => t.status === 'completed').length;
             const totalCount = childTasks.length;
 
@@ -806,19 +1196,30 @@ $(document).ready(function () {
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="d-flex align-items-center gap-2">
                             <span class="badge-icon-sm ${proj.badgeClass} p-1.5 rounded-2"><i class="${proj.icon}"></i></span>
-                            <a href="${proj.url}" class="fw-bold text-dark fs-6 text-decoration-none">${proj.title}</a>
+                            <a href="javascript:void(0)" class="fw-bold text-dark fs-6 text-decoration-none btn-roadmap-open-breakdown" data-proj-id="${proj.id}">${proj.title}</a>
                         </div>
-                        <span class="badge ${proj.progress === 100 ? 'bg-success' : 'bg-primary'}">${proj.status === 'completed' ? 'Delivered' : 'On Track'} (${proj.progress}%)</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <button class="btn btn-sm btn-outline-primary fs-8 py-0.5 px-2 rounded-2 btn-roadmap-open-breakdown" data-proj-id="${proj.id}" title="View Deliverables Breakdown">
+                                <i class="fa-solid fa-list-check me-1"></i> Breakdown
+                            </button>
+                            <span class="badge ${proj.progress === 100 ? 'bg-success' : 'bg-primary'}">${proj.status === 'completed' ? 'Delivered' : 'On Track'} (${proj.progress}%)</span>
+                        </div>
                     </div>
-                    <div class="progress mb-2" style="height: 10px;">
+                    <div class="progress mb-2 cursor-pointer btn-roadmap-open-breakdown" data-proj-id="${proj.id}" style="height: 10px;" title="Click to view task breakdown">
                         <div class="progress-bar ${proj.progress === 100 ? 'bg-success' : 'bg-primary'}" style="width: ${proj.progress}%;"></div>
                     </div>
                     <div class="d-flex flex-wrap align-items-center justify-content-between fs-8 text-muted">
                         <span><i class="fa-regular fa-calendar me-1"></i> ${formatShortDate(proj.startDate)} - ${formatShortDate(proj.dueDate)}</span>
-                        <span>Lead: ${proj.lead} &bull; ${doneCount}/${totalCount} Tasks Complete</span>
+                        <span>Lead: ${proj.lead} &bull; <strong class="text-primary">${doneCount}/${totalCount} Tasks Complete</strong></span>
                     </div>
                 </div>
             `);
+
+            $card.find('.btn-roadmap-open-breakdown').on('click', function (e) {
+                e.stopPropagation();
+                openCalendarTaskBreakdown(proj.id);
+            });
+
             $container.append($card);
         });
     }
@@ -876,9 +1277,14 @@ $(document).ready(function () {
             progress: status === 'completed' ? 100 : status === 'in-progress' ? 50 : 0,
             priority: priority,
             lead: 'Jenno Wilson',
+            assignee: 'Jenno Wilson',
             leadAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80',
+            avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80',
             startDate: start,
             dueDate: due,
+            est: '16h',
+            due: formatShortDate(due),
+            desc: `Created entry: ${title}`,
             url: type === 'project' ? 'KanbanProject.php' : 'KanbanTask.php'
         };
 

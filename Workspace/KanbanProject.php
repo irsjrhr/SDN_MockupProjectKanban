@@ -89,12 +89,9 @@ include __DIR__ . '/../layouts/header.php';
         <button class="nav-link tab-btn fw-semibold py-1.5 px-3 rounded-3 fs-7" data-view="calendar">
             <i class="fa-regular fa-calendar-days me-1.5 text-info"></i> Calendar & Timeline
         </button>
-    </div>
-
-    <!-- Quick Search Input -->
-    <div class="input-group input-group-sm d-none d-md-flex" style="max-width: 240px;">
-        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass fs-8"></i></span>
-        <input type="text" class="form-control border-start-0 fs-8 bg-light" id="globalProjectSearch" placeholder="Search project or domain...">
+        <button class="nav-link tab-btn fw-semibold py-1.5 px-3 rounded-3 fs-7" data-view="documentation">
+            <i class="fa-regular fa-folder-open me-1.5 text-warning"></i> Documentation
+        </button>
     </div>
 </div>
 
@@ -442,6 +439,7 @@ include __DIR__ . '/../layouts/header.php';
                                     <td><span class="badge bg-success bg-opacity-10 text-success border border-success px-2.5 py-1">In Development</span></td>
                                     <td class="pe-4 text-end">
                                         <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-light border text-primary btn-trigger-breakdown-row" data-proj-id="proj-middleware" title="View Task Breakdown Modal"><i class="fa-solid fa-list-check"></i></button>
                                             <a href="KanbanTask.php" class="btn btn-light border" title="Open Kanban Tasks"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                                             <a href="../Monitoring/dashboard.php?domain=api.sdn-middleware.internal" class="btn btn-light border text-primary" title="Live Monitoring Telemetry"><i class="fa-solid fa-gauge-high"></i></a>
                                             <button class="btn btn-light border" title="Edit"><i class="fa-solid fa-pen"></i></button>
@@ -497,6 +495,7 @@ include __DIR__ . '/../layouts/header.php';
                                     <td><span class="badge bg-warning bg-opacity-10 text-warning border border-warning px-2.5 py-1">Testing & Review</span></td>
                                     <td class="pe-4 text-end">
                                         <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-light border text-primary btn-trigger-breakdown-row" data-proj-id="proj-company" title="View Task Breakdown Modal"><i class="fa-solid fa-list-check"></i></button>
                                             <a href="KanbanTask.php?project=company" class="btn btn-light border" title="Open Kanban Tasks"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                                             <a href="../Monitoring/dashboard.php?domain=company.org" class="btn btn-light border text-primary" title="Live Monitoring Telemetry"><i class="fa-solid fa-gauge-high"></i></a>
                                             <button class="btn btn-light border" title="Edit"><i class="fa-solid fa-pen"></i></button>
@@ -552,6 +551,7 @@ include __DIR__ . '/../layouts/header.php';
                                     <td><span class="badge bg-primary bg-opacity-10 text-primary border border-primary px-2.5 py-1">In Development</span></td>
                                     <td class="pe-4 text-end">
                                         <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-light border text-primary btn-trigger-breakdown-row" data-proj-id="proj-landing" title="View Task Breakdown Modal"><i class="fa-solid fa-list-check"></i></button>
                                             <a href="KanbanTask.php?project=landing" class="btn btn-light border" title="Open Kanban Tasks"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                                             <a href="../Monitoring/dashboard.php?domain=promo.campaign.io" class="btn btn-light border text-primary" title="Live Monitoring Telemetry"><i class="fa-solid fa-gauge-high"></i></a>
                                             <button class="btn btn-light border" title="Edit"><i class="fa-solid fa-pen"></i></button>
@@ -650,10 +650,10 @@ include __DIR__ . '/../layouts/header.php';
                     <div class="timeline-header d-flex align-items-center border-bottom pb-2 mb-3 fw-bold text-muted fs-8 text-uppercase">
                         <div style="width: 290px; flex-shrink: 0;">Project, Category & Priority</div>
                         <div class="flex-grow-1 d-flex justify-content-between text-center px-3">
-                            <span class="w-25">Week 1 (Sep 1 - 7)</span>
-                            <span class="w-25">Week 2 (Sep 8 - 14)</span>
-                            <span class="w-25">Week 3 (Sep 15 - 21)</span>
-                            <span class="w-25">Week 4 (Sep 22 - 30)</span>
+                            <span class="w-25">Sep 1 - 7</span>
+                            <span class="w-25">Sep 8 - 14</span>
+                            <span class="w-25">Sep 15 - 21</span>
+                            <span class="w-25">Sep 22 - 30</span>
                         </div>
                         <div style="width: 170px; flex-shrink: 0;" class="text-end">Lead & Actions</div>
                     </div>
@@ -701,11 +701,370 @@ include __DIR__ . '/../layouts/header.php';
         </div>
     </div>
 
+    <!-- ----------------------------------------------------------------------- -->
+    <!-- VIEW 4: DOCUMENTATION REPOSITORY & FILE UPLOAD                          -->
+    <!-- ----------------------------------------------------------------------- -->
+    <div class="view-content" id="viewDocumentation">
+        <!-- Documentation Header Card -->
+        <div class="card shadow-sm border rounded-4 p-4 bg-white mb-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-warning-subtle text-warning rounded-3 d-flex align-items-center justify-content-center shadow-xs" style="width: 52px; height: 52px;">
+                        <i class="fa-solid fa-folder-open fs-3 text-warning"></i>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <h2 class="h5 fw-bold mb-0 text-dark">Portfolio Documentation & Asset Repository</h2>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-8 px-2 py-0.5 rounded-2 fw-semibold">Multi-Project Hub</span>
+                        </div>
+                        <span class="fs-8 text-muted mt-0.5 d-block">Pusat master spesifikasi BRD, FSD, PRD, ERD, Blueprint, UI/UX asset, serta arsip file dokumen semua project.</span>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <button class="btn btn-sm btn-primary rounded-3 d-flex align-items-center gap-2 px-3 py-2 fw-semibold shadow-sm" data-bs-toggle="modal" data-bs-target="#uploadDocFileModal">
+                        <i class="fa-solid fa-cloud-arrow-up fs-6"></i>
+                        <span>Upload File Dokumentasi</span>
+                    </button>
+                    <a href="Documentation/TrackingVersion.php" class="btn btn-sm btn-outline-secondary rounded-3 d-flex align-items-center gap-1.5 px-3 py-2 fw-semibold">
+                        <i class="fa-solid fa-timeline"></i> Track Versioning
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Jump Module Pills -->
+            <div class="d-flex flex-wrap align-items-center gap-2 pt-3 mt-3 border-top">
+                <span class="fs-8 text-muted fw-bold text-uppercase me-1"><i class="fa-solid fa-bolt me-1 text-primary"></i> Master Specs:</span>
+                <a href="Documentation/BRD.php" class="btn btn-xs btn-outline-primary rounded-pill fs-8 px-3 py-1 fw-semibold">
+                    <i class="fa-solid fa-file-invoice me-1"></i> BRD
+                </a>
+                <a href="Documentation/FSD.php" class="btn btn-xs btn-outline-success rounded-pill fs-8 px-3 py-1 fw-semibold">
+                    <i class="fa-solid fa-file-code me-1"></i> FSD
+                </a>
+                <a href="Documentation/PRD.php" class="btn btn-xs btn-outline-info rounded-pill fs-8 px-3 py-1 fw-semibold">
+                    <i class="fa-solid fa-rectangle-list me-1"></i> PRD
+                </a>
+                <a href="Documentation/ERD.php" class="btn btn-xs btn-outline-warning rounded-pill fs-8 px-3 py-1 fw-semibold">
+                    <i class="fa-solid fa-diagram-project me-1"></i> ERD
+                </a>
+                <a href="Documentation/Blueprints.php" class="btn btn-xs btn-outline-danger rounded-pill fs-8 px-3 py-1 fw-semibold">
+                    <i class="fa-solid fa-cubes-stacked me-1"></i> Blueprints
+                </a>
+            </div>
+        </div>
+
+        <!-- Category Metric Cards Grid -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card shadow-sm border rounded-4 p-3 bg-white text-center cursor-pointer hover-card-shadow doc-quick-cat-filter" data-category="brd">
+                    <div class="p-2.5 bg-primary-subtle text-primary rounded-3 d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                        <i class="fa-solid fa-file-invoice fs-5"></i>
+                    </div>
+                    <span class="fs-8 fw-bold text-dark d-block text-truncate">BRD Requirements</span>
+                    <span class="badge bg-light text-muted border fs-9 mt-1" id="catCount_brd">3 Files</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card shadow-sm border rounded-4 p-3 bg-white text-center cursor-pointer hover-card-shadow doc-quick-cat-filter" data-category="fsd">
+                    <div class="p-2.5 bg-success-subtle text-success rounded-3 d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                        <i class="fa-solid fa-file-code fs-5"></i>
+                    </div>
+                    <span class="fs-8 fw-bold text-dark d-block text-truncate">FSD Specs</span>
+                    <span class="badge bg-light text-muted border fs-9 mt-1" id="catCount_fsd">2 Files</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card shadow-sm border rounded-4 p-3 bg-white text-center cursor-pointer hover-card-shadow doc-quick-cat-filter" data-category="prd">
+                    <div class="p-2.5 bg-info-subtle text-info rounded-3 d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                        <i class="fa-solid fa-rectangle-list fs-5"></i>
+                    </div>
+                    <span class="fs-8 fw-bold text-dark d-block text-truncate">PRD Product</span>
+                    <span class="badge bg-light text-muted border fs-9 mt-1" id="catCount_prd">2 Files</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card shadow-sm border rounded-4 p-3 bg-white text-center cursor-pointer hover-card-shadow doc-quick-cat-filter" data-category="erd">
+                    <div class="p-2.5 bg-warning-subtle text-warning rounded-3 d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                        <i class="fa-solid fa-diagram-project fs-5"></i>
+                    </div>
+                    <span class="fs-8 fw-bold text-dark d-block text-truncate">ERD Schemas</span>
+                    <span class="badge bg-light text-muted border fs-9 mt-1" id="catCount_erd">2 Files</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card shadow-sm border rounded-4 p-3 bg-white text-center cursor-pointer hover-card-shadow doc-quick-cat-filter" data-category="blueprint">
+                    <div class="p-2.5 bg-danger-subtle text-danger rounded-3 d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                        <i class="fa-solid fa-cubes-stacked fs-5"></i>
+                    </div>
+                    <span class="fs-8 fw-bold text-dark d-block text-truncate">Architecture</span>
+                    <span class="badge bg-light text-muted border fs-9 mt-1" id="catCount_blueprint">3 Files</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-2">
+                <div class="card shadow-sm border rounded-4 p-3 bg-white text-center cursor-pointer hover-card-shadow doc-quick-cat-filter" data-category="assets">
+                    <div class="p-2.5 bg-secondary-subtle text-dark rounded-3 d-inline-flex align-items-center justify-content-center mb-2" style="width: 40px; height: 40px;">
+                        <i class="fa-solid fa-file-zipper fs-5 text-secondary"></i>
+                    </div>
+                    <span class="fs-8 fw-bold text-dark d-block text-truncate">Assets & Other</span>
+                    <span class="badge bg-light text-muted border fs-9 mt-1" id="catCount_assets">4 Files</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drag & Drop Upload Quick Zone -->
+        <div class="card shadow-sm border rounded-4 p-4 bg-white mb-4">
+            <div class="p-4 border-2 border-dashed rounded-4 text-center bg-light-subtle cursor-pointer doc-dropzone" id="quickDocDropzone">
+                <div class="d-flex flex-column align-items-center justify-content-center py-2">
+                    <div class="p-3 bg-primary-subtle text-primary rounded-circle mb-3 d-flex align-items-center justify-content-center shadow-xs" style="width: 60px; height: 60px;">
+                        <i class="fa-solid fa-cloud-arrow-up fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark fs-6 mb-1">Drag & drop berkas dokumentasi Anda ke sini</h5>
+                    <p class="text-muted fs-8 mb-3">Mendukung semua format berkas: PDF, DOCX, XLSX, PPTX, PNG, JPG, SVG, ZIP, RAR, TXT, MD, DRAWIO (Maks. 100MB per file)</p>
+                    <button type="button" class="btn btn-sm btn-primary rounded-3 px-4 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#uploadDocFileModal">
+                        <i class="fa-solid fa-folder-open me-1.5"></i> Pilih Berkas untuk Diunggah
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Master Documentation File List / Grid Container -->
+        <div class="card shadow-sm border rounded-4 bg-white overflow-hidden mb-4">
+            <!-- Filter & Toolbar Header -->
+            <div class="card-header bg-white border-bottom p-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <h5 class="h6 fw-bold mb-0 text-dark"><i class="fa-solid fa-folder-tree text-primary me-1.5"></i> Repository Files</h5>
+                    <span class="badge bg-light text-muted border fs-8" id="docTotalCountBadge">0 Total Files</span>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <!-- Live Search Input -->
+                    <div class="input-group input-group-sm" style="min-width: 220px;">
+                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass fs-8"></i></span>
+                        <input type="text" class="form-control border-start-0 fs-8" id="docFileSearchInput" placeholder="Cari nama dokumen, tipe, atau uploader...">
+                    </div>
+
+                    <!-- Project Filter Selector -->
+                    <select class="form-select form-select-sm fs-8 w-auto" id="docFileProjectFilter">
+                        <option value="all">Semua Project</option>
+                        <option value="Middleware Project">Middleware Project</option>
+                        <option value="Company Website">Company Website</option>
+                        <option value="Landing Page Campaign">Landing Page Campaign</option>
+                        <option value="Mobile CRM Application">Mobile CRM Application</option>
+                        <option value="Internal Analytics Tool">Internal Analytics Tool</option>
+                    </select>
+
+                    <!-- Category Filter Selector -->
+                    <select class="form-select form-select-sm fs-8 w-auto" id="docFileCategoryFilter">
+                        <option value="all">Semua Kategori</option>
+                        <option value="brd">BRD (Business Req)</option>
+                        <option value="fsd">FSD (Functional Spec)</option>
+                        <option value="prd">PRD (Product Req)</option>
+                        <option value="erd">ERD (Database Schema)</option>
+                        <option value="blueprint">Blueprint & Architecture</option>
+                        <option value="assets">Assets & Source Packages</option>
+                        <option value="other">Lainnya</option>
+                    </select>
+
+                    <!-- Upload Button Shortcut -->
+                    <button class="btn btn-sm btn-primary rounded-3 px-3 fs-8 fw-semibold d-flex align-items-center gap-1.5" data-bs-toggle="modal" data-bs-target="#uploadDocFileModal">
+                        <i class="fa-solid fa-plus"></i> Upload
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table View -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light fs-8 text-uppercase text-muted fw-bold">
+                        <tr>
+                            <th class="ps-4 py-3" style="min-width: 280px;">Nama Berkas & Judul Dokumen</th>
+                            <th class="py-3" style="width: 180px;">Project Terkait</th>
+                            <th class="py-3" style="width: 130px;">Kategori</th>
+                            <th class="py-3" style="width: 100px;">Versi</th>
+                            <th class="py-3" style="width: 150px;">Uploader & Tanggal</th>
+                            <th class="py-3" style="width: 110px;">Ukuran</th>
+                            <th class="pe-4 py-3 text-end" style="width: 130px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="fs-7" id="docFilesTableBody">
+                        <!-- Dynamic File Rows rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- =========================================================================== -->
 <!-- 4. MODALS & POPUPS                                                          -->
 <!-- =========================================================================== -->
+
+<!-- Modal: Upload File Documentation (All File Types Supported) -->
+<div class="modal fade" id="uploadDocFileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow-lg p-2">
+            <div class="modal-header border-0 pb-0">
+                <div class="d-flex align-items-center gap-2.5">
+                    <div class="p-2.5 bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-cloud-arrow-up fs-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold text-dark mb-0">Upload File Dokumentasi</h5>
+                        <span class="fs-8 text-muted">Unggah berkas spesifikasi, diagram, atau aset pendukung untuk project</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formUploadDocFile">
+                <div class="modal-body pt-3">
+                    <div class="row g-3 mb-3">
+                        <!-- Project Selector -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fs-7 fw-semibold text-dark">Target Project *</label>
+                            <select class="form-select fs-7" id="uploadDocProject" required>
+                                <option value="Middleware Project">Middleware Project</option>
+                                <option value="Company Website">Company Website</option>
+                                <option value="Landing Page Campaign">Landing Page Campaign</option>
+                                <option value="Mobile CRM Application">Mobile CRM Application</option>
+                                <option value="Internal Analytics Tool">Internal Analytics Tool</option>
+                            </select>
+                        </div>
+
+                        <!-- Category Selector -->
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fs-7 fw-semibold text-dark">Kategori Dokumen *</label>
+                            <select class="form-select fs-7" id="uploadDocCategory" required>
+                                <option value="brd">BRD (Business Requirements Document)</option>
+                                <option value="fsd">FSD (Functional Specification Document)</option>
+                                <option value="prd">PRD (Product Requirements Document)</option>
+                                <option value="erd">ERD (Entity Relationship Diagram / SQL)</option>
+                                <option value="blueprint">Architecture / Blueprint Diagram</option>
+                                <option value="assets">UI/UX Asset / Source Package</option>
+                                <option value="other">Lainnya / General Documentation</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Document Title & Version -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-8">
+                            <label class="form-label fs-7 fw-semibold text-dark">Judul Dokumen *</label>
+                            <input type="text" class="form-control fs-7" id="uploadDocTitle" placeholder="e.g. Master Enterprise Architecture Blueprint v2" required>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fs-7 fw-semibold text-dark">Versi Dokumen</label>
+                            <input type="text" class="form-control fs-7 font-monospace" id="uploadDocVersion" placeholder="e.g. v1.0.0" value="v1.0.0">
+                        </div>
+                    </div>
+
+                    <!-- File Input Area (All Extensions) -->
+                    <div class="mb-3">
+                        <label class="form-label fs-7 fw-semibold text-dark">Pilih Berkas File *</label>
+                        <div class="input-group">
+                            <input type="file" class="form-control fs-7" id="uploadDocFileInput" accept="*/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.svg,.zip,.rar,.txt,.md,.drawio" required>
+                        </div>
+                        <span class="fs-8 text-muted mt-1 d-block">
+                            <i class="fa-solid fa-circle-check text-success me-1"></i> Mendukung seluruh format berkas dokumen, spreadsheet, arsip kompresi, dan gambar desain.
+                        </span>
+                    </div>
+
+                    <!-- Author & Description -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fs-7 fw-semibold text-dark">Pengunggah / Author</label>
+                            <input type="text" class="form-control fs-7" id="uploadDocAuthor" value="Sophia Carter (Lead Architect)">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fs-7 fw-semibold text-dark">Status Persetujuan</label>
+                            <select class="form-select fs-7" id="uploadDocStatus">
+                                <option value="Approved" selected>Approved / Official</option>
+                                <option value="Under Review">Under Review</option>
+                                <option value="Draft">Draft</option>
+                                <option value="Archived">Archived</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label fs-7 fw-semibold text-dark">Catatan / Ringkasan Perubahan</label>
+                        <textarea class="form-control fs-7" id="uploadDocNotes" rows="2" placeholder="Tuliskan catatan rilis berkas atau changelog singkat..."></textarea>
+                    </div>
+
+                    <!-- Upload Progress Simulation Bar (Hidden by default) -->
+                    <div class="d-none mt-3" id="uploadDocProgressContainer">
+                        <div class="d-flex align-items-center justify-content-between fs-8 mb-1">
+                            <span class="text-primary fw-semibold"><i class="fa-solid fa-spinner fa-spin me-1"></i> Mengunggah berkas...</span>
+                            <span class="text-dark fw-bold" id="uploadDocProgressPct">0%</span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" id="uploadDocProgressBar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary px-3.5 fs-7" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary px-4 fs-7 fw-semibold d-flex align-items-center gap-2" id="btnSubmitUploadDoc">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Sekarang</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Preview Documentation File Details -->
+<div class="modal fade" id="previewDocFileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+            <div class="modal-header border-bottom pb-3">
+                <div class="d-flex align-items-center gap-2.5">
+                    <div class="p-2.5 rounded-3 d-flex align-items-center justify-content-center text-white" id="previewDocIconBox" style="width: 44px; height: 44px; background: #3b82f6;">
+                        <i class="fa-solid fa-file fs-5" id="previewDocIcon"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold text-dark mb-0" id="previewDocTitle">Document Title</h5>
+                        <span class="fs-8 text-muted" id="previewDocSubtitle">Project Association</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="p-3 bg-light rounded-3 mb-3 border">
+                    <div class="row g-2 fs-8">
+                        <div class="col-6">
+                            <span class="text-muted d-block">Nama Berkas:</span>
+                            <strong class="text-dark font-monospace" id="previewDocFilename">document.pdf</strong>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-muted d-block">Ukuran File:</span>
+                            <strong class="text-dark" id="previewDocSize">2.4 MB</strong>
+                        </div>
+                        <div class="col-6 mt-2">
+                            <span class="text-muted d-block">Kategori & Versi:</span>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle" id="previewDocCategory">BRD</span>
+                            <span class="badge bg-light text-dark border font-monospace ms-1" id="previewDocVersion">v1.0.0</span>
+                        </div>
+                        <div class="col-6 mt-2">
+                            <span class="text-muted d-block">Status Dokumen:</span>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle" id="previewDocStatus">Approved</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <span class="fs-8 text-muted d-block fw-semibold mb-1">Catatan & Deskripsi:</span>
+                    <p class="fs-8 text-dark bg-light-subtle p-2.5 rounded-3 border mb-0" id="previewDocDesc">No description available.</p>
+                </div>
+            </div>
+            <div class="modal-footer border-top pt-2.5 d-flex align-items-center justify-content-between">
+                <button type="button" class="btn btn-outline-secondary btn-sm px-3 fs-8" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary btn-sm px-3 fs-8 fw-semibold d-flex align-items-center gap-1.5" id="btnPreviewDownload">
+                    <i class="fa-solid fa-download"></i> Unduh Berkas
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal: Create New Project -->
 <div class="modal fade" id="newProjectModal" tabindex="-1" aria-hidden="true">
@@ -760,6 +1119,152 @@ include __DIR__ . '/../layouts/header.php';
                     <button type="submit" class="btn btn-primary px-4 fs-7 fw-semibold">Create Project</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Project Task Breakdown (from Calendar / Gantt Timeline) -->
+<div class="modal fade" id="projectTaskBreakdownModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+            <!-- Modal Header -->
+            <div class="modal-header border-bottom px-4 py-3 bg-light-subtle align-items-center">
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div class="rounded-3 p-2.5 d-flex align-items-center justify-content-center text-white shadow-xs" id="breakdownProjIconBadge" style="width: 44px; height: 44px; background: #3b82f6;">
+                        <i class="fa-solid fa-layer-group fs-5" id="breakdownProjIcon"></i>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <h5 class="modal-title fw-bold text-dark mb-0" id="breakdownProjTitle">Middleware Project</h5>
+                            <span class="badge bg-primary-subtle text-primary fs-8 px-2 py-0.5 rounded-2 fw-semibold" id="breakdownProjCategory">E-Commerce / API</span>
+                            <span class="badge bg-danger-subtle text-danger fs-8 px-2 py-0.5 rounded-2 fw-semibold" id="breakdownProjPriority">High Priority</span>
+                            <span class="badge bg-success-subtle text-success fs-8 px-2 py-0.5 rounded-2 fw-semibold" id="breakdownProjStatus">In Progress</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 fs-8 text-muted mt-1 flex-wrap">
+                            <span><i class="fa-solid fa-user-tie text-primary me-1"></i> Lead: <strong class="text-dark" id="breakdownProjLead">Sophia Carter</strong></span>
+                            <span><i class="fa-regular fa-calendar text-info me-1"></i> Timeline: <span id="breakdownProjDates">Sep 05 - Nov 15, 2026 (71d)</span></span>
+                            <span><i class="fa-solid fa-link text-success me-1"></i> Domain: <a href="#" id="breakdownProjDomain" class="text-primary text-decoration-none fw-semibold" target="_blank">api.sdn-middleware.internal</a></span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body p-4 bg-white">
+                <!-- Project Progress Summary Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-12 col-md-4">
+                        <div class="p-3 bg-light rounded-3 border h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <span class="fs-8 fw-bold text-uppercase text-muted">Sprint Completion</span>
+                                    <span class="fw-bold text-dark fs-7" id="breakdownProgressPct">65%</span>
+                                </div>
+                                <div class="progress mb-2" style="height: 8px;">
+                                    <div class="progress-bar bg-primary progress-bar-striped" id="breakdownProgressBar" style="width: 65%;"></div>
+                                </div>
+                            </div>
+                            <span class="fs-8 text-muted" id="breakdownTaskStats"><i class="fa-solid fa-list-check me-1 text-primary"></i> 8 of 12 Tasks Finished</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="row g-2 h-100">
+                            <div class="col-6 col-sm-3">
+                                <div class="p-2.5 bg-danger-subtle border border-danger-subtle rounded-3 text-center h-100 d-flex flex-column justify-content-center cursor-pointer breakdown-stat-filter" data-status="todo" title="Filter To Do tasks">
+                                    <span class="fs-8 fw-bold text-danger text-uppercase">To Do</span>
+                                    <h4 class="fw-extrabold text-danger mb-0" id="breakdownCountTodo">2</h4>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <div class="p-2.5 bg-primary-subtle border border-primary-subtle rounded-3 text-center h-100 d-flex flex-column justify-content-center cursor-pointer breakdown-stat-filter" data-status="in-progress" title="Filter In Progress tasks">
+                                    <span class="fs-8 fw-bold text-primary text-uppercase">In Progress</span>
+                                    <h4 class="fw-extrabold text-primary mb-0" id="breakdownCountProgress">2</h4>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <div class="p-2.5 bg-warning-subtle border border-warning-subtle rounded-3 text-center h-100 d-flex flex-column justify-content-center cursor-pointer breakdown-stat-filter" data-status="review" title="Filter Review tasks">
+                                    <span class="fs-8 fw-bold text-warning text-uppercase">Review</span>
+                                    <h4 class="fw-extrabold text-warning mb-0" id="breakdownCountReview">2</h4>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <div class="p-2.5 bg-success-subtle border border-success-subtle rounded-3 text-center h-100 d-flex flex-column justify-content-center cursor-pointer breakdown-stat-filter" data-status="completed" title="Filter Completed tasks">
+                                    <span class="fs-8 fw-bold text-success text-uppercase">Done</span>
+                                    <h4 class="fw-extrabold text-success mb-0" id="breakdownCountDone">2</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search & Filters Toolbar for Tasks -->
+                <div class="p-3 bg-light rounded-3 mb-3 border">
+                    <div class="row g-2 align-items-center justify-content-between">
+                        <div class="col-12 col-md-5">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass fs-8"></i></span>
+                                <input type="text" class="form-control border-start-0 fs-8" id="breakdownTaskSearch" placeholder="Filter task name, ID, or assignee...">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7 d-flex flex-wrap align-items-center justify-content-md-end gap-2">
+                            <select class="form-select form-select-sm fs-8 w-auto" id="breakdownStatusFilter">
+                                <option value="all">All Statuses</option>
+                                <option value="todo">To Do</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="review">Review</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            <select class="form-select form-select-sm fs-8 w-auto" id="breakdownPriorityFilter">
+                                <option value="all">All Priorities</option>
+                                <option value="Urgent">Urgent</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Normal">Normal</option>
+                            </select>
+                            <button class="btn btn-sm btn-outline-primary fs-8 fw-semibold px-2.5" id="btnBreakdownQuickAddTask">
+                                <i class="fa-solid fa-plus me-1"></i> Quick Add Task
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Breakdown Table -->
+                <div class="border rounded-3 overflow-hidden">
+                    <div class="table-responsive" style="max-height: 380px;">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light fs-8 text-uppercase text-muted fw-bold sticky-top">
+                                <tr>
+                                    <th class="ps-3 py-2.5" style="width: 110px;">Task ID</th>
+                                    <th class="py-2.5" style="min-width: 260px;">Task Title & Deliverables</th>
+                                    <th class="py-2.5" style="width: 120px;">Status</th>
+                                    <th class="py-2.5" style="width: 100px;">Priority</th>
+                                    <th class="py-2.5" style="width: 160px;">Assignee</th>
+                                    <th class="py-2.5" style="width: 120px;">Est. / Due</th>
+                                    <th class="pe-3 py-2.5 text-end" style="width: 110px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="fs-7" id="breakdownTaskTableBody">
+                                <!-- Dynamic Task Rows injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer border-top px-4 py-2.5 bg-light-subtle d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <span class="fs-8 text-muted">
+                    <i class="fa-solid fa-info-circle text-primary me-1"></i> Task breakdown otomatis terhubung dengan jadwal Gantt Timeline dan kalender sprint.
+                </span>
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button" class="btn btn-outline-secondary btn-sm px-3 fs-8" data-bs-dismiss="modal">Close</button>
+                    <a href="KanbanTask.php" class="btn btn-primary btn-sm px-3 fs-8 fw-semibold d-flex align-items-center gap-1.5 shadow-sm" id="breakdownOpenTaskBoardBtn">
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Open Full Kanban Workspace</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

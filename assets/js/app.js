@@ -11,6 +11,100 @@ $(document).ready(function () {
         { id: 'm4', name: 'James Wilson', role: 'Backend Programmer', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80' }
     ];
 
+    // Master Documentation Files Repository Data
+    const DEFAULT_TASK_DOCUMENTS = [
+        {
+            id: 'doc-1',
+            title: 'Master Enterprise Architecture Blueprint v2',
+            filename: 'Architecture_Topologi_Cloud_v3.drawio',
+            fileExt: 'drawio',
+            fileSize: '4.8 MB',
+            category: 'blueprint',
+            projectName: 'Middleware Project',
+            version: 'v2.4.0',
+            status: 'Approved',
+            author: 'Sophia Carter (Lead Architect)',
+            authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80',
+            uploadedDate: '2026-09-30',
+            notes: 'Topologi high availability multi-region AWS & GCP interconnect with API Gateway redundancy.'
+        },
+        {
+            id: 'doc-2',
+            title: 'Core Middleware & Gateway BRD Specification',
+            filename: 'BRD_Middleware_Enterprise_v2.1.docx',
+            fileExt: 'docx',
+            fileSize: '1.8 MB',
+            category: 'brd',
+            projectName: 'Middleware Project',
+            version: 'v2.1.0',
+            status: 'Approved',
+            author: 'Sarah Chen (Tech Lead)',
+            authorAvatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=80&q=80',
+            uploadedDate: '2026-09-28',
+            notes: 'Requirement token validation, OAuth2 JWT PKCE rotation, dan batasan throughput rate limiting.'
+        },
+        {
+            id: 'doc-3',
+            title: 'Authentication & Rate Limiting FSD',
+            filename: 'FSD_Auth_RateLimiting_v1.4.pdf',
+            fileExt: 'pdf',
+            fileSize: '3.2 MB',
+            category: 'fsd',
+            projectName: 'Middleware Project',
+            version: 'v1.4.2',
+            status: 'Approved',
+            author: 'James Wilson (Backend Lead)',
+            authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80',
+            uploadedDate: '2026-09-25',
+            notes: 'Diagram sekuensial interaksi Redis cluster token bucket limiter dan response header RFC 6585.'
+        },
+        {
+            id: 'doc-4',
+            title: 'Database Schema & Table Relational ERD Migration',
+            filename: 'ERD_Database_Schema_Migration_v2.sql',
+            fileExt: 'sql',
+            fileSize: '820 KB',
+            category: 'erd',
+            projectName: 'Middleware Project',
+            version: 'v2.0.0',
+            status: 'Approved',
+            author: 'Daniel Johnson (Database Admin)',
+            authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80',
+            uploadedDate: '2026-09-20',
+            notes: 'Skrip DDL PostgreSQL 16 lengkap dengan foreign key constraints, indexes, dan partitioning schema.'
+        },
+        {
+            id: 'doc-5',
+            title: 'Mobile CRM Field Sales PRD Specs',
+            filename: 'PRD_Mobile_CRM_FieldSales_v1.0.pdf',
+            fileExt: 'pdf',
+            fileSize: '2.9 MB',
+            category: 'prd',
+            projectName: 'Mobile CRM Application',
+            version: 'v1.0.0',
+            status: 'Under Review',
+            author: 'Daniel Johnson (Product Lead)',
+            authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80',
+            uploadedDate: '2026-09-18',
+            notes: 'Kebutuhan fungsional offline sync SQLite, tracking GPS geofencing, dan push notification.'
+        },
+        {
+            id: 'doc-6',
+            title: 'Landing Page High-Res Vector & Branding Assets',
+            filename: 'LandingPage_Vector_Brand_Assets.zip',
+            fileExt: 'zip',
+            fileSize: '45.2 MB',
+            category: 'assets',
+            projectName: 'Landing Page Campaign',
+            version: 'v1.0.0',
+            status: 'Approved',
+            author: 'Michael Anderson (UI/UX Designer)',
+            authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80',
+            uploadedDate: '2026-09-12',
+            notes: 'Arsip SVG icons, Figma tokens export, 3D glTF models, dan ilustrasi promosi Q4 launch.'
+        }
+    ];
+
     // Initial Data matching Mockup with Comprehensive Timeline Schedule
     const INITIAL_TASKS = [
         // --- TO DO ---
@@ -314,6 +408,7 @@ $(document).ready(function () {
     // Main App Controller
     const SyncboardApp = {
         tasks: JSON.parse(localStorage.getItem('syncboard_tasks')) || INITIAL_TASKS,
+        taskDocs: JSON.parse(localStorage.getItem('kanban_task_docs')) || JSON.parse(localStorage.getItem('kanban_project_docs')) || DEFAULT_TASK_DOCUMENTS,
         currentView: 'kanban',
         activeTagFilter: 'all',
         searchQuery: '',
@@ -330,6 +425,7 @@ $(document).ready(function () {
             this.bindEvents();
             this.initTooltips();
             this.initGithub();
+            this.initTaskDocRepository();
             this.renderAll();
         },
 
@@ -646,6 +742,11 @@ $(document).ready(function () {
             this.renderCalendar(filtered);
             this.renderTimelineSchedule(filtered);
             this.renderTimelineSchedulerTable(filtered);
+
+            // Documentation Repository Table
+            if ($('#taskDocFilesTableBody').length) {
+                this.renderTaskDocRepository();
+            }
 
             // Update Header & Category Badges
             this.updateCounts();
@@ -2120,6 +2221,333 @@ $(document).ready(function () {
             ];
             this.renderGhPushes(mockEvents);
             this.renderGhStats([], []);
+        },
+
+        /* -------------------------------------------------------------------------- */
+        /* DOCUMENTATION REPOSITORY & FILE UPLOAD CONTROLLER                          */
+        /* -------------------------------------------------------------------------- */
+        getDocIconConfig(ext) {
+            const e = (ext || '').toLowerCase().replace('.', '');
+            if (['pdf'].includes(e)) {
+                return { icon: 'fa-solid fa-file-pdf', bgClass: 'bg-danger', textClass: 'text-danger', borderClass: 'border-danger-subtle' };
+            } else if (['doc', 'docx'].includes(e)) {
+                return { icon: 'fa-solid fa-file-word', bgClass: 'bg-primary', textClass: 'text-primary', borderClass: 'border-primary-subtle' };
+            } else if (['xls', 'xlsx', 'csv'].includes(e)) {
+                return { icon: 'fa-solid fa-file-excel', bgClass: 'bg-success', textClass: 'text-success', borderClass: 'border-success-subtle' };
+            } else if (['ppt', 'pptx'].includes(e)) {
+                return { icon: 'fa-solid fa-file-powerpoint', bgClass: 'bg-warning', textClass: 'text-warning', borderClass: 'border-warning-subtle' };
+            } else if (['zip', 'rar', '7z', 'tar', 'gz'].includes(e)) {
+                return { icon: 'fa-solid fa-file-zipper', bgClass: 'bg-secondary', textClass: 'text-secondary', borderClass: 'border-secondary-subtle' };
+            } else if (['png', 'jpg', 'jpeg', 'svg', 'webp', 'gif'].includes(e)) {
+                return { icon: 'fa-solid fa-file-image', bgClass: 'bg-info', textClass: 'text-info', borderClass: 'border-info-subtle' };
+            } else if (['sql', 'json', 'js', 'ts', 'php', 'html', 'css'].includes(e)) {
+                return { icon: 'fa-solid fa-file-code', bgClass: 'bg-dark', textClass: 'text-dark', borderClass: 'border-dark-subtle' };
+            } else if (['drawio', 'vsdx', 'fig'].includes(e)) {
+                return { icon: 'fa-solid fa-diagram-project', bgClass: 'bg-danger', textClass: 'text-danger', borderClass: 'border-danger-subtle' };
+            }
+            return { icon: 'fa-solid fa-file-lines', bgClass: 'bg-secondary', textClass: 'text-secondary', borderClass: 'border-secondary-subtle' };
+        },
+
+        initTaskDocRepository() {
+            const self = this;
+
+            // Live Search Input Filter
+            $('#taskDocFileSearchInput').on('input', function () {
+                self.renderTaskDocRepository();
+            });
+
+            // Category Filter Change
+            $('#taskDocFileCategoryFilter').on('change', function () {
+                self.renderTaskDocRepository();
+            });
+
+            // Quick Dropzone Drag & Drop
+            const $dropzone = $('#quickTaskDocDropzone');
+            if ($dropzone.length) {
+                $dropzone.on('dragover', function (e) {
+                    e.preventDefault();
+                    $(this).addClass('border-primary bg-primary-subtle');
+                });
+                $dropzone.on('dragleave drop', function (e) {
+                    e.preventDefault();
+                    $(this).removeClass('border-primary bg-primary-subtle');
+                });
+                $dropzone.on('drop', function (e) {
+                    e.preventDefault();
+                    const files = e.originalEvent.dataTransfer ? e.originalEvent.dataTransfer.files : null;
+                    if (files && files.length > 0) {
+                        const fileInput = document.getElementById('uploadTaskDocFileInput');
+                        if (fileInput) {
+                            fileInput.files = files;
+                            const f = files[0];
+                            $('#uploadTaskDocTitle').val(f.name.replace(/\.[^/.]+$/, ''));
+                        }
+                        const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('uploadTaskDocModal'));
+                        modal.show();
+                    }
+                });
+            }
+
+            // Upload Documentation Form Submit
+            $('#formUploadTaskDoc').on('submit', function (e) {
+                e.preventDefault();
+                const category = $('#uploadTaskDocCategory').val() || 'brd';
+                const project = $('#uploadTaskDocProject').val() || 'Middleware Project';
+                const title = $('#uploadTaskDocTitle').val().trim();
+                const version = $('#uploadTaskDocVersion').val().trim() || 'v1.0.0';
+                const author = $('#uploadTaskDocAuthor').val().trim() || 'Sophia Carter';
+                const status = $('#uploadTaskDocStatus').val() || 'Approved';
+                const notes = $('#uploadTaskDocNotes').val().trim();
+
+                const fileInput = document.getElementById('uploadTaskDocFileInput');
+                let filename = 'document_upload.pdf';
+                let fileExt = 'pdf';
+                let fileSize = '2.5 MB';
+
+                if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    filename = file.name;
+                    const extParts = file.name.split('.');
+                    if (extParts.length > 1) fileExt = extParts.pop().toLowerCase();
+
+                    if (file.size < 1024 * 1024) {
+                        fileSize = (file.size / 1024).toFixed(1) + ' KB';
+                    } else {
+                        fileSize = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+                    }
+                }
+
+                // Show Upload Progress Bar Simulation
+                const $progressContainer = $('#uploadTaskDocProgressContainer').removeClass('d-none');
+                const $progressBar = $('#uploadTaskDocProgressBar');
+                const $progressPct = $('#uploadTaskDocProgressPct');
+                const $submitBtn = $('#btnSubmitUploadTaskDoc').prop('disabled', true);
+
+                let progress = 0;
+                const uploadInterval = setInterval(() => {
+                    progress += 25;
+                    $progressBar.css('width', `${progress}%`);
+                    $progressPct.text(`${progress}%`);
+
+                    if (progress >= 100) {
+                        clearInterval(uploadInterval);
+
+                        const newDoc = {
+                            id: `doc-${Date.now()}`,
+                            title: title,
+                            filename: filename,
+                            fileExt: fileExt,
+                            fileSize: fileSize,
+                            category: category,
+                            projectName: project,
+                            version: version,
+                            status: status,
+                            author: author,
+                            authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80',
+                            uploadedDate: new Date().toISOString().split('T')[0],
+                            notes: notes || 'Berkas dokumentasi diunggah ke workspace.'
+                        };
+
+                        self.taskDocs.unshift(newDoc);
+                        localStorage.setItem('kanban_task_docs', JSON.stringify(self.taskDocs));
+                        localStorage.setItem('kanban_project_docs', JSON.stringify(self.taskDocs));
+
+                        // Reset and close modal
+                        setTimeout(() => {
+                            $progressContainer.addClass('d-none');
+                            $progressBar.css('width', '0%');
+                            $progressPct.text('0%');
+                            $submitBtn.prop('disabled', false);
+                            
+                            const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadTaskDocModal'));
+                            if (uploadModal) uploadModal.hide();
+                            $('#formUploadTaskDoc')[0].reset();
+
+                            self.renderTaskDocRepository();
+                            showLiveToast(`Berhasil mengunggah berkas "${filename}" (${fileSize})!`);
+                        }, 300);
+                    }
+                }, 120);
+            });
+
+            // Preview Document Details Trigger
+            $('#taskDocFilesTableBody').on('click', '.btn-preview-task-doc-trigger', function (e) {
+                e.preventDefault();
+                const docId = $(this).data('doc-id');
+                const doc = self.taskDocs.find(d => d.id === docId);
+                if (!doc) return;
+
+                const iconCfg = self.getDocIconConfig(doc.fileExt);
+                $('#previewTaskDocTitle').text(doc.title);
+                $('#previewTaskDocSubtitle').html(`<i class="fa-solid fa-folder-tree me-1 text-primary"></i> ${doc.projectName || 'Middleware Project'} &bull; Uploaded by ${doc.author}`);
+                $('#previewTaskDocFilename').text(doc.filename);
+                $('#previewTaskDocSize').text(doc.fileSize || '2.4 MB');
+                $('#previewTaskDocCategory').text((doc.category || 'DOC').toUpperCase());
+                $('#previewTaskDocVersion').text(doc.version || 'v1.0.0');
+                $('#previewTaskDocStatus').text(doc.status || 'Approved');
+                $('#previewTaskDocDesc').text(doc.notes || 'Tidak ada deskripsi tambahan.');
+
+                $('#previewTaskDocIcon').attr('class', `${iconCfg.icon} fs-5`);
+                $('#previewTaskDocIconBox').attr('class', `p-2.5 rounded-3 d-flex align-items-center justify-content-center text-white ${iconCfg.bgClass}`);
+
+                $('#btnPreviewTaskDocDownload').off('click').on('click', function () {
+                    showLiveToast(`Mengunduh berkas "${doc.filename}"...`);
+                    const previewModal = bootstrap.Modal.getInstance(document.getElementById('previewTaskDocModal'));
+                    if (previewModal) previewModal.hide();
+                });
+
+                const previewModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('previewTaskDocModal'));
+                previewModal.show();
+            });
+
+            // Download Document Trigger
+            $('#taskDocFilesTableBody').on('click', '.btn-download-task-doc-trigger', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const docId = $(this).data('doc-id');
+                const doc = self.taskDocs.find(d => d.id === docId);
+                if (doc) {
+                    showLiveToast(`Mengunduh berkas "${doc.filename}" (${doc.fileSize})...`);
+                }
+            });
+
+            // Delete Document Trigger
+            $('#taskDocFilesTableBody').on('click', '.btn-delete-task-doc-trigger', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const docId = $(this).data('doc-id');
+                const docIndex = self.taskDocs.findIndex(d => d.id === docId);
+                if (docIndex !== -1) {
+                    const removedDoc = self.taskDocs[docIndex];
+                    if (confirm(`Apakah Anda yakin ingin menghapus dokumen "${removedDoc.title}"?`)) {
+                        self.taskDocs.splice(docIndex, 1);
+                        localStorage.setItem('kanban_task_docs', JSON.stringify(self.taskDocs));
+                        localStorage.setItem('kanban_project_docs', JSON.stringify(self.taskDocs));
+                        self.renderTaskDocRepository();
+                        showLiveToast(`Dokumen "${removedDoc.filename}" berhasil dihapus.`);
+                    }
+                }
+            });
+        },
+
+        renderTaskDocRepository() {
+            const $tbody = $('#taskDocFilesTableBody');
+            if (!$tbody.length) return;
+
+            $tbody.empty();
+
+            const searchQuery = ($('#taskDocFileSearchInput').val() || '').toLowerCase().trim();
+            const categoryFilter = $('#taskDocFileCategoryFilter').val() || 'all';
+
+            const catBadgeMap = {
+                brd: '<span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-0.5 rounded-2 fw-semibold">BRD</span>',
+                fsd: '<span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0.5 rounded-2 fw-semibold">FSD</span>',
+                prd: '<span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-0.5 rounded-2 fw-semibold">PRD</span>',
+                erd: '<span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-0.5 rounded-2 fw-semibold">ERD</span>',
+                blueprint: '<span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-0.5 rounded-2 fw-semibold">Blueprint</span>',
+                assets: '<span class="badge bg-indigo-subtle text-indigo border border-indigo-subtle px-2 py-0.5 rounded-2 fw-semibold">Assets</span>',
+                other: '<span class="badge bg-light text-muted border px-2 py-0.5 rounded-2 fw-semibold">Docs</span>'
+            };
+
+            const filteredDocs = this.taskDocs.filter(doc => {
+                const matchesSearch = !searchQuery ||
+                    doc.title.toLowerCase().includes(searchQuery) ||
+                    doc.filename.toLowerCase().includes(searchQuery) ||
+                    (doc.author && doc.author.toLowerCase().includes(searchQuery)) ||
+                    (doc.fileExt && doc.fileExt.toLowerCase().includes(searchQuery));
+
+                const matchesCat = categoryFilter === 'all' || doc.category === categoryFilter;
+
+                return matchesSearch && matchesCat;
+            });
+
+            $('#taskDocTotalCountBadge').text(`${filteredDocs.length} Total Files`);
+
+            if (filteredDocs.length === 0) {
+                $tbody.html(`
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <i class="fa-regular fa-folder-open fs-1 text-muted opacity-50 mb-2"></i>
+                                <span class="fw-semibold text-dark fs-7">Tidak ada berkas dokumentasi yang cocok</span>
+                                <span class="fs-8 text-muted mt-1">Coba sesuaikan kata kunci pencarian atau filter kategori</span>
+                            </div>
+                        </td>
+                    </tr>
+                `);
+                return;
+            }
+
+            filteredDocs.forEach(doc => {
+                const iconCfg = this.getDocIconConfig(doc.fileExt);
+                const authorAvatar = doc.authorAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80';
+                const authorName = doc.author || 'Sophia Carter';
+
+                const $tr = $(`
+                    <tr>
+                        <!-- File Icon & Name -->
+                        <td class="ps-4 py-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="p-2 rounded-3 d-flex align-items-center justify-content-center text-white shadow-xs ${iconCfg.bgClass}" style="width: 38px; height: 38px;">
+                                    <i class="${iconCfg.icon} fs-6"></i>
+                                </div>
+                                <div style="min-width: 0;">
+                                    <a href="javascript:void(0)" class="fw-bold text-dark fs-7 text-decoration-none d-block text-truncate btn-preview-task-doc-trigger" data-doc-id="${doc.id}" title="${doc.title}">
+                                        ${doc.title}
+                                    </a>
+                                    <div class="d-flex align-items-center gap-1.5 mt-0.5">
+                                        <span class="fs-8 text-muted font-monospace text-truncate" style="max-width: 240px;">${doc.filename}</span>
+                                        <span class="badge bg-light text-muted border fs-9 text-uppercase">${doc.fileExt || 'file'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Category -->
+                        <td class="py-3">
+                            ${catBadgeMap[doc.category] || `<span class="badge bg-light text-dark border">${doc.category}</span>`}
+                        </td>
+
+                        <!-- Version -->
+                        <td class="py-3">
+                            <span class="badge bg-light text-dark border font-monospace fs-8 px-2 py-0.5">${doc.version || 'v1.0.0'}</span>
+                        </td>
+
+                        <!-- Uploader & Date -->
+                        <td class="py-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <img src="${authorAvatar}" class="avatar-xs rounded-circle border" alt="${authorName}" style="width: 28px; height: 28px;">
+                                <div>
+                                    <span class="fs-8 fw-semibold text-dark d-block text-truncate" style="max-width: 130px;">${authorName.split(' ')[0]}</span>
+                                    <span class="fs-9 text-muted">${formatShortDate(doc.uploadedDate || '2026-09-01')}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- File Size -->
+                        <td class="py-3">
+                            <span class="fs-8 text-muted font-monospace fw-semibold">${doc.fileSize || '2.0 MB'}</span>
+                        </td>
+
+                        <!-- Actions -->
+                        <td class="pe-4 py-3 text-end">
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-light border btn-preview-task-doc-trigger" data-doc-id="${doc.id}" title="Preview Details">
+                                    <i class="fa-solid fa-eye text-primary fs-8"></i>
+                                </button>
+                                <button class="btn btn-light border btn-download-task-doc-trigger" data-doc-id="${doc.id}" title="Download File">
+                                    <i class="fa-solid fa-download text-success fs-8"></i>
+                                </button>
+                                <button class="btn btn-light border btn-delete-task-doc-trigger" data-doc-id="${doc.id}" title="Hapus Dokumen">
+                                    <i class="fa-solid fa-trash text-danger fs-8"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `);
+
+                $tbody.append($tr);
+            });
         }
     };
 

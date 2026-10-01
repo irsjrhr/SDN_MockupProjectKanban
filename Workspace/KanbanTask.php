@@ -321,10 +321,10 @@ include __DIR__ . '/../layouts/header.php';
                     <div class="timeline-header d-flex align-items-center border-bottom pb-2 mb-3 fw-bold text-muted fs-8 text-uppercase">
                         <div style="width: 280px; flex-shrink: 0;">Task, Timeline & Priority</div>
                         <div class="flex-grow-1 d-flex justify-content-between text-center px-3">
-                            <span class="w-25">Week 1 (Sep 1 - 7)</span>
-                            <span class="w-25">Week 2 (Sep 8 - 14)</span>
-                            <span class="w-25">Week 3 (Sep 15 - 21)</span>
-                            <span class="w-25">Week 4 (Sep 22 - 30)</span>
+                            <span class="w-25">Sep 1 - 7</span>
+                            <span class="w-25">Sep 8 - 14</span>
+                            <span class="w-25">Sep 15 - 21</span>
+                            <span class="w-25">Sep 22 - 30</span>
                         </div>
                         <div style="width: 140px; flex-shrink: 0;" class="text-end">Assignees & Actions</div>
                     </div>
@@ -518,20 +518,30 @@ include __DIR__ . '/../layouts/header.php';
     </div>
 
     <!-- ----------------------------------------------------------------------- -->
-    <!-- VIEW 5: DOCUMENTATION REPOSITORY                                        -->
+    <!-- VIEW 5: DOCUMENTATION REPOSITORY & FILE UPLOAD                          -->
     <!-- ----------------------------------------------------------------------- -->
     <div class="view-content" id="viewDocumentation">
-        <div class="card shadow-sm border rounded-4 p-3.5 bg-white mb-4">
+        <!-- Documentation Header Card -->
+        <div class="card shadow-sm border rounded-4 p-4 bg-white mb-4">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-                <div>
-                    <div class="d-flex align-items-center gap-2">
-                        <h2 class="h5 fw-bold mb-0 text-dark">Project Documentation Repository</h2>
-                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-8 px-2 py-0.5 rounded-2">Synchronized</span>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-warning-subtle text-warning rounded-3 d-flex align-items-center justify-content-center shadow-xs" style="width: 52px; height: 52px;">
+                        <i class="fa-solid fa-folder-open fs-3 text-warning"></i>
                     </div>
-                    <span class="fs-8 text-muted mt-0.5 d-block">Pusat master spesifikasi BRD, FSD, PRD, ERD, Blueprint terintegrasi langsung dengan Track Versioning.</span>
+                    <div>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <h2 class="h5 fw-bold mb-0 text-dark">Project Documentation & Asset Repository</h2>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle fs-8 px-2 py-0.5 rounded-2 fw-semibold">Synchronized Hub</span>
+                        </div>
+                        <span class="fs-8 text-muted mt-0.5 d-block">Pusat master spesifikasi BRD, FSD, PRD, ERD, Blueprint, UI/UX asset, serta arsip file dokumen terintegrasi langsung dengan Track Versioning.</span>
+                    </div>
                 </div>
                 <div class="d-flex flex-wrap align-items-center gap-2">
-                    <a href="Documentation/TrackingVersion.php" class="btn btn-sm btn-primary rounded-3 d-flex align-items-center gap-1.5 fs-7 shadow-xs">
+                    <button class="btn btn-sm btn-primary rounded-3 d-flex align-items-center gap-2 px-3 py-2 fw-semibold shadow-sm" data-bs-toggle="modal" data-bs-target="#uploadTaskDocModal">
+                        <i class="fa-solid fa-cloud-arrow-up fs-6"></i>
+                        <span>Upload File Dokumentasi</span>
+                    </button>
+                    <a href="Documentation/TrackingVersion.php" class="btn btn-sm btn-outline-secondary rounded-3 d-flex align-items-center gap-1.5 px-3 py-2 fw-semibold">
                         <i class="fa-solid fa-timeline"></i> Track Versioning
                     </a>
                 </div>
@@ -539,7 +549,7 @@ include __DIR__ . '/../layouts/header.php';
             
             <!-- Quick Jump Module Pills -->
             <div class="d-flex flex-wrap align-items-center gap-2 pt-3 mt-3 border-top">
-                <span class="fs-8 text-muted fw-bold text-uppercase me-1"><i class="fa-solid fa-link me-1"></i> Quick Jump:</span>
+                <span class="fs-8 text-muted fw-bold text-uppercase me-1"><i class="fa-solid fa-bolt me-1 text-primary"></i> Master Specs:</span>
                 <a href="Documentation/BRD.php" class="btn btn-xs btn-outline-primary rounded-pill fs-8 px-3 py-1 fw-semibold">
                     <i class="fa-solid fa-file-invoice me-1"></i> BRD
                 </a>
@@ -555,6 +565,77 @@ include __DIR__ . '/../layouts/header.php';
                 <a href="Documentation/Blueprints.php" class="btn btn-xs btn-outline-danger rounded-pill fs-8 px-3 py-1 fw-semibold">
                     <i class="fa-solid fa-cubes-stacked me-1"></i> Blueprints
                 </a>
+            </div>
+        </div>
+
+        <!-- Drag & Drop Upload Quick Zone -->
+        <div class="card shadow-sm border rounded-4 p-4 bg-white mb-4">
+            <div class="p-4 border-2 border-dashed rounded-4 text-center bg-light-subtle cursor-pointer doc-dropzone" id="quickTaskDocDropzone">
+                <div class="d-flex flex-column align-items-center justify-content-center py-2">
+                    <div class="p-3 bg-primary-subtle text-primary rounded-circle mb-3 d-flex align-items-center justify-content-center shadow-xs" style="width: 60px; height: 60px;">
+                        <i class="fa-solid fa-cloud-arrow-up fs-3"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark fs-6 mb-1">Drag & drop berkas dokumentasi Anda ke sini</h5>
+                    <p class="text-muted fs-8 mb-3">Mendukung semua format berkas: PDF, DOCX, XLSX, PPTX, PNG, JPG, SVG, ZIP, RAR, TXT, MD, DRAWIO, SQL (Maks. 100MB per file)</p>
+                    <button type="button" class="btn btn-sm btn-primary rounded-3 px-4 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#uploadTaskDocModal">
+                        <i class="fa-solid fa-folder-open me-1.5"></i> Pilih Berkas untuk Diunggah
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Master Documentation Files Repository Table -->
+        <div class="card shadow-sm border rounded-4 bg-white overflow-hidden mb-4">
+            <!-- Filter & Toolbar Header -->
+            <div class="card-header bg-white border-bottom p-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <h5 class="h6 fw-bold mb-0 text-dark"><i class="fa-solid fa-folder-tree text-primary me-1.5"></i> Uploaded Repository Files</h5>
+                    <span class="badge bg-light text-muted border fs-8" id="taskDocTotalCountBadge">0 Total Files</span>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <!-- Live Search Input -->
+                    <div class="input-group input-group-sm" style="min-width: 220px;">
+                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass fs-8"></i></span>
+                        <input type="text" class="form-control border-start-0 fs-8" id="taskDocFileSearchInput" placeholder="Cari nama dokumen, tipe, uploader...">
+                    </div>
+
+                    <!-- Category Filter Selector -->
+                    <select class="form-select form-select-sm fs-8 w-auto" id="taskDocFileCategoryFilter">
+                        <option value="all">Semua Kategori</option>
+                        <option value="brd">BRD (Business Req)</option>
+                        <option value="fsd">FSD (Functional Spec)</option>
+                        <option value="prd">PRD (Product Req)</option>
+                        <option value="erd">ERD (Database Schema)</option>
+                        <option value="blueprint">Blueprint & Architecture</option>
+                        <option value="assets">Assets & Source Packages</option>
+                        <option value="other">Lainnya</option>
+                    </select>
+
+                    <!-- Upload Button Shortcut -->
+                    <button class="btn btn-sm btn-primary rounded-3 px-3 fs-8 fw-semibold d-flex align-items-center gap-1.5" data-bs-toggle="modal" data-bs-target="#uploadTaskDocModal">
+                        <i class="fa-solid fa-plus"></i> Upload
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table View -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light fs-8 text-uppercase text-muted fw-bold">
+                        <tr>
+                            <th class="ps-4 py-3" style="min-width: 280px;">Nama Berkas & Judul Dokumen</th>
+                            <th class="py-3" style="width: 150px;">Kategori</th>
+                            <th class="py-3" style="width: 100px;">Versi</th>
+                            <th class="py-3" style="width: 160px;">Uploader & Tanggal</th>
+                            <th class="py-3" style="width: 110px;">Ukuran</th>
+                            <th class="pe-4 py-3 text-end" style="width: 130px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="fs-7" id="taskDocFilesTableBody">
+                        <!-- Dynamic File Rows rendered by JS -->
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -759,57 +840,243 @@ include __DIR__ . '/../layouts/header.php';
     </div>
 
     <!-- ----------------------------------------------------------------------- -->
-    <!-- VIEW 7: SETTINGS VIEW                                                   -->
+    <!-- VIEW 7: SETTINGS VIEW (GRID LAYOUT)                                     -->
     <!-- ----------------------------------------------------------------------- -->
     <div class="view-content" id="viewSettings">
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-8">
-                <div class="card shadow-sm border rounded-4 p-4 bg-white mb-4">
-                    <div class="d-flex align-items-center gap-3 border-bottom pb-3 mb-4">
-                        <div class="p-3 bg-primary-subtle text-primary rounded-3">
-                            <i class="fa-solid fa-gear fs-4"></i>
+        <div class="row g-4">
+            <!-- Left Column: GitHub Repository & Account Configuration Card -->
+            <div class="col-12 col-xl-6">
+                <div class="card shadow-sm border rounded-4 p-4 bg-white h-100 d-flex flex-column justify-content-between" id="githubConfigCard">
+                    <div>
+                        <!-- Card Header -->
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 border-bottom pb-3 mb-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="p-3 bg-dark text-white rounded-3 d-flex align-items-center justify-content-center shadow-xs" style="width: 48px; height: 48px;">
+                                    <i class="fa-brands fa-github fs-3"></i>
+                                </div>
+                                <div>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        <h2 class="h5 fw-bold mb-0 text-dark">GitHub Repo & Account</h2>
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle fs-8 px-2 py-0.5 rounded-2 fw-semibold" id="cfgGhStatusBadge">
+                                            <i class="fa-solid fa-circle-check text-success me-1"></i> Connected
+                                        </span>
+                                    </div>
+                                    <span class="text-muted fs-8">Commit stream, push events, & task sync</span>
+                                </div>
+                            </div>
+                            <a href="https://github.com/settings/tokens" target="_blank" class="btn btn-sm btn-outline-secondary rounded-3 fs-8 fw-semibold" title="Generate New GitHub Personal Access Token">
+                                <i class="fa-solid fa-key me-1"></i> PAT Token <i class="fa-solid fa-arrow-up-right-from-square fs-9 ms-0.5"></i>
+                            </a>
                         </div>
-                        <div>
-                            <h2 class="h5 fw-bold mb-0 text-dark">Project Settings & Configuration</h2>
-                            <span class="text-muted fs-7">Manage project info, preferences, and notifications</span>
-                        </div>
+
+                        <!-- Card Form -->
+                        <form id="formGithubConfig">
+                            <div class="row g-3 mb-3">
+                                <!-- GitHub Owner / Username -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="cfgGhOwner" class="form-label fs-7 fw-semibold text-dark">
+                                        <i class="fa-regular fa-user text-primary me-1"></i> Owner / Org *
+                                    </label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-light text-muted"><i class="fa-solid fa-at fs-8"></i></span>
+                                        <input type="text" class="form-control fs-7" id="cfgGhOwner" placeholder="e.g. irsjrhr" value="irsjrhr" required>
+                                    </div>
+                                    <span class="fs-8 text-muted mt-1 d-block">Username / organisasi GitHub.</span>
+                                </div>
+
+                                <!-- GitHub Repository Name -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="cfgGhRepo" class="form-label fs-7 fw-semibold text-dark">
+                                        <i class="fa-solid fa-book-bookmark text-primary me-1"></i> Repository *
+                                    </label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-light text-muted"><i class="fa-brands fa-git-alt fs-8"></i></span>
+                                        <input type="text" class="form-control fs-7" id="cfgGhRepo" placeholder="e.g. MOCKUP_KANBAN_PROJECT" value="MOCKUP_KANBAN_PROJECT" required>
+                                    </div>
+                                    <span class="fs-8 text-muted mt-1 d-block">Slug repository remote.</span>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <!-- Default Branch -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="cfgGhBranch" class="form-label fs-7 fw-semibold text-dark">
+                                        <i class="fa-solid fa-code-branch text-info me-1"></i> Active Branch
+                                    </label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-light text-muted"><i class="fa-solid fa-code-fork fs-8"></i></span>
+                                        <input type="text" class="form-control fs-7 font-monospace" id="cfgGhBranch" placeholder="e.g. main" value="main">
+                                    </div>
+                                    <span class="fs-8 text-muted mt-1 d-block">Branch stream yang dipantau.</span>
+                                </div>
+
+                                <!-- Auto Sync Interval -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="cfgGhAutoSync" class="form-label fs-7 fw-semibold text-dark">
+                                        <i class="fa-solid fa-arrows-rotate text-success me-1"></i> Auto-Sync
+                                    </label>
+                                    <select class="form-select form-select-sm fs-7" id="cfgGhAutoSync">
+                                        <option value="manual">Manual Refresh</option>
+                                        <option value="60" selected>Every 1 Min (Live)</option>
+                                        <option value="300">Every 5 Minutes</option>
+                                        <option value="900">Every 15 Minutes</option>
+                                    </select>
+                                    <span class="fs-8 text-muted mt-1 d-block">Interval fetch commit API.</span>
+                                </div>
+                            </div>
+
+                            <!-- Personal Access Token (PAT) -->
+                            <div class="mb-3">
+                                <label for="cfgGhToken" class="form-label fs-7 fw-semibold text-dark d-flex align-items-center justify-content-between">
+                                    <span><i class="fa-solid fa-shield-halved text-warning me-1"></i> Personal Access Token (PAT)</span>
+                                    <span class="badge bg-light text-muted border fs-9">Private / High Rate-Limit</span>
+                                </label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text bg-light text-muted"><i class="fa-solid fa-key fs-8"></i></span>
+                                    <input type="password" class="form-control fs-7 font-monospace" id="cfgGhToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" value="">
+                                    <button class="btn btn-outline-secondary" type="button" id="btnToggleTokenVisibility" title="Toggle visibility">
+                                        <i class="fa-solid fa-eye fs-8" id="iconTokenVisibility"></i>
+                                    </button>
+                                </div>
+                                <span class="fs-8 text-muted mt-1 d-block">
+                                    <i class="fa-solid fa-circle-info text-primary me-1"></i>
+                                    Tersimpan aman di LocalStorage untuk rate-limit 5.000 req/jam.
+                                </span>
+                            </div>
+
+                            <!-- Webhook & Automation Rules -->
+                            <div class="p-3 bg-light rounded-3 mb-4 border">
+                                <h4 class="fs-7 fw-bold text-dark mb-2.5"><i class="fa-solid fa-sliders text-secondary me-1.5"></i> Stream & Webhook Automation</h4>
+                                <div class="form-check form-switch mb-2 fs-7">
+                                    <input class="form-check-input" type="checkbox" id="chkGhLinkTasks" checked>
+                                    <label class="form-check-label fw-medium text-dark" for="chkGhLinkTasks">
+                                        Tautkan commit <code>#ID</code> ke task Kanban
+                                    </label>
+                                </div>
+                                <div class="form-check form-switch mb-2 fs-7">
+                                    <input class="form-check-input" type="checkbox" id="chkGhAutoRefreshEvents" checked>
+                                    <label class="form-check-label fw-medium text-dark" for="chkGhAutoRefreshEvents">
+                                        Auto-refresh stream saat ada push baru
+                                    </label>
+                                </div>
+                                <div class="form-check form-switch fs-7">
+                                    <input class="form-check-input" type="checkbox" id="chkGhNotifyChannel" checked>
+                                    <label class="form-check-label fw-medium text-dark" for="chkGhNotifyChannel">
+                                        Notifikasi ke chat <code>#middleware-core</code>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border-top pt-3">
+                                <button type="button" class="btn btn-outline-info btn-sm px-3 fw-semibold rounded-3 d-flex align-items-center gap-1.5" id="btnTestGhConnection">
+                                    <i class="fa-solid fa-bolt"></i> Test Live
+                                </button>
+                                <div class="d-flex align-items-center gap-2">
+                                    <a href="https://github.com/irsjrhr/MOCKUP_KANBAN_PROJECT" target="_blank" class="btn btn-outline-secondary btn-sm px-3 rounded-3" id="btnGhExternalDirect">
+                                        <i class="fa-brands fa-github me-1"></i> Open Repo
+                                    </a>
+                                    <button type="submit" class="btn btn-dark btn-sm px-3.5 fw-semibold rounded-3 d-flex align-items-center gap-1.5 shadow-sm" id="btnSaveGhConfig">
+                                        <i class="fa-solid fa-floppy-disk"></i> Save GitHub
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+                </div>
+            </div>
 
-                    <form id="settingsForm">
-                        <div class="mb-3">
-                            <label for="setProjTitle" class="form-label fs-7 fw-semibold">Project Name</label>
-                            <input type="text" class="form-control fs-7" id="setProjTitle" value="Middleware Project">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="setProjCategory" class="form-label fs-7 fw-semibold">Category</label>
-                            <select class="form-select fs-7" id="setProjCategory">
-                                <option value="website" selected>Website Development</option>
-                                <option value="mobile">Mobile Application</option>
-                                <option value="design">Graphic & UI/UX Design</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="setProjDesc" class="form-label fs-7 fw-semibold">Description</label>
-                            <textarea class="form-control fs-7" id="setProjDesc" rows="3">Middleware and E-Commerce project management system for Syncboard Company.</textarea>
-                        </div>
-
-                        <h3 class="h6 fw-bold border-top pt-3 mb-3 text-dark">Preferences & Notifications</h3>
-                        <div class="form-check form-switch mb-2 fs-7">
-                            <input class="form-check-input" type="checkbox" id="chkNotifyEmail" checked>
-                            <label class="form-check-label fw-medium text-secondary" for="chkNotifyEmail">Send email notifications on task updates</label>
-                        </div>
-                        <div class="form-check form-switch mb-2 fs-7">
-                            <input class="form-check-input" type="checkbox" id="chkNotifyDaily" checked>
-                            <label class="form-check-label fw-medium text-secondary" for="chkNotifyDaily">Enable daily digest summary</label>
+            <!-- Right Column: Project Settings & General Preferences Card -->
+            <div class="col-12 col-xl-6">
+                <div class="card shadow-sm border rounded-4 p-4 bg-white h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <!-- Card Header -->
+                        <div class="d-flex align-items-center justify-content-between gap-3 border-bottom pb-3 mb-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="p-3 bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center shadow-xs" style="width: 48px; height: 48px;">
+                                    <i class="fa-solid fa-gear fs-4"></i>
+                                </div>
+                                <div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <h2 class="h5 fw-bold mb-0 text-dark">Project Preferences</h2>
+                                        <span class="badge bg-primary-subtle text-primary fs-8 px-2 py-0.5 rounded-2 fw-semibold">Workspace</span>
+                                    </div>
+                                    <span class="text-muted fs-7">Manage project info, category, and alerts</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-light text-dark border fs-8 px-2.5 py-1.5 rounded-3 font-monospace">SYNC-MDW</span>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-end gap-2 border-top pt-3 mt-4">
-                            <button type="button" class="btn btn-outline-secondary px-4 fs-7">Reset</button>
-                            <button type="submit" class="btn btn-primary px-4 fs-7 fw-semibold">Save Settings</button>
-                        </div>
-                    </form>
+                        <!-- Card Form -->
+                        <form id="settingsForm">
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-sm-8">
+                                    <label for="setProjTitle" class="form-label fs-7 fw-semibold text-dark">
+                                        <i class="fa-solid fa-heading text-primary me-1"></i> Project Name *
+                                    </label>
+                                    <input type="text" class="form-control fs-7" id="setProjTitle" value="Middleware Project" required>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <label for="setProjCode" class="form-label fs-7 fw-semibold text-dark">
+                                        <i class="fa-solid fa-tag text-info me-1"></i> Project Key
+                                    </label>
+                                    <input type="text" class="form-control fs-7 font-monospace text-uppercase" id="setProjCode" value="MDW" readonly>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-sm-6">
+                                    <label for="setProjCategory" class="form-label fs-7 fw-semibold text-dark">
+                                        <i class="fa-solid fa-layer-group text-primary me-1"></i> Category
+                                    </label>
+                                    <select class="form-select fs-7" id="setProjCategory">
+                                        <option value="ecommerce" selected>E-Commerce / API Services</option>
+                                        <option value="website">Corporate Website</option>
+                                        <option value="mobile">Mobile Application</option>
+                                        <option value="design">Graphic & UI/UX Design</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <label for="setProjLead" class="form-label fs-7 fw-semibold text-dark">
+                                        <i class="fa-solid fa-user-tie text-success me-1"></i> Project Lead
+                                    </label>
+                                    <select class="form-select fs-7" id="setProjLead">
+                                        <option value="Sophia Carter" selected>Sophia Carter (Lead Architect)</option>
+                                        <option value="Jenno Wilson">Jenno Wilson (Tech Lead)</option>
+                                        <option value="Sarah Chen">Sarah Chen (Senior Backend)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="setProjDesc" class="form-label fs-7 fw-semibold text-dark">
+                                    <i class="fa-solid fa-align-left text-secondary me-1"></i> Project Overview
+                                </label>
+                                <textarea class="form-control fs-7" id="setProjDesc" rows="2.5" placeholder="Enter brief overview...">Middleware and E-Commerce project management system for Syncboard Company.</textarea>
+                            </div>
+
+                            <div class="p-3 bg-light rounded-3 mb-4 border">
+                                <h3 class="fs-7 fw-bold mb-2.5 text-dark"><i class="fa-regular fa-bell text-secondary me-1.5"></i> Notification & Alert Preferences</h3>
+                                <div class="form-check form-switch mb-2 fs-7">
+                                    <input class="form-check-input" type="checkbox" id="chkNotifyEmail" checked>
+                                    <label class="form-check-label fw-medium text-dark" for="chkNotifyEmail">Kirim email notifikasi pada update prioritas task</label>
+                                </div>
+                                <div class="form-check form-switch mb-2 fs-7">
+                                    <input class="form-check-input" type="checkbox" id="chkNotifyDaily" checked>
+                                    <label class="form-check-label fw-medium text-dark" for="chkNotifyDaily">Aktifkan ringkasan daily digest jam 08:00 WIB</label>
+                                </div>
+                                <div class="form-check form-switch fs-7">
+                                    <input class="form-check-input" type="checkbox" id="chkNotifySlack" checked>
+                                    <label class="form-check-label fw-medium text-dark" for="chkNotifySlack">Integrasi webhook alert ke monitoring dashboard</label>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-end gap-2 border-top pt-3">
+                                <button type="button" class="btn btn-outline-secondary px-3.5 fs-7 rounded-3">Reset</button>
+                                <button type="submit" class="btn btn-primary px-4 fs-7 fw-semibold rounded-3 shadow-sm">Save Preferences</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1150,6 +1417,186 @@ include __DIR__ . '/../layouts/header.php';
                     <!-- Dynamic Changed Files -->
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================================== -->
+<!-- MODAL: UPLOAD PROJECT & TASK DOCUMENTATION FILE                             -->
+<!-- =========================================================================== -->
+<div class="modal fade" id="uploadTaskDocModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+            <div class="modal-header border-bottom pb-3">
+                <div class="d-flex align-items-center gap-2.5">
+                    <div class="p-2.5 bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center shadow-xs" style="width: 44px; height: 44px;">
+                        <i class="fa-solid fa-cloud-arrow-up fs-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold text-dark mb-0">Upload File Dokumentasi</h5>
+                        <span class="fs-8 text-muted">Unggah berkas spesifikasi, diagram ERD, blueprint arsitektur, atau aset pendukung.</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formUploadTaskDoc">
+                <div class="modal-body py-3">
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fs-7 fw-semibold text-dark">Kategori Dokumen *</label>
+                            <select class="form-select fs-7" id="uploadTaskDocCategory" required>
+                                <option value="brd">BRD (Business Requirements)</option>
+                                <option value="fsd">FSD (Functional Specification)</option>
+                                <option value="prd">PRD (Product Requirements)</option>
+                                <option value="erd">ERD (Database Schema)</option>
+                                <option value="blueprint">Blueprint & Architecture</option>
+                                <option value="assets">Assets & Source Packages</option>
+                                <option value="other">Lainnya / General Docs</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fs-7 fw-semibold text-dark">Project Association *</label>
+                            <select class="form-select fs-7" id="uploadTaskDocProject" required>
+                                <option value="Middleware Project" selected>Middleware Project</option>
+                                <option value="Mobile CRM Application">Mobile CRM Application</option>
+                                <option value="Landing Page Campaign">Landing Page Campaign</option>
+                                <option value="Company Website">Company Website</option>
+                                <option value="Internal Analytics Tool">Internal Analytics Tool</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-8">
+                            <label class="form-label fs-7 fw-semibold text-dark">Judul Dokumen *</label>
+                            <input type="text" class="form-control fs-7" id="uploadTaskDocTitle" placeholder="e.g. Master Enterprise Architecture Blueprint v2" required>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fs-7 fw-semibold text-dark">Versi Dokumen</label>
+                            <input type="text" class="form-control fs-7 font-monospace" id="uploadTaskDocVersion" placeholder="e.g. v1.0.0" value="v1.0.0">
+                        </div>
+                    </div>
+
+                    <!-- File Input Area (All Extensions) -->
+                    <div class="mb-3">
+                        <label class="form-label fs-7 fw-semibold text-dark">Pilih Berkas File *</label>
+                        <div class="input-group">
+                            <input type="file" class="form-control fs-7" id="uploadTaskDocFileInput" accept="*/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.svg,.zip,.rar,.txt,.md,.drawio,.sql" required>
+                        </div>
+                        <span class="fs-8 text-muted mt-1 d-block">
+                            <i class="fa-solid fa-circle-check text-success me-1"></i> Mendukung seluruh format berkas dokumen, spreadsheet, arsip kompresi, diagram, SQL, dan gambar.
+                        </span>
+                    </div>
+
+                    <!-- Author & Status -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fs-7 fw-semibold text-dark">Pengunggah / Author</label>
+                            <input type="text" class="form-control fs-7" id="uploadTaskDocAuthor" value="Sophia Carter (Lead Architect)">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fs-7 fw-semibold text-dark">Status Persetujuan</label>
+                            <select class="form-select fs-7" id="uploadTaskDocStatus">
+                                <option value="Approved" selected>Approved / Official</option>
+                                <option value="Under Review">Under Review</option>
+                                <option value="Draft">Draft</option>
+                                <option value="Archived">Archived</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label fs-7 fw-semibold text-dark">Catatan / Ringkasan Perubahan</label>
+                        <textarea class="form-control fs-7" id="uploadTaskDocNotes" rows="2" placeholder="Tuliskan catatan rilis berkas atau changelog singkat..."></textarea>
+                    </div>
+
+                    <!-- Upload Progress Simulation Bar (Hidden by default) -->
+                    <div class="d-none mt-3" id="uploadTaskDocProgressContainer">
+                        <div class="d-flex align-items-center justify-content-between fs-8 mb-1">
+                            <span class="text-primary fw-semibold"><i class="fa-solid fa-spinner fa-spin me-1"></i> Mengunggah berkas...</span>
+                            <span class="text-dark fw-bold" id="uploadTaskDocProgressPct">0%</span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" id="uploadTaskDocProgressBar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary px-3.5 fs-7" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary px-4 fs-7 fw-semibold d-flex align-items-center gap-2" id="btnSubmitUploadTaskDoc">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Sekarang</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================================== -->
+<!-- MODAL: PREVIEW DOCUMENTATION FILE DETAILS                                   -->
+<!-- =========================================================================== -->
+<div class="modal fade" id="previewTaskDocModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+            <div class="modal-header border-bottom pb-3">
+                <div class="d-flex align-items-center gap-2.5">
+                    <div class="p-2.5 rounded-3 d-flex align-items-center justify-content-center text-white" id="previewTaskDocIconBox" style="width: 44px; height: 44px; background: #3b82f6;">
+                        <i class="fa-solid fa-file fs-5" id="previewTaskDocIcon"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold text-dark mb-0" id="previewTaskDocTitle">Document Title</h5>
+                        <span class="fs-8 text-muted" id="previewTaskDocSubtitle">Project Association</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="p-3 bg-light rounded-3 mb-3 border">
+                    <div class="row g-2 fs-8">
+                        <div class="col-6">
+                            <span class="text-muted d-block">Nama Berkas:</span>
+                            <strong class="text-dark font-monospace" id="previewTaskDocFilename">document.pdf</strong>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-muted d-block">Ukuran File:</span>
+                            <strong class="text-dark" id="previewTaskDocSize">2.4 MB</strong>
+                        </div>
+                        <div class="col-6 mt-2">
+                            <span class="text-muted d-block">Kategori & Versi:</span>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle" id="previewTaskDocCategory">BRD</span>
+                            <span class="badge bg-light text-dark border font-monospace ms-1" id="previewTaskDocVersion">v1.0.0</span>
+                        </div>
+                        <div class="col-6 mt-2">
+                            <span class="text-muted d-block">Status Dokumen:</span>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle" id="previewTaskDocStatus">Approved</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <span class="fs-8 text-muted d-block fw-semibold mb-1">Catatan & Deskripsi:</span>
+                    <p class="fs-8 text-dark bg-light-subtle p-2.5 rounded-3 border mb-0" id="previewTaskDocDesc">No description available.</p>
+                </div>
+            </div>
+            <div class="modal-footer border-top pt-2.5 d-flex align-items-center justify-content-between">
+                <button type="button" class="btn btn-outline-secondary btn-sm px-3 fs-8" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary btn-sm px-3 fs-8 fw-semibold d-flex align-items-center gap-1.5" id="btnPreviewTaskDocDownload">
+                    <i class="fa-solid fa-download"></i> Unduh Berkas
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1090;">
+    <div id="liveTaskToast" class="toast align-items-center text-bg-dark border-0 rounded-3 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center gap-2 fs-7">
+                <i class="fa-solid fa-circle-check text-success fs-6"></i>
+                <span id="liveTaskToastMsg">Operation completed successfully!</span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
 </div>

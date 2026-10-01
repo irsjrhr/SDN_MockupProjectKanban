@@ -712,6 +712,21 @@ body {
     transform: translateX(2px);
 }
 
+.gantt-grid-row.gantt-task-child-row {
+    margin-left: 20px;
+    padding-left: 20px !important;
+    border-left: 3.5px solid var(--primary-color, #2563eb) !important;
+    background-color: rgba(248, 250, 252, 0.75);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    position: relative;
+}
+
+.gantt-grid-row.gantt-task-child-row:hover {
+    border-left-color: #1d4ed8 !important;
+    background-color: #f1f5f9;
+}
+
 .cal-cell {
     position: relative;
     transition: background-color 0.15s ease;
@@ -1109,6 +1124,39 @@ body {
     100% {
         left: 100%;
         width: 40%;
+    }
+}
+
+/* Emergency Stuck Bypass Handler Styles */
+.splash_stuck_handler {
+    animation: fadeInStuck 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    z-index: 10;
+}
+
+.splash_stuck_handler button {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+}
+
+.splash_stuck_handler button:hover {
+    background: rgba(255, 255, 255, 0.28);
+    border-color: #ffffff;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes fadeInStuck {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 

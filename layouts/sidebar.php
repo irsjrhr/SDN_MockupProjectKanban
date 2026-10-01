@@ -358,12 +358,12 @@ if (!isset($sidebarMenu)) {
                                 'icon' => 'fa-solid fa-user-group',
                                 'active' => ($currentPage === 'teams')
                             ],
-                            [
-                                'title' => 'Messages',
-                                'url' => $basePath . 'Workspace/Messages.php',
-                                'icon' => 'fa-solid fa-comments',
-                                'active' => in_array($currentPage, ['messages', 'chat', 'direct-message'])
-                            ],
+                            // [
+                            //     'title' => 'Messages',
+                            //     'url' => $basePath . 'Workspace/Messages.php',
+                            //     'icon' => 'fa-solid fa-comments',
+                            //     'active' => in_array($currentPage, ['messages', 'chat', 'direct-message'])
+                            // ],
                         ]
                     ]
                 ],

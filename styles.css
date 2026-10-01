@@ -712,6 +712,21 @@ body {
     transform: translateX(2px);
 }
 
+.gantt-grid-row.gantt-task-child-row {
+    margin-left: 20px;
+    padding-left: 20px !important;
+    border-left: 3.5px solid var(--primary-color, #2563eb) !important;
+    background-color: rgba(248, 250, 252, 0.75);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    position: relative;
+}
+
+.gantt-grid-row.gantt-task-child-row:hover {
+    border-left-color: #1d4ed8 !important;
+    background-color: #f1f5f9;
+}
+
 .cal-cell {
     position: relative;
     transition: background-color 0.15s ease;

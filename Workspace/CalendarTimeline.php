@@ -155,10 +155,10 @@ include __DIR__ . '/../layouts/header.php';
                                 <div class="timeline-header d-flex align-items-center border-bottom pb-2 mb-3 fw-bold text-muted fs-8 text-uppercase">
                                     <div style="width: 320px; flex-shrink: 0;">Scope, Title & Priority</div>
                                     <div class="flex-grow-1 d-flex justify-content-between text-center px-3">
-                                        <span class="w-25">Week 1 (Sep 1 - 7)</span>
-                                        <span class="w-25">Week 2 (Sep 8 - 14)</span>
-                                        <span class="w-25">Week 3 (Sep 15 - 21)</span>
-                                        <span class="w-25">Week 4 (Sep 22 - 30)</span>
+                                        <span class="w-25">Sep 1 - 7</span>
+                                        <span class="w-25">Sep 8 - 14</span>
+                                        <span class="w-25">Sep 15 - 21</span>
+                                        <span class="w-25">Sep 22 - 30</span>
                                     </div>
                                     <div style="width: 170px; flex-shrink: 0;" class="text-end">Assignees & Actions</div>
                                 </div>
@@ -514,5 +514,153 @@ include __DIR__ . '/../layouts/header.php';
                     <button type="button" class="btn btn-light fs-7 rounded-3 px-3" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary fs-7 rounded-3 px-3" data-bs-dismiss="modal">Create Milestone</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Calendar & Timeline Project Task Breakdown -->
+    <div class="modal fade" id="calendarTaskBreakdownModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <!-- Modal Header -->
+                <div class="modal-header border-bottom px-4 py-3 bg-light-subtle align-items-center">
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                        <div class="rounded-3 p-2.5 d-flex align-items-center justify-content-center text-white shadow-xs" id="calBreakdownIconBadge" style="width: 44px; height: 44px; background: #3b82f6;">
+                            <i class="fa-solid fa-folder-tree fs-5" id="calBreakdownIcon"></i>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                <h5 class="modal-title fw-bold text-dark mb-0" id="calBreakdownTitle">Middleware Project</h5>
+                                <span class="badge bg-primary-subtle text-primary fs-8 px-2 py-0.5 rounded-2 fw-semibold" id="calBreakdownCategory">E-Commerce / API</span>
+                                <span class="badge bg-danger-subtle text-danger fs-8 px-2 py-0.5 rounded-2 fw-semibold" id="calBreakdownPriority">High Priority</span>
+                                <span class="badge bg-success-subtle text-success fs-8 px-2 py-0.5 rounded-2 fw-semibold" id="calBreakdownStatus">In Progress</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 fs-8 text-muted mt-1 flex-wrap">
+                                <span><i class="fa-solid fa-user-tie text-primary me-1"></i> Lead: <strong class="text-dark" id="calBreakdownLead">Sophia Carter</strong></span>
+                                <span><i class="fa-regular fa-calendar text-info me-1"></i> Schedule: <span id="calBreakdownDates">Sep 01 - Nov 15, 2026 (75d)</span></span>
+                                <span><i class="fa-solid fa-link text-success me-1"></i> Domain: <a href="#" id="calBreakdownDomain" class="text-primary text-decoration-none fw-semibold" target="_blank">api.sdn-middleware.internal</a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body p-4 bg-white">
+                    <!-- Progress & Counter Row -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-12 col-md-4">
+                            <div class="p-3 bg-light rounded-3 border h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <div class="d-flex align-items-center justify-content-between mb-1">
+                                        <span class="fs-8 fw-bold text-uppercase text-muted">Timeline Completion</span>
+                                        <span class="fw-bold text-dark fs-7" id="calBreakdownProgressPct">65%</span>
+                                    </div>
+                                    <div class="progress mb-2" style="height: 8px;">
+                                        <div class="progress-bar bg-primary progress-bar-striped" id="calBreakdownProgressBar" style="width: 65%;"></div>
+                                    </div>
+                                </div>
+                                <span class="fs-8 text-muted" id="calBreakdownTaskStats"><i class="fa-solid fa-list-check me-1 text-primary"></i> 4 of 6 Tasks Finished</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <div class="row g-2 h-100">
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-2.5 bg-danger-subtle border border-danger-subtle rounded-3 text-center h-100 d-flex flex-column justify-content-center cursor-pointer cal-breakdown-stat-filter" data-status="todo" title="Filter To Do tasks">
+                                        <span class="fs-8 fw-bold text-danger text-uppercase">To Do</span>
+                                        <h4 class="fw-extrabold text-danger mb-0" id="calBreakdownCountTodo">2</h4>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-2.5 bg-primary-subtle border border-primary-subtle rounded-3 text-center h-100 d-flex flex-column justify-content-center cursor-pointer cal-breakdown-stat-filter" data-status="in-progress" title="Filter In Progress tasks">
+                                        <span class="fs-8 fw-bold text-primary text-uppercase">In Progress</span>
+                                        <h4 class="fw-extrabold text-primary mb-0" id="calBreakdownCountProgress">2</h4>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-2.5 bg-warning-subtle border border-warning-subtle rounded-3 text-center h-100 d-flex flex-column justify-content-center cursor-pointer cal-breakdown-stat-filter" data-status="review" title="Filter Review tasks">
+                                        <span class="fs-8 fw-bold text-warning text-uppercase">Review</span>
+                                        <h4 class="fw-extrabold text-warning mb-0" id="calBreakdownCountReview">1</h4>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-2.5 bg-success-subtle border border-success-subtle rounded-3 text-center h-100 d-flex flex-column justify-content-center cursor-pointer cal-breakdown-stat-filter" data-status="completed" title="Filter Completed tasks">
+                                        <span class="fs-8 fw-bold text-success text-uppercase">Done</span>
+                                        <h4 class="fw-extrabold text-success mb-0" id="calBreakdownCountDone">3</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search & Filter Controls -->
+                    <div class="p-3 bg-light rounded-3 mb-3 border">
+                        <div class="row g-2 align-items-center justify-content-between">
+                            <div class="col-12 col-md-5">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass fs-8"></i></span>
+                                    <input type="text" class="form-control border-start-0 fs-8" id="calBreakdownSearch" placeholder="Filter task title, ID, or assignee...">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-7 d-flex flex-wrap align-items-center justify-content-md-end gap-2">
+                                <select class="form-select form-select-sm fs-8 w-auto" id="calBreakdownStatusFilter">
+                                    <option value="all">All Statuses</option>
+                                    <option value="todo">To Do</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="review">Review</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                                <select class="form-select form-select-sm fs-8 w-auto" id="calBreakdownPriorityFilter">
+                                    <option value="all">All Priorities</option>
+                                    <option value="Urgent">Urgent</option>
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Normal">Normal</option>
+                                </select>
+                                <button class="btn btn-sm btn-outline-primary fs-8 fw-semibold px-2.5" id="btnCalBreakdownQuickAddTask">
+                                    <i class="fa-solid fa-plus me-1"></i> Quick Add Task
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Task Breakdown Table -->
+                    <div class="border rounded-3 overflow-hidden">
+                        <div class="table-responsive" style="max-height: 380px;">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light fs-8 text-uppercase text-muted fw-bold sticky-top">
+                                    <tr>
+                                        <th class="ps-3 py-2.5" style="width: 110px;">Task ID</th>
+                                        <th class="py-2.5" style="min-width: 260px;">Task Title & Deliverables</th>
+                                        <th class="py-2.5" style="width: 120px;">Status</th>
+                                        <th class="py-2.5" style="width: 100px;">Priority</th>
+                                        <th class="py-2.5" style="width: 160px;">Assignee</th>
+                                        <th class="py-2.5" style="width: 120px;">Est. / Due</th>
+                                        <th class="pe-3 py-2.5 text-end" style="width: 110px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="fs-7" id="calBreakdownTaskTableBody">
+                                    <!-- Dynamic Task Rows injected by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer border-top px-4 py-2.5 bg-light-subtle d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <span class="fs-8 text-muted">
+                        <i class="fa-solid fa-info-circle text-primary me-1"></i> Terhubung langsung dengan Master Timeline & Kalender Sprint.
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="btn btn-outline-secondary btn-sm px-3 fs-8" data-bs-dismiss="modal">Close</button>
+                        <a href="KanbanTask.php" class="btn btn-primary btn-sm px-3 fs-8 fw-semibold d-flex align-items-center gap-1.5 shadow-sm" id="calBreakdownOpenTaskBoardBtn">
+                            <i class="fa-solid fa-table-columns"></i>
+                            <span>Open Full Kanban Workspace</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 <?php include __DIR__ . '/../layouts/footer.php'; ?>
