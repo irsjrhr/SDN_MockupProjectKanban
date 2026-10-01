@@ -397,6 +397,15 @@ $(document).ready(function () {
                         </div>
                     </td>
                     <td class="py-2.5">
+                        ${task.status === 'completed' 
+                            ? '<span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0.5 fs-8 rounded-pill"><i class="fa-solid fa-circle-check me-1"></i>Met SLA</span>' 
+                            : (task.id === 'MOB-202' || task.id === 'WEB-405') 
+                            ? '<span class="badge bg-danger text-white px-2 py-0.5 fs-8 rounded-pill shadow-xs"><i class="fa-solid fa-circle-exclamation me-1"></i>Breached</span>' 
+                            : (task.id === 'MOB-203' || task.id === 'MOB-204')
+                            ? '<span class="badge bg-warning text-dark px-2 py-0.5 fs-8 rounded-pill shadow-xs"><i class="fa-solid fa-clock me-1"></i>At Risk</span>'
+                            : '<span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0.5 fs-8 rounded-pill"><i class="fa-solid fa-shield-check me-1"></i>On Track</span>'}
+                    </td>
+                    <td class="py-2.5">
                         <div class="d-flex align-items-center gap-1.5 fs-8 text-muted mb-1">
                             <i class="fa-regular fa-clock text-primary"></i> ${task.est || '8h'} &bull; ${task.due || 'Oct 2026'}
                         </div>
@@ -500,13 +509,25 @@ $(document).ready(function () {
             const totalCount = (proj.tasks || []).length || proj.totalTasks;
             const progressVal = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : proj.progress;
             
+            const slaProjectRates = {
+                'proj-middleware': { rate: '96.2%', badge: 'bg-success-subtle text-success border border-success-subtle' },
+                'proj-mobile': { rate: '88.5%', badge: 'bg-danger-subtle text-danger border border-danger-subtle' },
+                'proj-landing': { rate: '98.0%', badge: 'bg-success-subtle text-success border border-success-subtle' },
+                'proj-company': { rate: '94.0%', badge: 'bg-success-subtle text-success border border-success-subtle' },
+                'proj-analytics': { rate: '100%', badge: 'bg-success-subtle text-success border border-success-subtle' }
+            };
+            const projSla = slaProjectRates[proj.id] || { rate: '95.0%', badge: 'bg-success-subtle text-success' };
+
             const $card = $(`
                 <div class="card border rounded-3 p-3 bg-white shadow-sm project-card-item cursor-grab" draggable="true" data-id="${proj.id}">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="badge ${proj.badgeClass} rounded-pill px-2.5 py-1 fs-8 fw-semibold">
                             <i class="${proj.icon} me-1"></i> ${proj.category}
                         </span>
-                        <span class="badge ${proj.priorityClass} rounded-pill px-2 py-0.5 fs-8 fw-semibold">${proj.priority}</span>
+                        <div class="d-flex align-items-center gap-1.5">
+                            <a href="SLA.php" class="badge ${projSla.badge} rounded-pill px-2 py-0.5 fs-8 fw-semibold text-decoration-none" title="View SLA Compliance"><i class="fa-solid fa-stopwatch me-1"></i>SLA: ${projSla.rate}</a>
+                            <span class="badge ${proj.priorityClass} rounded-pill px-2 py-0.5 fs-8 fw-semibold">${proj.priority}</span>
+                        </div>
                     </div>
                     <h4 class="h6 fw-bold mb-1">
                         <a href="javascript:void(0)" class="text-dark text-decoration-none btn-trigger-breakdown" data-proj-id="${proj.id}">${proj.title}</a>

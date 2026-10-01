@@ -59,8 +59,8 @@ include __DIR__ . '/../layouts/header.php';
 
         <!-- Quick Filter Buttons -->
         <div class="btn-group btn-group-sm">
-            <a href="Messages.php" class="btn btn-outline-secondary d-flex align-items-center gap-1.5 px-3 py-2 fw-semibold" title="Team Chat">
-                <i class="fa-regular fa-comment-dots"></i> Channel
+            <a href="SLA.php" class="btn btn-outline-danger d-flex align-items-center gap-1.5 px-3 py-2 fw-semibold" title="View SLA Tracking & Live Deadlines">
+                <i class="fa-solid fa-stopwatch-20"></i> SLA 96.2%
             </a>
             <a href="CategoryStatus.php" class="btn btn-outline-secondary d-flex align-items-center gap-1.5 px-3 py-2 fw-semibold" title="Category Filter">
                 <i class="fa-solid fa-tags"></i> Categories

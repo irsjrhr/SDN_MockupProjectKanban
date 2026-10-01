@@ -1235,13 +1235,14 @@ include __DIR__ . '/../layouts/header.php';
                         <table class="table table-hover align-middle mb-0">
                             <thead class="table-light fs-8 text-uppercase text-muted fw-bold sticky-top">
                                 <tr>
-                                    <th class="ps-3 py-2.5" style="width: 110px;">Task ID</th>
-                                    <th class="py-2.5" style="min-width: 260px;">Task Title & Deliverables</th>
-                                    <th class="py-2.5" style="width: 120px;">Status</th>
-                                    <th class="py-2.5" style="width: 100px;">Priority</th>
-                                    <th class="py-2.5" style="width: 160px;">Assignee</th>
-                                    <th class="py-2.5" style="width: 120px;">Est. / Due</th>
-                                    <th class="pe-3 py-2.5 text-end" style="width: 110px;">Action</th>
+                                    <th class="ps-3 py-2.5" style="width: 100px;">Task ID</th>
+                                    <th class="py-2.5" style="min-width: 240px;">Task Title & Deliverables</th>
+                                    <th class="py-2.5" style="width: 110px;">Status</th>
+                                    <th class="py-2.5" style="width: 90px;">Priority</th>
+                                    <th class="py-2.5" style="width: 140px;">Assignee</th>
+                                    <th class="py-2.5" style="width: 120px;">SLA Status</th>
+                                    <th class="py-2.5" style="width: 110px;">Est. / Due</th>
+                                    <th class="pe-3 py-2.5 text-end" style="width: 100px;">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="fs-7" id="breakdownTaskTableBody">
