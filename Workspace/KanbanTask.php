@@ -105,12 +105,6 @@ include __DIR__ . '/../layouts/header.php';
             <i class="fa-brands fa-github me-1.5 text-dark"></i> GitHub Stream
         </button>
     </div>
-
-    <!-- Quick Search Input -->
-    <div class="input-group input-group-sm d-none d-md-flex" style="max-width: 220px;">
-        <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass fs-8"></i></span>
-        <input type="text" class="form-control border-start-0 fs-8 bg-light" id="globalTaskSearch" placeholder="Search task name...">
-    </div>
 </div>
 
 <!-- =========================================================================== -->
