@@ -358,26 +358,26 @@ if (!isset($sidebarMenu)) {
                                 'icon' => 'fa-solid fa-user-group',
                                 'active' => ($currentPage === 'teams')
                             ],
-                            // [
-                            //     'title' => 'Settings',
-                            //     'url' => $basePath . 'Workspace/Setting.php',
-                            //     'icon' => 'fa-solid fa-gear',
-                            //     'active' => ($currentPage === 'settings')
-                            // ],
+                            [
+                                'title' => 'Messages',
+                                'url' => $basePath . 'Workspace/Messages.php',
+                                'icon' => 'fa-solid fa-comments',
+                                'active' => in_array($currentPage, ['messages', 'chat', 'direct-message'])
+                            ],
                         ]
                     ]
                 ],
                 'categories' => [
-                    ['name' => 'To Do', 'dot_class' => 'dot-todo', 'count' => 3, 'filter' => 'todo'],
-                    ['name' => 'In Progres', 'dot_class' => 'dot-progress', 'count' => 3, 'filter' => 'in-progress'],
-                    ['name' => 'Review', 'dot_class' => 'dot-review', 'count' => 3, 'filter' => 'review'],
-                    ['name' => 'Completed', 'dot_class' => 'dot-complete', 'count' => 2, 'filter' => 'completed'],
+                    ['name' => 'To Do', 'dot_class' => 'dot-todo', 'count' => 3, 'filter' => 'todo', 'url' => $basePath . 'Workspace/CategoryStatus.php?status=todo', 'active' => ($currentPage === 'category-todo' || ($currentPage === 'category-status' && isset($_GET['status']) && $_GET['status'] === 'todo'))],
+                    ['name' => 'In Progress', 'dot_class' => 'dot-progress', 'count' => 3, 'filter' => 'in-progress', 'url' => $basePath . 'Workspace/CategoryStatus.php?status=in-progress', 'active' => ($currentPage === 'category-in-progress' || ($currentPage === 'category-status' && isset($_GET['status']) && $_GET['status'] === 'in-progress'))],
+                    ['name' => 'Review', 'dot_class' => 'dot-review', 'count' => 3, 'filter' => 'review', 'url' => $basePath . 'Workspace/CategoryStatus.php?status=review', 'active' => ($currentPage === 'category-review' || ($currentPage === 'category-status' && isset($_GET['status']) && $_GET['status'] === 'review'))],
+                    ['name' => 'Completed', 'dot_class' => 'dot-complete', 'count' => 2, 'filter' => 'completed', 'url' => $basePath . 'Workspace/CategoryStatus.php?status=completed', 'active' => ($currentPage === 'category-completed' || ($currentPage === 'category-status' && isset($_GET['status']) && $_GET['status'] === 'completed'))],
                 ],
                 'messages' => [
-                    ['name' => 'Michael Anderson', 'role' => 'UI/UX Designer', 'status' => 'online', 'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80'],
-                    ['name' => 'Sophia Carter', 'role' => 'Graphic Designer', 'status' => 'online', 'avatar' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80'],
-                    ['name' => 'Daniel Johnson', 'role' => 'Frontend Developer', 'status' => 'busy', 'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80'],
-                    ['name' => 'James Wilson', 'role' => 'Backend Programmer', 'status' => 'offline', 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80'],
+                    ['id' => 'michael', 'name' => 'Michael Anderson', 'role' => 'UI/UX Designer', 'status' => 'online', 'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80', 'url' => $basePath . 'Workspace/Messages.php?user=michael'],
+                    ['id' => 'sophia', 'name' => 'Sophia Carter', 'role' => 'Graphic Designer', 'status' => 'online', 'avatar' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80', 'url' => $basePath . 'Workspace/Messages.php?user=sophia'],
+                    ['id' => 'daniel', 'name' => 'Daniel Johnson', 'role' => 'Frontend Developer', 'status' => 'busy', 'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80', 'url' => $basePath . 'Workspace/Messages.php?user=daniel'],
+                    ['id' => 'james', 'name' => 'James Wilson', 'role' => 'Backend Programmer', 'status' => 'offline', 'avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80', 'url' => $basePath . 'Workspace/Messages.php?user=james'],
                 ]
             ];
             break;
@@ -511,15 +511,22 @@ if (!isset($sidebarMenu)) {
         <!-- Categories Section (if defined) -->
         <?php if (!empty($sidebarMenu['categories'])): ?>
             <div class="sidebar-section mb-4">
-                <div class="section-header px-1 mb-2">
+                <div class="section-header px-1 mb-2 d-flex align-items-center justify-content-between">
                     <span class="section-title text-uppercase fw-bold text-muted fs-8">Categories</span>
+                    <a href="<?= $basePath ?>Workspace/CategoryStatus.php?status=all" class="fs-8 text-decoration-none text-muted" title="View All Category Statuses">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
                 </div>
                 <ul class="list-unstyled category-list d-flex flex-column gap-1 mb-0">
                     <?php foreach ($sidebarMenu['categories'] as $cat): ?>
-                        <li class="category-item d-flex align-items-center px-2.5 py-1.5 rounded cursor-pointer" data-filter-status="<?= $cat['filter'] ?>">
-                            <span class="dot <?= $cat['dot_class'] ?> me-2"></span>
-                            <span class="category-name flex-grow-1 text-secondary fs-7 fw-medium"><?= htmlspecialchars($cat['name']) ?></span>
-                            <span class="category-count badge rounded-pill bg-light text-dark fs-8"><?= $cat['count'] ?></span>
+                        <li>
+                            <a href="<?= htmlspecialchars($cat['url'] ?? $basePath . 'Workspace/CategoryStatus.php?status=' . $cat['filter']) ?>" 
+                               class="category-item d-flex align-items-center px-2.5 py-1.5 rounded text-decoration-none <?= !empty($cat['active']) ? 'bg-light text-dark fw-bold border' : '' ?>" 
+                               data-filter-status="<?= $cat['filter'] ?>">
+                                <span class="dot <?= $cat['dot_class'] ?> me-2"></span>
+                                <span class="category-name flex-grow-1 fs-7 fw-medium <?= !empty($cat['active']) ? 'text-dark fw-bold' : 'text-secondary' ?>"><?= htmlspecialchars($cat['name']) ?></span>
+                                <span class="category-count badge rounded-pill bg-light text-dark fs-8 border"><?= $cat['count'] ?></span>
+                            </a>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -529,20 +536,26 @@ if (!isset($sidebarMenu)) {
         <!-- Messages Section (if defined) -->
         <?php if (!empty($sidebarMenu['messages'])): ?>
             <div class="sidebar-section mb-2">
-                <div class="section-header px-1 mb-2">
+                <div class="section-header px-1 mb-2 d-flex align-items-center justify-content-between">
                     <span class="section-title text-uppercase fw-bold text-muted fs-8">Message</span>
+                    <a href="<?= $basePath ?>Workspace/Messages.php" class="fs-8 text-decoration-none text-muted" title="Open Team Messages Hub">
+                        <i class="fa-solid fa-comments"></i>
+                    </a>
                 </div>
                 <ul class="list-unstyled team-list d-flex flex-column gap-1 mb-0">
                     <?php foreach ($sidebarMenu['messages'] as $msg): ?>
-                        <li class="team-item d-flex align-items-center gap-2.5 px-2.5 py-1.5 rounded cursor-pointer">
-                            <div class="user-avatar-wrap position-relative">
-                                <img src="<?= htmlspecialchars($msg['avatar']) ?>" alt="<?= htmlspecialchars($msg['name']) ?>" class="avatar-sm rounded-circle">
-                                <span class="status-indicator <?= $msg['status'] ?>"></span>
-                            </div>
-                            <div class="team-info d-flex flex-column">
-                                <span class="team-name fw-semibold fs-7"><?= htmlspecialchars($msg['name']) ?></span>
-                                <span class="team-role text-muted fs-8"><?= htmlspecialchars($msg['role']) ?></span>
-                            </div>
+                        <li>
+                            <a href="<?= htmlspecialchars($msg['url'] ?? $basePath . 'Workspace/Messages.php?user=' . ($msg['id'] ?? '')) ?>" 
+                               class="team-item d-flex align-items-center gap-2.5 px-2.5 py-1.5 rounded text-decoration-none">
+                                <div class="user-avatar-wrap position-relative">
+                                    <img src="<?= htmlspecialchars($msg['avatar']) ?>" alt="<?= htmlspecialchars($msg['name']) ?>" class="avatar-sm rounded-circle">
+                                    <span class="status-indicator <?= $msg['status'] ?>"></span>
+                                </div>
+                                <div class="team-info d-flex flex-column">
+                                    <span class="team-name fw-semibold fs-7 text-dark"><?= htmlspecialchars($msg['name']) ?></span>
+                                    <span class="team-role text-muted fs-8"><?= htmlspecialchars($msg['role']) ?></span>
+                                </div>
+                            </a>
                         </li>
                     <?php endforeach; ?>
                 </ul>

@@ -1133,6 +1133,400 @@ body {
     transform: translateX(100%);
 }
 
+/* -------------------------------------------------------------------------- */
+/* CATEGORY STATUS & DOT COLORS                                               */
+/* -------------------------------------------------------------------------- */
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.dot-todo { background-color: #ef4444; }
+.dot-progress { background-color: #3b82f6; }
+.dot-review { background-color: #f59e0b; }
+.dot-complete { background-color: #10b981; }
 
+.status-badge-todo { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.status-badge-progress { background-color: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+.status-badge-review { background-color: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.status-badge-completed { background-color: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
 
+.status-accent-todo { border-top: 4px solid #ef4444 !important; }
+.status-accent-progress { border-top: 4px solid #3b82f6 !important; }
+.status-accent-review { border-top: 4px solid #f59e0b !important; }
+.status-accent-completed { border-top: 4px solid #10b981 !important; }
+
+/* -------------------------------------------------------------------------- */
+/* WORKSPACE MESSAGES & CHAT UI                                               */
+/* -------------------------------------------------------------------------- */
+.chat-container {
+    height: calc(100vh - 170px);
+    min-height: 600px;
+}
+
+.chat-sidebar {
+    width: 320px;
+    min-width: 320px;
+}
+
+.chat-thread-container {
+    height: calc(100% - 150px);
+}
+
+.chat-bubble {
+    max-width: 75%;
+    border-radius: 16px;
+    position: relative;
+}
+
+.chat-bubble.incoming {
+    background-color: #f8fafc;
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
+    border-bottom-left-radius: 4px;
+}
+
+.chat-bubble.outgoing {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-bubble.outgoing .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.chat-bubble.outgoing .code-snippet {
+    background: rgba(0, 0, 0, 0.25);
+    color: #f8fafc;
+}
+
+.code-snippet {
+    background-color: #1e293b;
+    color: #38bdf8;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.8rem;
+}
+
+.chat-user-item {
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.chat-user-item:hover {
+    background-color: #f1f5f9;
+}
+
+.chat-user-item.active {
+    background-color: #eef2ff;
+    border-left: 3px solid var(--color-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* AUTHENTICATION & 2-COLUMN SPLIT CURTAIN LOGIN UI                           */
+/* -------------------------------------------------------------------------- */
+.auth-split-wrapper {
+    min-height: 100vh;
+    width: 100%;
+    background: #0b0f19;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Background Ambient Glows */
+.auth-split-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -15%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, rgba(11, 15, 25, 0) 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.auth-split-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: -15%;
+    right: -10%;
+    width: 650px;
+    height: 650px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(11, 15, 25, 0) 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Portal Reveal behind the curtains */
+.auth-portal-reveal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease 0.2s, visibility 0.5s ease 0.2s;
+}
+
+.auth-split-wrapper.curtain-active .auth-portal-reveal {
+    opacity: 1;
+    visibility: visible;
+}
+
+.portal-pulse-logo {
+    width: 86px;
+    height: 86px;
+    background: #ffffff !important;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 50px rgba(59, 130, 246, 0.6);
+    animation: portalPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes portalPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 40px rgba(59, 130, 246, 0.5);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6), 0 0 70px rgba(99, 102, 241, 0.8);
+    }
+}
+
+/* Split Main Container */
+.auth-split-card {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    z-index: 10;
+    position: relative;
+}
+
+@media (min-width: 992px) {
+    .auth-split-card {
+        min-height: 100vh;
+    }
+}
+
+/* Left Curtain (Form Column) */
+.auth-curtain-left {
+    flex: 1 1 50%;
+    max-width: 50%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.5rem 3.5rem;
+    position: relative;
+    z-index: 12;
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.25);
+    will-change: transform, opacity;
+    transition: transform 0.95s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.85s ease;
+}
+
+@media (max-width: 991.98px) {
+    .auth-curtain-left {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 2rem 1.5rem;
+    }
+}
+
+/* Right Curtain (Slideshow Showcase Column) */
+.auth-curtain-right {
+    flex: 1 1 50%;
+    max-width: 50%;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    position: relative;
+    z-index: 11;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    will-change: transform, opacity;
+    transition: transform 0.95s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.85s ease;
+}
+
+@media (max-width: 991.98px) {
+    .auth-curtain-right {
+        display: none !important;
+    }
+}
+
+/* Curtain Open Animations (Triggered on Submit) */
+.auth-curtain-left.curtain-slide-left {
+    transform: translateX(-110%) scale(0.96);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.auth-curtain-right.curtain-slide-right {
+    transform: translateX(110%) scale(0.96);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Auth Form Elements Styling */
+.auth-form-container {
+    max-width: 440px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.auth-brand-badge {
+    width: 48px;
+    height: 48px;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.16);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.auth-sso-btn {
+    border: 1px solid #e2e8f0;
+    transition: all var(--transition-fast);
+    background-color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.auth-sso-btn:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Slideshow Showcase Styling */
+.auth-slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.auth-slide-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-slide-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.35);
+    border: none;
+    margin: 0 4px;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators .active {
+    width: 24px;
+    border-radius: 10px;
+    background-color: #38bdf8;
+}
+
+.slide-glow-orb {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* OTP 6-Digit Verification Box Styles */
+.otp-inputs-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.otp-box {
+    width: 52px;
+    height: 56px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #f8fafc;
+    color: #0f172a;
+    transition: all 0.2s ease;
+}
+
+@media (max-width: 480px) {
+    .otp-box {
+        width: 42px;
+        height: 48px;
+        font-size: 1.25rem;
+        gap: 6px;
+    }
+}
+
+.otp-box:focus {
+    background-color: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.otp-box.is-filled {
+    border-color: #6366f1;
+    background-color: #ffffff;
+}
+
+.otp-box.is-invalid {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+.chat-user-item:hover{
+    background-color: rgba(0, 0, 0, .4);
+    transition: .4s;
+    cursor: pointer;
+}
 

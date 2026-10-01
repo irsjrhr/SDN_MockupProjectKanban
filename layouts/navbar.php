@@ -66,7 +66,7 @@ if (!isset($breadcrumbs) || !is_array($breadcrumbs)) {
                 <li><a class="dropdown-item py-2" href="#"><i class="fa-regular fa-user me-2 text-primary"></i> Profile</a></li>
                 <li><a class="dropdown-item py-2" href="<?= $basePath ?>Setting/general.php"><i class="fa-solid fa-gear me-2 text-secondary"></i> Master Settings</a></li>
                 <li><hr class="dropdown-divider my-1"></li>
-                <li><a class="dropdown-item py-2 text-danger" href="#"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
+                <li><a class="dropdown-item py-2 text-danger" href="<?= $basePath ?>Authentication/Login.php"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
             </ul>
         </div>
     </div>
