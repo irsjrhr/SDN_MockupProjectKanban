@@ -92,6 +92,9 @@ include __DIR__ . '/../layouts/header.php';
         <button class="nav-link tab-btn fw-semibold py-1.5 px-3 rounded-3 fs-7" data-view="documentation">
             <i class="fa-regular fa-folder-open me-1.5 text-warning"></i> Documentation
         </button>
+        <button class="nav-link tab-btn fw-semibold py-1.5 px-3 rounded-3 fs-7" data-view="board">
+            <i class="fa-solid fa-chalkboard-user me-1.5 text-primary"></i> Board (Whiteboard)
+        </button>
     </div>
 </div>
 
@@ -893,6 +896,184 @@ include __DIR__ . '/../layouts/header.php';
         </div>
     </div>
 
+    <!-- ----------------------------------------------------------------------- -->
+    <!-- VIEW 5: WHITEBOARD & SKETCHING STUDIO (PROJECT LEVEL)                   -->
+    <!-- ----------------------------------------------------------------------- -->
+    <div class="view-content" id="viewBoard">
+        <!-- Whiteboard Header & Quick Actions -->
+        <div class="card shadow-sm border rounded-4 bg-white p-3 px-4 mb-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-3 bg-primary-subtle text-primary p-2.5 d-flex align-items-center justify-content-center shadow-xs" style="width: 44px; height: 44px;">
+                        <i class="fa-solid fa-chalkboard-user fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <h2 class="h6 fw-extrabold text-dark mb-0">Portfolio Project Whiteboard</h2>
+                            <span class="badge bg-indigo-subtle text-indigo border border-indigo-subtle px-2 py-0.5 fs-8 fw-semibold">
+                                <i class="fa-solid fa-diagram-project me-1"></i> Multi-Project Architecture
+                            </span>
+                        </div>
+                        <span class="text-muted fs-8">Papan coretan visual terpusat untuk sketsa konsep lintas seluruh active initiatives & master tasks.</span>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <!-- Switch Active Board File Dropdown -->
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary rounded-3 fs-7 fw-semibold dropdown-toggle d-flex align-items-center gap-1.5" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-chalkboard text-primary"></i> <span id="projActiveBoardName">Pilih File Board</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 fs-8" id="projBoardSelectorMenu">
+                            <li><a class="dropdown-item btn-switch-proj-board" href="#" data-board-id="board-arch-01"><i class="fa-solid fa-network-wired me-2 text-primary"></i> Microservices & API Gateway Flow</a></li>
+                            <li><a class="dropdown-item btn-switch-proj-board" href="#" data-board-id="board-ui-02"><i class="fa-solid fa-table-columns me-2 text-info"></i> Kanban Task Drag & Drop UX Wireframe</a></li>
+                            <li><a class="dropdown-item btn-switch-proj-board" href="#" data-board-id="board-retro-03"><i class="fa-solid fa-lightbulb me-2 text-warning"></i> Sprint 14 Retrospective & Brainstorming</a></li>
+                        </ul>
+                    </div>
+
+                    <a href="Board.php" class="btn btn-sm btn-primary rounded-3 fs-7 fw-semibold d-inline-flex align-items-center gap-1.5 px-3">
+                        <i class="fa-solid fa-up-right-from-square"></i> Full Whiteboard Studio
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Embedded Interactive Whiteboard Studio Container -->
+        <div class="board-container embedded-mode mb-4" id="projWhiteboardContainer">
+            
+            <!-- Top Control Bar -->
+            <div class="board-header-bar">
+                <div class="board-header-info">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-chalkboard text-primary fs-6"></i>
+                        <div>
+                            <h6 class="fs-7 fw-bold mb-0 text-dark text-truncate board-active-title" style="max-width: 260px;">Microservices & API Gateway Flow</h6>
+                            <span class="fs-9 text-muted board-active-desc d-none d-md-inline">Sketsa arsitektur & task diagram</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="board-header-controls">
+                    <!-- Undo / Redo -->
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-secondary btn-sm btn-board-undo" title="Undo"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button class="btn btn-outline-secondary btn-sm btn-board-redo" title="Redo"><i class="fa-solid fa-rotate-right"></i></button>
+                    </div>
+
+                    <div class="vr mx-1 d-none d-sm-block"></div>
+
+                    <!-- Grid Pattern -->
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary btn-sm rounded-3 d-flex align-items-center gap-1.5" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-border-none text-muted"></i>
+                            <span class="fs-8 fw-semibold d-none d-md-inline">Grid</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 fs-8">
+                            <li><a class="dropdown-item btn-board-pattern" href="#" data-pattern="bg-grid-dots"><i class="fa-solid fa-ellipsis me-2 text-primary"></i> Dot Grid</a></li>
+                            <li><a class="dropdown-item btn-board-pattern" href="#" data-pattern="bg-grid-lines"><i class="fa-solid fa-table-cells me-2 text-info"></i> Line Grid</a></li>
+                            <li><a class="dropdown-item btn-board-pattern" href="#" data-pattern="bg-blank"><i class="fa-regular fa-square me-2 text-secondary"></i> Blank</a></li>
+                            <li><a class="dropdown-item btn-board-pattern" href="#" data-pattern="bg-darkboard"><i class="fa-solid fa-moon me-2 text-dark"></i> Dark Blackboard</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Zoom Controls -->
+                    <div class="border rounded-3 d-flex align-items-center bg-white px-1">
+                        <button class="btn btn-sm btn-link text-dark p-1 text-decoration-none btn-zoom-out" title="Zoom Out"><i class="fa-solid fa-minus fs-9"></i></button>
+                        <span class="fs-9 fw-bold px-1 board-zoom-val">100%</span>
+                        <button class="btn btn-sm btn-link text-dark p-1 text-decoration-none btn-zoom-in" title="Zoom In"><i class="fa-solid fa-plus fs-9"></i></button>
+                    </div>
+
+                    <!-- Export Dropdown -->
+                    <div class="dropdown">
+                        <button class="btn btn-primary btn-sm rounded-3 d-flex align-items-center gap-1.5" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-download"></i>
+                            <span class="fs-8 fw-semibold d-none d-sm-inline">Export</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 fs-8">
+                            <li><a class="dropdown-item btn-board-export-png" href="#"><i class="fa-solid fa-file-image text-success me-2"></i> Export Image (.PNG)</a></li>
+                            <li><a class="dropdown-item btn-board-export-json" href="#"><i class="fa-solid fa-file-code text-primary me-2"></i> Export Board File (.board)</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Fullscreen Toggle -->
+                    <button class="btn btn-outline-secondary btn-sm rounded-3 btn-board-fullscreen" title="Toggle Fullscreen">
+                        <i class="fa-solid fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Canvas Drawing Surface & Unified Bottom Floating Toolbox -->
+            <div class="board-canvas-wrapper bg-grid-dots">
+                <canvas id="projCanvasElement"></canvas>
+
+                <!-- Unified Bottom Floating Toolbox -->
+                <div class="board-floating-toolbar">
+                    <button class="board-tool-btn active" data-tool="pen" title="Freehand Pen">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="board-tool-btn" data-tool="highlighter" title="Highlighter">
+                        <i class="fa-solid fa-highlighter text-warning"></i>
+                    </button>
+                    <button class="board-tool-btn" data-tool="eraser" title="Penghapus">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                    
+                    <div class="board-tool-divider"></div>
+
+                    <button class="board-tool-btn" data-tool="rect" title="Kotak / Rectangle">
+                        <i class="fa-regular fa-square"></i>
+                    </button>
+                    <button class="board-tool-btn" data-tool="circle" title="Lingkaran / Circle">
+                        <i class="fa-regular fa-circle"></i>
+                    </button>
+                    <button class="board-tool-btn" data-tool="arrow" title="Panah / Arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button class="board-tool-btn" data-tool="line" title="Garis Lurus">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+
+                    <div class="board-tool-divider"></div>
+
+                    <button class="board-tool-btn" data-tool="text" title="Teks">
+                        <i class="fa-solid fa-font"></i>
+                    </button>
+                    <button class="board-tool-btn btn-add-sticky-note" data-tool="sticky" title="Tambah Sticky Note">
+                        <i class="fa-solid fa-note-sticky text-warning"></i>
+                    </button>
+                    <button class="board-tool-btn" data-tool="pan" title="Pan Canvas">
+                        <i class="fa-solid fa-hand"></i>
+                    </button>
+
+                    <div class="board-tool-divider"></div>
+
+                    <!-- Integrated Colors Swatches -->
+                    <button class="color-swatch-btn active" data-color="#4f46e5" style="background-color: #4f46e5;" title="Indigo"></button>
+                    <button class="color-swatch-btn" data-color="#0284c7" style="background-color: #0284c7;" title="Sky Blue"></button>
+                    <button class="color-swatch-btn" data-color="#059669" style="background-color: #059669;" title="Emerald Green"></button>
+                    <button class="color-swatch-btn" data-color="#d97706" style="background-color: #d97706;" title="Amber"></button>
+                    <button class="color-swatch-btn" data-color="#dc2626" style="background-color: #dc2626;" title="Rose Red"></button>
+                    <button class="color-swatch-btn" data-color="#0f172a" style="background-color: #0f172a;" title="Dark Slate"></button>
+
+                    <div class="board-tool-divider"></div>
+
+                    <!-- Stroke Sizes -->
+                    <button class="stroke-size-btn" data-size="2">2px</button>
+                    <button class="stroke-size-btn active" data-size="3">3px</button>
+                    <button class="stroke-size-btn" data-size="6">6px</button>
+
+                    <div class="board-tool-divider"></div>
+
+                    <!-- Clear Canvas -->
+                    <button class="board-tool-btn btn-board-clear text-danger" title="Clear Canvas">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 <!-- =========================================================================== -->
@@ -1284,5 +1465,51 @@ include __DIR__ . '/../layouts/header.php';
 </div>
 
 <?php
+$extraJs = [
+    $basePath . 'assets/js/kanban-project.js',
+    $basePath . 'assets/js/board.js'
+];
 include __DIR__ . '/../layouts/footer.php';
 ?>
+
+<script>
+$(document).ready(function () {
+    function populateProjBoardDropdown() {
+        if (!window.SyncboardBoards) return;
+        const boards = window.SyncboardBoards.getBoards();
+        const $menu = $('#projBoardSelectorMenu').empty();
+        boards.forEach(b => {
+            $menu.append(`
+                <li><a class="dropdown-item btn-switch-proj-board" href="#" data-board-id="${b.id}">
+                    <i class="fa-solid fa-chalkboard me-2 text-primary"></i> ${b.name}
+                </a></li>
+            `);
+        });
+    }
+
+    // Switch Active Board in KanbanProject
+    $(document).on('click', '.btn-switch-proj-board', function (e) {
+        e.preventDefault();
+        const boardId = $(this).data('board-id');
+        if (window.projEmbeddedWhiteboard) {
+            window.projEmbeddedWhiteboard.loadBoard(boardId);
+            $('#projActiveBoardName').text(window.projEmbeddedWhiteboard.activeBoard.name);
+        }
+    });
+
+    // Auto-init whiteboard when board tab is clicked in KanbanProject
+    $('.tab-btn[data-view="board"]').on('click', function () {
+        populateProjBoardDropdown();
+        setTimeout(function () {
+            if (!window.projEmbeddedWhiteboard && window.WhiteboardStudio) {
+                window.projEmbeddedWhiteboard = new window.WhiteboardStudio('#projWhiteboardContainer', {
+                    isEmbedded: true
+                });
+                $('#projActiveBoardName').text(window.projEmbeddedWhiteboard.activeBoard.name);
+            } else if (window.projEmbeddedWhiteboard) {
+                window.projEmbeddedWhiteboard.resizeCanvas();
+            }
+        }, 80);
+    });
+});
+</script>

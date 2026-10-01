@@ -364,6 +364,12 @@ if (!isset($sidebarMenu)) {
                                 'icon' => 'fa-solid fa-stopwatch-20',
                                 'active' => in_array($currentPage, ['sla', 'sla-tracking', 'sla-management'])
                             ],
+                            [
+                                'title' => 'Whiteboard Studio',
+                                'url' => $basePath . 'Workspace/Board.php',
+                                'icon' => 'fa-solid fa-chalkboard-user',
+                                'active' => in_array($currentPage, ['board', 'whiteboard', 'sketch'])
+                            ],
                             // [
                             //     'title' => 'Messages',
                             //     'url' => $basePath . 'Workspace/Messages.php',

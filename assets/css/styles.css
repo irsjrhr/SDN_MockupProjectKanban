@@ -16,6 +16,7 @@
  * 8.  chat.css        - Workspace messages, chat bubbles & code snippet highlight
  * 9.  auth.css        - 2-Column split curtain login, OTP verification & carousel
  * 10. sla.css         - SLA tracking indicators, countdown matrices & pulse effects
+ * 11. board.css       - Whiteboard Studio, sketching canvas, sticky notes & relations
  * ==============================================================================
  */
 
@@ -29,3 +30,4 @@
 @import url('chat.css');
 @import url('auth.css');
 @import url('sla.css');
+@import url('board.css');

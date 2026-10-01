@@ -1,0 +1,368 @@
+/**
+ * ==============================================================================
+ * SYNCBOARD DESIGN SYSTEM - WHITEBOARD & SKETCHING STUDIO (BOARD)
+ * Location: /assets/css/board.css
+ * ==============================================================================
+ */
+
+/* -------------------------------------------------------------------------- */
+/* 1. BOARD CANVAS WORKSPACE                                                  */
+/* -------------------------------------------------------------------------- */
+.board-container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 140px);
+    min-height: 650px;
+    background-color: #f8fafc;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.board-container.embedded-mode {
+    height: 680px;
+    min-height: 520px;
+}
+
+.board-container.fullscreen {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 100000;
+    border-radius: 0 !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. DEDICATED TOP HEADER BAR (METADATA & VIEW CONTROLS)                     */
+/* -------------------------------------------------------------------------- */
+.board-header-bar {
+    height: 54px;
+    min-height: 54px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 30;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.board-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.board-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. CANVAS BACKGROUND PATTERNS & DRAWING SURFACE                            */
+/* -------------------------------------------------------------------------- */
+.board-canvas-wrapper {
+    position: relative;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+.board-canvas-wrapper.bg-grid-dots {
+    background-color: #ffffff;
+    background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+    background-size: 20px 20px;
+}
+
+.board-canvas-wrapper.bg-grid-lines {
+    background-color: #ffffff;
+    background-image: linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+                      linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+.board-canvas-wrapper.bg-blank {
+    background-color: #ffffff;
+}
+
+.board-canvas-wrapper.bg-darkboard {
+    background-color: #0f172a;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1.2px, transparent 1.2px);
+    background-size: 20px 20px;
+}
+
+.board-canvas-wrapper.panning {
+    cursor: grab !important;
+}
+
+.board-canvas-wrapper.panning:active {
+    cursor: grabbing !important;
+}
+
+/* HTML5 Canvas Element */
+#drawingCanvas, #taskCanvasElement, #projCanvasElement, .embeddedDrawingCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    touch-action: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. UNIFIED BOTTOM FLOATING TOOLBAR                                         */
+/* -------------------------------------------------------------------------- */
+.board-floating-toolbar {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(203, 213, 225, 0.8);
+    border-radius: 16px;
+    padding: 6px 10px;
+    box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.25s ease;
+    max-width: 95vw;
+    overflow-x: auto;
+}
+
+.board-floating-toolbar::-webkit-scrollbar {
+    display: none;
+}
+
+.board-tool-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    color: #475569;
+    font-size: 14.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    position: relative;
+}
+
+.board-tool-btn:hover {
+    background-color: #f1f5f9;
+    color: var(--color-primary);
+    transform: translateY(-1px);
+}
+
+.board-tool-btn.active {
+    background-color: #eef2ff !important;
+    color: var(--color-primary) !important;
+    box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2);
+    font-weight: 700;
+}
+
+.board-tool-divider {
+    width: 1px;
+    height: 22px;
+    background-color: #e2e8f0;
+    margin: 0 5px;
+    flex-shrink: 0;
+}
+
+/* Color Swatches & Stroke Width Inside Unified Toolbar */
+.color-swatch-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 1px #cbd5e1;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.color-swatch-btn:hover {
+    transform: scale(1.15);
+}
+
+.color-swatch-btn.active {
+    transform: scale(1.25);
+    box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.stroke-size-btn {
+    height: 26px;
+    padding: 0 8px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.stroke-size-btn.active {
+    background-color: #eef2ff;
+    border-color: #a5b4fc;
+    color: var(--color-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. STICKY NOTES ON CANVAS                                                  */
+/* -------------------------------------------------------------------------- */
+.sticky-note {
+    position: absolute;
+    width: 200px;
+    min-height: 140px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.05);
+    cursor: move;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.sticky-note:hover {
+    box-shadow: 0 14px 30px -5px rgba(0, 0, 0, 0.18);
+    transform: translateY(-2px);
+}
+
+.sticky-yellow { background: #fef08a; border: 1px solid #facc15; color: #713f12; }
+.sticky-cyan { background: #a5f3fc; border: 1px solid #67e8f9; color: #155e75; }
+.sticky-pink { background: #fbcfe8; border: 1px solid #f472b6; color: #831843; }
+.sticky-green { background: #bbf7d0; border: 1px solid #86efac; color: #14532d; }
+.sticky-purple { background: #e9d5ff; border: 1px solid #c084fc; color: #581c87; }
+
+.sticky-note-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    opacity: 0.8;
+}
+
+.sticky-note-delete {
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.sticky-note-delete:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.sticky-note-textarea {
+    width: 100%;
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: inherit;
+    line-height: 1.4;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. BOARD FILE GALLERY & MULTI-RELATION CARDS                               */
+/* -------------------------------------------------------------------------- */
+.board-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.board-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.08);
+    border-color: #cbd5e1;
+}
+
+.board-card.active-board {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-light), 0 8px 24px rgba(79, 70, 229, 0.12);
+}
+
+.board-preview-box {
+    height: 140px;
+    background: #f8fafc;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.board-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.board-preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    gap: 6px;
+}
+
+/* Relation Chips (Projects & Tasks) */
+.relation-chip {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.relation-project {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.relation-task {
+    background-color: #f3e8ff;
+    color: #7e22ce;
+}

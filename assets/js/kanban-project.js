@@ -218,6 +218,15 @@ $(document).ready(function () {
         } else if (view === 'documentation') {
             $('#viewDocumentation').addClass('active');
             renderDocumentationRepository();
+        } else if (view === 'board') {
+            $('#viewBoard').addClass('active');
+            if (window.projEmbeddedWhiteboard) {
+                setTimeout(() => window.projEmbeddedWhiteboard.resizeCanvas(), 50);
+            } else if ($('#projWhiteboardContainer').length && window.WhiteboardStudio) {
+                window.projEmbeddedWhiteboard = new window.WhiteboardStudio('#projWhiteboardContainer', {
+                    isEmbedded: true
+                });
+            }
         }
     });
 

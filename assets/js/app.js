@@ -493,7 +493,7 @@ $(document).ready(function () {
                     if (subviewTarget) {
                         if (viewTarget === 'calendar') {
                             $(`#calendarSubTabs .cal-subtab-btn[data-subview="${subviewTarget}"]`).trigger('click');
-                        } else if (viewTarget === 'board-list' || viewTarget === 'board' || viewTarget === 'list') {
+                        } else if (viewTarget === 'board-list' || viewTarget === 'list') {
                             $(`#boardListSubTabs .bl-subtab-btn[data-subview="${subviewTarget}"]`).trigger('click');
                         } else if (viewTarget === 'documentation') {
                             // Smooth scroll to the specific documentation box
@@ -717,7 +717,17 @@ $(document).ready(function () {
             if (viewName === 'dashboard') $('#viewDashboard').addClass('active');
             else if (viewName === 'kanban') $('#viewKanban').addClass('active');
             else if (viewName === 'list-project' || viewName === 'projects') $('#viewListProject').addClass('active');
-            else if (viewName === 'board-list' || viewName === 'board' || viewName === 'list') $('#viewBoardList').addClass('active');
+            else if (viewName === 'board-list' || viewName === 'list') $('#viewBoardList').addClass('active');
+            else if (viewName === 'board' || viewName === 'whiteboard') {
+                $('#viewBoard').addClass('active');
+                if (window.taskEmbeddedWhiteboard) {
+                    setTimeout(() => window.taskEmbeddedWhiteboard.resizeCanvas(), 50);
+                } else if ($('#taskWhiteboardContainer').length && window.WhiteboardStudio) {
+                    window.taskEmbeddedWhiteboard = new window.WhiteboardStudio('#taskWhiteboardContainer', {
+                        isEmbedded: true
+                    });
+                }
+            }
             else if (viewName === 'calendar') $('#viewCalendar').addClass('active');
             else if (viewName === 'timeline') $('#viewTimeline').addClass('active');
             else if (viewName === 'timeline-config') $('#viewTimelineConfig').addClass('active');
